@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <defs>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fbbf24"/>
+      <stop offset="100%" stop-color="#d97706"/>
+    </linearGradient>
+  </defs>
+  <!-- Royal Crown -->
+  <path d="M16 23L22 14L32 20L42 14L48 23L45 27H19L16 23Z" fill="url(#goldGrad)" stroke="#b45309" stroke-width="1.2"/>
+  <circle cx="22" cy="13" r="2.2" fill="#fef08a"/>
+  <circle cx="32" cy="18" r="2.5" fill="#fef08a"/>
+  <circle cx="42" cy="13" r="2.2" fill="#fef08a"/>
+  <!-- 5-Hole Film Reel -->
+  <circle cx="32" cy="41" r="19" fill="url(#goldGrad)" stroke="#b45309" stroke-width="1.5"/>
+  <circle cx="32" cy="41" r="6" fill="#0a121e" stroke="url(#goldGrad)" stroke-width="1.5"/>
+  <!-- 5 Spool Holes -->
+  <circle cx="32" cy="29" r="3.2" fill="#0a121e"/>
+  <circle cx="42" cy="36" r="3.2" fill="#0a121e"/>
+  <circle cx="38" cy="48" r="3.2" fill="#0a121e"/>
+  <circle cx="26" cy="48" r="3.2" fill="#0a121e"/>
+  <circle cx="22" cy="36" r="3.2" fill="#0a121e"/>
+</svg>

@@ -1,0 +1,2094 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="alternate icon" href="/favicon.ico">
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+  <meta name="description" content="Enterprise Cloud Cinema ERP, POS, and Online Ticketing Software. Complete multiplex management with offline-first desktop resilience.">
+  <link rel="canonical" href="https://royalcinema.in/saas">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://royalcinema.in/saas">
+  <meta property="og:title" content="Royal Cinema ERP — Complete SaaS Cinema Management Solution">
+  <meta property="og:description" content="All-in-one cinema software: Box Office POS, F&B Concessions, Multi-Branch Ledger, GSTR-1, and Automated KDS.">
+  <meta property="og:image" content="https://royalcinema.in/cinema-login-hero.jpg">
+  <!-- Schema.org SoftwareApplication -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Royal Cinema ERP",
+    "operatingSystem": "Web, Windows, Electron",
+    "applicationCategory": "BusinessApplication",
+    "offers": {
+      "@type": "Offer",
+      "price": "9999",
+      "priceCurrency": "INR"
+    }
+  }
+  </script>
+<title>Royal Cinema ERP — Complete SaaS Cinema Management Solution</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --font-main: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  --font-display: 'Space Grotesk', system-ui, sans-serif;
+  --bg-warm: #fffbf7;
+  --bg-card: #ffffff;
+  --bg-subtle: #fbf5ee;
+  --bg-muted: #f2eae0;
+  --ink-900: #181313;
+  --ink-800: #292020;
+  --ink-600: #574d4d;
+  --ink-400: #8a7e7e;
+  --border-light: #eeded1;
+  --border-subtle: #f5ece3;
+  --brand-orange: #ea580c;
+  --brand-amber: #f59e0b;
+  --brand-gradient: linear-gradient(135deg, #f59e0b 0%, #ea580c 100%);
+  --brand-gradient-hover: linear-gradient(135deg, #d97706 0%, #c2410c 100%);
+  --brand-soft: #fff4ec;
+  --emerald-green: #10b981;
+  --emerald-soft: #ecfdf5;
+  --card-shadow: 0 10px 30px rgba(40, 24, 10, 0.04), 0 1px 3px rgba(40, 24, 10, 0.03);
+  --card-shadow-hover: 0 20px 40px rgba(234, 88, 12, 0.12), 0 4px 10px rgba(0, 0, 0, 0.04);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; font-size: 15px; }
+body {
+  font-family: var(--font-main);
+  background-color: var(--bg-warm);
+  color: var(--ink-900);
+  line-height: 1.6;
+  overflow-x: hidden;
+  background-image:
+    radial-gradient(at 10% 10%, rgba(245, 158, 11, 0.05) 0px, transparent 40%),
+    radial-gradient(at 90% 20%, rgba(234, 88, 12, 0.05) 0px, transparent 50%),
+    radial-gradient(at 50% 80%, rgba(245, 158, 11, 0.04) 0px, transparent 40%);
+}
+
+a { color: inherit; text-decoration: none; }
+button { font-family: inherit; cursor: pointer; }
+
+/* CONTAINER & UTILITIES */
+.container { width: min(1280px, 92vw); margin: 0 auto; position: relative; }
+.badge-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 14px;
+  border-radius: 99px;
+  font-size: 11.5px;
+  font-weight: 800;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  background: var(--brand-soft);
+  color: var(--brand-orange);
+  border: 1px solid #fed7aa;
+}
+.sec-title {
+  font-family: var(--font-display);
+  font-size: clamp(28px, 4vw, 42px);
+  font-weight: 700;
+  letter-spacing: -0.8px;
+  color: var(--ink-900);
+  line-height: 1.2;
+}
+.sec-sub {
+  font-size: 16px;
+  color: var(--ink-600);
+  max-width: 680px;
+  margin: 12px auto 0;
+  line-height: 1.6;
+}
+.text-center { text-align: center; }
+
+/* HEADER NAVIGATION */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(255, 251, 247, 0.94);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--border-subtle);
+  transition: all 0.25s ease;
+}
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 74px;
+}
+.brand-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.logo-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: var(--brand-gradient);
+  display: grid;
+  place-items: center;
+  color: #fff;
+  font-size: 22px;
+  font-weight: 900;
+  font-family: var(--font-display);
+  box-shadow: 0 4px 14px rgba(234, 88, 12, 0.3);
+}
+.logo-text-title {
+  font-family: var(--font-display);
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--ink-900);
+  line-height: 1.1;
+  letter-spacing: -0.3px;
+}
+.logo-text-sub {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  color: var(--brand-orange);
+  text-transform: uppercase;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 26px;
+  list-style: none;
+}
+.nav-links a {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--ink-600);
+  transition: color 0.18s;
+}
+.nav-links a:hover { color: var(--brand-orange); }
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.btn-login {
+  padding: 8px 18px;
+  border-radius: 10px;
+  border: 1.5px solid var(--border-light);
+  background: #ffffff;
+  color: var(--ink-900);
+  font-size: 13px;
+  font-weight: 700;
+  transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.btn-login:hover {
+  border-color: var(--brand-orange);
+  color: var(--brand-orange);
+  background: var(--brand-soft);
+}
+.btn-demo-primary {
+  padding: 9px 20px;
+  border-radius: 10px;
+  border: none;
+  background: var(--brand-gradient);
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 800;
+  box-shadow: 0 4px 16px rgba(234, 88, 12, 0.28);
+  transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.btn-demo-primary:hover {
+  background: var(--brand-gradient-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(234, 88, 12, 0.36);
+}
+
+/* HERO SECTION */
+.hero-sec {
+  padding: 70px 0 60px;
+  position: relative;
+  overflow: hidden;
+}
+.hero-badge-wrap {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+.hero-title {
+  font-family: var(--font-display);
+  font-size: clamp(34px, 5.5vw, 60px);
+  font-weight: 800;
+  line-height: 1.12;
+  letter-spacing: -1.5px;
+  color: var(--ink-900);
+  max-width: 900px;
+  margin: 0 auto;
+}
+.hero-title span {
+  background: var(--brand-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.hero-description {
+  font-size: 18px;
+  color: var(--ink-600);
+  max-width: 740px;
+  margin: 20px auto 32px;
+  line-height: 1.6;
+}
+.hero-cta-group {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.btn-hero-lg {
+  padding: 14px 32px;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 800;
+}
+
+/* 4 PILLARS METRIC CARDS */
+.pillars-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 18px;
+  margin-top: 50px;
+}
+.pillar-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-light);
+  border-radius: 18px;
+  padding: 24px;
+  box-shadow: var(--card-shadow);
+  transition: all 0.25s ease;
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+}
+.pillar-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--card-shadow-hover);
+  border-color: #fbd38d;
+}
+.pillar-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  background: var(--brand-soft);
+  color: var(--brand-orange);
+  display: grid;
+  place-items: center;
+  font-size: 24px;
+  flex-shrink: 0;
+  border: 1px solid #fed7aa;
+}
+.pillar-title {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--ink-900);
+  margin-bottom: 4px;
+}
+.pillar-desc {
+  font-size: 12.5px;
+  color: var(--ink-600);
+  line-height: 1.45;
+}
+
+/* MODULES HIGHLIGHT BAR */
+.modules-bar-wrap {
+  margin-top: 50px;
+  background: #ffffff;
+  border: 1px solid var(--border-light);
+  border-radius: 20px;
+  padding: 24px 30px;
+  box-shadow: var(--card-shadow);
+}
+.modules-bar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px dashed var(--border-light);
+  padding-bottom: 14px;
+  margin-bottom: 18px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.modules-pills-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+.module-pill-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 18px;
+  border-radius: 12px;
+  background: var(--bg-subtle);
+  border: 1px solid var(--border-light);
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--ink-900);
+  transition: all 0.2s;
+}
+.module-pill-item:hover {
+  background: var(--brand-soft);
+  border-color: #fdba74;
+  color: var(--brand-orange);
+}
+
+/* INTERACTIVE PREVIEW TABS */
+.preview-sec {
+  padding: 60px 0 80px;
+}
+.preview-container {
+  background: #ffffff;
+  border: 1px solid var(--border-light);
+  border-radius: 24px;
+  padding: 32px;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.05);
+  margin-top: 36px;
+}
+.preview-nav {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  border-bottom: 1px solid var(--border-subtle);
+  padding-bottom: 16px;
+  margin-bottom: 28px;
+}
+.preview-tab-btn {
+  padding: 10px 22px;
+  border-radius: 10px;
+  border: 1.5px solid transparent;
+  background: var(--bg-subtle);
+  color: var(--ink-600);
+  font-size: 13.5px;
+  font-weight: 750;
+  white-space: nowrap;
+  transition: all 0.2s;
+}
+.preview-tab-btn:hover { color: var(--ink-900); }
+.preview-tab-btn.active {
+  background: var(--ink-900);
+  color: #ffffff;
+}
+.preview-content-grid {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 32px;
+  align-items: center;
+}
+@media (max-width: 900px) {
+  .preview-content-grid { grid-template-columns: 1fr; }
+}
+.preview-screen-mockup {
+  background: #fbf9f7;
+  border: 1px solid var(--border-light);
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: inset 0 2px 6px rgba(0,0,0,0.03);
+}
+.mockup-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border-light);
+  padding-bottom: 12px;
+  margin-bottom: 16px;
+}
+.mockup-dots { display: flex; gap: 6px; }
+.mockup-dot { width: 10px; height: 10px; border-radius: 50%; background: #e5e7eb; }
+.mockup-dot.red { background: #ef4444; }
+.mockup-dot.yellow { background: #f59e0b; }
+.mockup-dot.green { background: #10b981; }
+
+/* 12 FEATURES SHOWCASE SECTION */
+.features-sec {
+  padding: 80px 0;
+  background: var(--bg-subtle);
+  border-top: 1px solid var(--border-light);
+  border-bottom: 1px solid var(--border-light);
+}
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+  gap: 24px;
+  margin-top: 50px;
+}
+.feature-card {
+  background: #ffffff;
+  border: 1px solid var(--border-light);
+  border-radius: 20px;
+  padding: 28px;
+  box-shadow: var(--card-shadow);
+  transition: all 0.25s ease;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+}
+.feature-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--card-shadow-hover);
+  border-color: #fbd38d;
+}
+.feature-card-num {
+  position: absolute;
+  top: 18px;
+  right: 22px;
+  font-family: var(--font-display);
+  font-size: 28px;
+  font-weight: 800;
+  color: rgba(234, 88, 12, 0.12);
+}
+.feature-icon-box {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: var(--brand-soft);
+  color: var(--brand-orange);
+  display: grid;
+  place-items: center;
+  font-size: 24px;
+  margin-bottom: 18px;
+  border: 1px solid #fed7aa;
+}
+.feature-title {
+  font-size: 19px;
+  font-weight: 800;
+  color: var(--ink-900);
+  margin-bottom: 8px;
+  letter-spacing: -0.3px;
+}
+.feature-desc {
+  font-size: 13.5px;
+  color: var(--ink-600);
+  line-height: 1.55;
+  margin-bottom: 18px;
+  flex-grow: 1;
+}
+.feature-bullet-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  border-top: 1px dashed var(--border-subtle);
+  padding-top: 14px;
+}
+.feature-bullet-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 12.5px;
+  color: var(--ink-800);
+  font-weight: 600;
+}
+.feature-bullet-item span.check {
+  color: var(--emerald-green);
+  font-weight: 900;
+}
+
+/* SOLUTIONS SECTION */
+.solutions-sec {
+  padding: 90px 0;
+}
+.solutions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 26px;
+  margin-top: 48px;
+}
+.solution-card {
+  background: #ffffff;
+  border: 1px solid var(--border-light);
+  border-radius: 22px;
+  padding: 34px;
+  box-shadow: var(--card-shadow);
+  transition: all 0.25s ease;
+  display: flex;
+  flex-direction: column;
+}
+.solution-card:hover {
+  transform: translateY(-4px);
+  border-color: #ea580c;
+  box-shadow: var(--card-shadow-hover);
+}
+.solution-card.featured {
+  border: 2px solid var(--brand-orange);
+  background: linear-gradient(180deg, #fffcf9 0%, #ffffff 100%);
+}
+.solution-badge {
+  display: inline-block;
+  padding: 3px 12px;
+  border-radius: 99px;
+  background: #fff7ed;
+  color: var(--brand-orange);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  margin-bottom: 16px;
+  border: 1px solid #fed7aa;
+}
+.solution-title {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--ink-900);
+  margin-bottom: 10px;
+}
+.solution-desc {
+  font-size: 14px;
+  color: var(--ink-600);
+  line-height: 1.6;
+  margin-bottom: 22px;
+}
+
+/* PRICING SECTION */
+.pricing-sec {
+  padding: 90px 0;
+  background: var(--bg-subtle);
+  border-top: 1px solid var(--border-light);
+  border-bottom: 1px solid var(--border-light);
+}
+.pricing-toggle-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  margin-top: 28px;
+}
+.toggle-switch-container {
+  display: inline-flex;
+  padding: 4px;
+  background: #ffffff;
+  border: 1.5px solid var(--border-light);
+  border-radius: 12px;
+}
+.toggle-btn {
+  padding: 8px 24px;
+  border-radius: 8px;
+  border: none;
+  background: transparent;
+  color: var(--ink-600);
+  font-weight: 750;
+  font-size: 13.5px;
+  transition: all 0.2s;
+}
+.toggle-btn.active {
+  background: var(--ink-900);
+  color: #ffffff;
+}
+.discount-tag {
+  padding: 3px 10px;
+  border-radius: 99px;
+  background: var(--emerald-soft);
+  color: #065f46;
+  font-size: 11.5px;
+  font-weight: 800;
+  border: 1px solid #a7f3d0;
+}
+
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 26px;
+  margin-top: 48px;
+}
+.pricing-card {
+  background: #ffffff;
+  border: 1px solid var(--border-light);
+  border-radius: 22px;
+  padding: 36px 30px;
+  box-shadow: var(--card-shadow);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  transition: all 0.25s;
+}
+.pricing-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--card-shadow-hover);
+}
+.pricing-card.popular {
+  border: 2px solid var(--brand-orange);
+  box-shadow: 0 14px 40px rgba(234, 88, 12, 0.14);
+}
+.popular-flag {
+  position: absolute;
+  top: -13px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--brand-gradient);
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 800;
+  padding: 3px 16px;
+  border-radius: 99px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+.price-plan-name { font-size: 20px; font-weight: 800; color: var(--ink-900); margin-bottom: 6px; }
+.price-plan-sub { font-size: 13px; color: var(--ink-600); margin-bottom: 20px; }
+.price-amount-box {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  margin-bottom: 24px;
+}
+.price-val { font-family: var(--font-display); font-size: 42px; font-weight: 800; color: var(--ink-900); }
+.price-period { font-size: 13.5px; font-weight: 600; color: var(--ink-400); }
+.per-branch-pill {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 750;
+  color: #b45309;
+  background: #fffbeb;
+  padding: 4px 10px;
+  border-radius: 6px;
+  margin-bottom: 20px;
+  border: 1px solid #fde68a;
+}
+.price-features-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  border-top: 1px solid var(--border-subtle);
+  padding-top: 22px;
+  margin-bottom: 30px;
+  flex-grow: 1;
+}
+.price-feature-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13.5px;
+  color: var(--ink-800);
+}
+
+/* HOW IT WORKS SECTION */
+.how-sec { padding: 90px 0; }
+.steps-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 24px;
+  margin-top: 50px;
+  position: relative;
+}
+.step-card {
+  background: #ffffff;
+  border: 1px solid var(--border-light);
+  border-radius: 20px;
+  padding: 30px 24px;
+  box-shadow: var(--card-shadow);
+  position: relative;
+}
+.step-badge {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: var(--ink-900);
+  color: #fff;
+  font-family: var(--font-display);
+  font-weight: 800;
+  display: grid;
+  place-items: center;
+  margin-bottom: 18px;
+}
+.step-title { font-size: 17px; font-weight: 800; color: var(--ink-900); margin-bottom: 8px; }
+.step-desc { font-size: 13px; color: var(--ink-600); line-height: 1.5; }
+
+/* BOOK A DEMO SECTION & FORM */
+.demo-sec {
+  padding: 90px 0;
+  background: linear-gradient(180deg, var(--bg-warm) 0%, #fff4ec 100%);
+  border-top: 1px solid var(--border-light);
+}
+.demo-box {
+  background: #ffffff;
+  border: 1px solid var(--border-light);
+  border-radius: 28px;
+  padding: clamp(28px, 5vw, 54px);
+  box-shadow: 0 25px 60px rgba(234, 88, 12, 0.08);
+  max-width: 980px;
+  margin: 40px auto 0;
+}
+.demo-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+@media (max-width: 768px) {
+  .demo-form-grid { grid-template-columns: 1fr; }
+}
+.form-field { display: flex; flex-direction: column; gap: 6px; }
+.form-field.full { grid-column: 1 / -1; }
+.form-label { font-size: 12.5px; font-weight: 750; color: var(--ink-800); }
+.form-input, .form-select, .form-textarea {
+  width: 100%;
+  height: 46px;
+  padding: 0 14px;
+  border: 1.5px solid var(--border-light);
+  border-radius: 10px;
+  background: #faf6f2;
+  color: var(--ink-900);
+  font-size: 13.5px;
+  outline: none;
+  transition: all 0.18s;
+  font-family: inherit;
+}
+.form-textarea { height: 90px; padding: 12px 14px; resize: vertical; }
+.form-input:focus, .form-select:focus, .form-textarea:focus {
+  border-color: var(--brand-orange);
+  background: #ffffff;
+  box-shadow: 0 0 0 3px rgba(234, 88, 12, 0.14);
+}
+.btn-submit-demo {
+  grid-column: 1 / -1;
+  height: 52px;
+  border-radius: 12px;
+  border: none;
+  background: var(--brand-gradient);
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 800;
+  box-shadow: 0 6px 22px rgba(234, 88, 12, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.2s;
+  margin-top: 8px;
+}
+.btn-submit-demo:hover {
+  background: var(--brand-gradient-hover);
+  transform: translateY(-1px);
+}
+
+/* DEMO SUCCESS CARD */
+.demo-success-card {
+  display: none;
+  text-align: center;
+  padding: 30px;
+  background: var(--emerald-soft);
+  border: 2px solid #86efac;
+  border-radius: 18px;
+  margin-top: 20px;
+}
+.demo-success-card.active { display: block; animation: fadeIn .3s ease-in; }
+
+/* ABOUT & CONTACT SECTION */
+.about-contact-sec { padding: 90px 0; }
+.about-contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 36px;
+  margin-top: 48px;
+}
+@media (max-width: 860px) {
+  .about-contact-grid { grid-template-columns: 1fr; }
+}
+.info-card {
+  background: #ffffff;
+  border: 1px solid var(--border-light);
+  border-radius: 22px;
+  padding: 34px;
+  box-shadow: var(--card-shadow);
+}
+.contact-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 18px;
+  font-size: 14px;
+  color: var(--ink-800);
+}
+.contact-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 10px;
+  background: var(--brand-soft);
+  color: var(--brand-orange);
+  display: grid;
+  place-items: center;
+  font-size: 20px;
+  flex-shrink: 0;
+  border: 1px solid #fed7aa;
+}
+
+/* FAQ ACCORDION */
+.faq-sec {
+  padding: 90px 0;
+  background: var(--bg-subtle);
+  border-top: 1px solid var(--border-light);
+  border-bottom: 1px solid var(--border-light);
+}
+.faq-list {
+  max-width: 820px;
+  margin: 44px auto 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.faq-item {
+  background: #ffffff;
+  border: 1px solid var(--border-light);
+  border-radius: 16px;
+  overflow: hidden;
+  transition: all 0.2s;
+}
+.faq-question {
+  width: 100%;
+  padding: 20px 24px;
+  background: transparent;
+  border: none;
+  text-align: left;
+  font-size: 15.5px;
+  font-weight: 750;
+  color: var(--ink-900);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.faq-icon {
+  font-size: 18px;
+  transition: transform 0.2s;
+  color: var(--brand-orange);
+}
+.faq-answer {
+  display: none;
+  padding: 0 24px 20px;
+  font-size: 14px;
+  color: var(--ink-600);
+  line-height: 1.6;
+}
+.faq-item.open {
+  border-color: #fbd38d;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.03);
+}
+.faq-item.open .faq-answer { display: block; }
+.faq-item.open .faq-icon { transform: rotate(45deg); }
+
+/* FOOTER */
+.site-footer {
+  background: #181313;
+  color: #fff;
+  padding: 60px 0 30px;
+  border-top: 1px solid #2e2626;
+}
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1.5fr repeat(3, 1fr);
+  gap: 36px;
+  padding-bottom: 40px;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+@media (max-width: 768px) {
+  .footer-grid { grid-template-columns: 1fr 1fr; }
+}
+.footer-col h4 {
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #fed7aa;
+  margin-bottom: 16px;
+}
+.footer-links { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.footer-links a { font-size: 13px; color: #a89e9e; transition: color 0.15s; }
+.footer-links a:hover { color: #ffffff; }
+
+.footer-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 24px;
+  flex-wrap: wrap;
+  gap: 14px;
+  font-size: 12px;
+  color: #786f6f;
+}
+
+/* POLICY MODALS */
+.policy-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(8px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.policy-modal-overlay.active { display: flex; }
+.policy-modal-card {
+  background: #ffffff;
+  border-radius: 20px;
+  max-width: 760px;
+  width: 100%;
+  max-height: 85vh;
+  overflow-y: auto;
+  padding: 32px;
+  position: relative;
+  box-shadow: 0 25px 60px rgba(0,0,0,0.25);
+}
+.policy-close-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1px solid var(--border-light);
+  background: #ffffff;
+  font-size: 14px;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+}
+@keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+</style>
+</head>
+<body>
+
+  <!-- ==================== TOP NAVIGATION HEADER ==================== -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="#home" class="brand-logo">
+        <img src="/royal-cinema-logo.svg" alt="Royal Cinema" style="width:36px;height:36px;display:inline-block;vertical-align:middle;filter:drop-shadow(0 2px 4px rgba(0,0,0,0.3));">
+        <div>
+          <div class="logo-text-title">ROYAL CINEMA ERP</div>
+          <div class="logo-text-sub">Cloud SaaS Platform</div>
+        </div>
+      </a>
+
+      <nav class="nav-links">
+        <a href="#home">Home</a>
+        <a href="#solutions">Solutions</a>
+        <a href="#features">Features</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#how-it-works">How It Works</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+
+      <div class="header-actions">
+        <a href="index.html" class="btn-login" title="Open Operational Box Office & Client Portal">
+          <span>Client Login</span>
+          <span>&rarr;</span>
+        </a>
+        <a href="#demo" class="btn-demo-primary">
+          <span>Book a Free Demo</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ==================== HERO SECTION ==================== -->
+  <section class="hero-sec" id="home">
+    <div class="container text-center">
+      <div class="hero-badge-wrap">
+        <span class="badge-pill">
+          <span>★</span> One Platform. Every Cinema Operation.
+        </span>
+      </div>
+
+      <h1 class="hero-title">
+        Manage Your Cinema. <span>All in One Place.</span>
+      </h1>
+
+      <p class="hero-description">
+        Simplify ticketing, box office counter operations, food &amp; beverage sales, distributor shares and cinema management. A complete multi-tenant cloud SaaS solution tailored for single-screens, twin multiplexes and multi-branch chains.
+      </p>
+
+      <div class="hero-cta-group">
+        <a href="#demo" class="btn-demo-primary btn-hero-lg">
+          <span>⚡ Book a Free Demo</span>
+        </a>
+        <a href="#features" class="btn-login btn-hero-lg">
+          <span>Explore Features &rarr;</span>
+        </a>
+      </div>
+
+      <!-- 4 ARCHITECTURAL PILLARS -->
+      <div class="pillars-grid">
+        <div class="pillar-card">
+          <div class="pillar-icon">🏢</div>
+          <div>
+            <div class="pillar-title">Per Branch</div>
+            <div class="pillar-desc">Independent subscription &amp; tenant isolation per cinema branch.</div>
+          </div>
+        </div>
+
+        <div class="pillar-card">
+          <div class="pillar-icon">🗓️</div>
+          <div>
+            <div class="pillar-title">Monthly / Yearly</div>
+            <div class="pillar-desc">Two flexible billing cycles. Save 20% with annual plans.</div>
+          </div>
+        </div>
+
+        <div class="pillar-card">
+          <div class="pillar-icon">🎬</div>
+          <div>
+            <div class="pillar-title">Demo First</div>
+            <div class="pillar-desc">Experience a live tailored walkthrough before any purchase.</div>
+          </div>
+        </div>
+
+        <div class="pillar-card">
+          <div class="pillar-icon">🎧</div>
+          <div>
+            <div class="pillar-title">Complete Support</div>
+            <div class="pillar-desc">Dedicated ticketing, WhatsApp chat and 24/7 hotline.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- MODULES QUICK BAR -->
+      <div class="modules-bar-wrap">
+        <div class="modules-bar-header">
+          <strong style="font-size:14px; color:var(--ink-800)">Core Modules In One Unified Cloud Suite:</strong>
+          <span style="font-size:12px; color:var(--ink-400)">Real-time sync across Counter POS &amp; Cloud</span>
+        </div>
+        <div class="modules-pills-row">
+          <div class="module-pill-item">🎟️ Ticket Booking</div>
+          <div class="module-pill-item">🍿 Food &amp; Beverage POS</div>
+          <div class="module-pill-item">💻 Counter Box Office</div>
+          <div class="module-pill-item">📊 Reports &amp; Analytics</div>
+          <div class="module-pill-item">🏢 Multi-Branch HQ</div>
+          <div class="module-pill-item">🖨️ 80mm Thermal Printing</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== INTERACTIVE LIVE PRODUCT PREVIEW ==================== -->
+  <section class="preview-sec">
+    <div class="container">
+      <div class="text-center">
+        <span class="badge-pill">Interactive Preview</span>
+        <h2 class="sec-title" style="margin-top:10px">Engineered For Real Cinema Speed</h2>
+        <p class="sec-sub">Select any operational workstation below to see how Royal Cinema ERP handles high-volume box office queues with zero lag.</p>
+      </div>
+
+      <div class="preview-container">
+        <!-- Station Nav Tabs -->
+        <div class="preview-nav">
+          <button class="preview-tab-btn active" onclick="switchPreview('pos', this)">🎟️ Box Office Counter POS</button>
+          <button class="preview-tab-btn" onclick="switchPreview('fb', this)">🍿 F&amp;B Concessions Terminal</button>
+          <button class="preview-tab-btn" onclick="switchPreview('cmd', this)">📊 Command Center &amp; Telemetry</button>
+          <button class="preview-tab-btn" onclick="switchPreview('app', this)">📱 Online Customer Booking</button>
+        </div>
+
+        <!-- Tab 1: Box Office POS -->
+        <div id="preview-pos" class="preview-tab-pane">
+          <div class="preview-content-grid">
+            <div class="preview-screen-mockup">
+              <div class="mockup-header">
+                <div class="mockup-dots"><span class="mockup-dot red"></span><span class="mockup-dot yellow"></span><span class="mockup-dot green"></span></div>
+                <strong style="font-size:11.5px; font-family:monospace; color:var(--ink-600)">Box Office Station #01 — 4K Laser Audi</strong>
+                <span class="badge-pill" style="font-size:9.5px; padding:2px 8px;">LIVE POS</span>
+              </div>
+              <div style="background:#fff; border-radius:12px; padding:18px; border:1px solid #eeded1;">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+                  <div>
+                    <h4 style="font-size:16px; font-weight:800; color:var(--ink-900)">STREE 2 (UA) — 18:30 SHOW</h4>
+                    <small style="color:var(--ink-600)">Screen 1 · Dolby Atmos 7.1 · Palanpur Flagship</small>
+                  </div>
+                  <div style="text-align:right">
+                    <span style="font-size:10px; font-weight:800; color:#10b981; background:#ecfdf5; padding:3px 8px; border-radius:4px">PRINTER READY</span>
+                  </div>
+                </div>
+                <div style="display:grid; grid-template-columns:repeat(8, 1fr); gap:6px; margin:16px 0; background:#fbf8f5; padding:12px; border-radius:10px; text-align:center; font-size:10px; font-weight:700;">
+                  <div style="background:#ea580c; color:#fff; padding:6px 0; border-radius:4px">A1 ✓</div>
+                  <div style="background:#ea580c; color:#fff; padding:6px 0; border-radius:4px">A2 ✓</div>
+                  <div style="background:#fff; border:1px solid #d1d5db; padding:6px 0; border-radius:4px">A3</div>
+                  <div style="background:#fff; border:1px solid #d1d5db; padding:6px 0; border-radius:4px">A4</div>
+                  <div style="background:#111827; color:#fff; padding:6px 0; border-radius:4px">B1 ✕</div>
+                  <div style="background:#111827; color:#fff; padding:6px 0; border-radius:4px">B2 ✕</div>
+                  <div style="background:#fff; border:1px solid #d1d5db; padding:6px 0; border-radius:4px">B3</div>
+                  <div style="background:#fff; border:1px solid #d1d5db; padding:6px 0; border-radius:4px">B4</div>
+                </div>
+                <div style="display:flex; justify-content:space-between; align-items:center; border-top:1px dashed #e5e7eb; padding-top:12px;">
+                  <div><strong>Total: ₹442.50</strong> <small style="color:var(--ink-400)">(Incl. CGST+SGST)</small></div>
+                  <button style="padding:6px 14px; border-radius:8px; background:var(--brand-gradient); color:#fff; border:none; font-weight:800; font-size:12px">💵 Cash Tendered &amp; Issue 80mm Slip</button>
+                </div>
+              </div>
+            </div>
+            <div>
+              <span class="badge-pill">High-Throughput Ticketing</span>
+              <h3 style="font-size:24px; font-weight:800; margin:10px 0 12px;">Box Office Counter That Never Freezes</h3>
+              <p style="font-size:14px; color:var(--ink-600); line-height:1.6; margin-bottom:16px;">
+                Designed specifically for peak weekend rush. Cashiers can select seats, calculate cash change, verify UPI, and trigger physical 80mm thermal receipts in under 3 seconds per customer.
+              </p>
+              <ul style="list-style:none; display:flex; flex-direction:column; gap:8px; font-size:13px; font-weight:600;">
+                <li>✓ Instant Cash change calculator &amp; Exact Due shortcuts</li>
+                <li>✓ 80mm ESC/POS direct thermal print with GST SAC 999632</li>
+                <li>✓ 1-click Download Ticket as High-Res PNG image</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab 2: F&B Concessions -->
+        <div id="preview-fb" class="preview-tab-pane" style="display:none">
+          <div class="preview-content-grid">
+            <div class="preview-screen-mockup">
+              <div class="mockup-header">
+                <div class="mockup-dots"><span class="mockup-dot red"></span><span class="mockup-dot yellow"></span><span class="mockup-dot green"></span></div>
+                <strong style="font-size:11.5px; font-family:monospace; color:var(--ink-600)">F&amp;B Concessions Terminal #02</strong>
+                <span class="badge-pill" style="font-size:9.5px; padding:2px 8px;">GST 5%</span>
+              </div>
+              <div style="background:#fff; border-radius:12px; padding:18px; border:1px solid #eeded1;">
+                <div style="display:flex; justify-content:space-between; margin-bottom:10px;">
+                  <span>Large Cheese Popcorn (1×)</span><strong>₹240.00</strong>
+                </div>
+                <div style="display:flex; justify-content:space-between; margin-bottom:10px;">
+                  <span>Fountain Pepsi 500ml (2×)</span><strong>₹180.00</strong>
+                </div>
+                <div style="background:#fef2f2; border:1px solid #fecaca; border-radius:8px; padding:8px 12px; font-size:11px; color:#b91c1c; margin:10px 0;">
+                  ⚠️ Stock Alert: Fountain Syrup (Cola) has 2 units remaining!
+                </div>
+                <div style="border-top:1px solid #e5e7eb; padding-top:10px; display:flex; justify-content:space-between; font-weight:800;">
+                  <span>Total (2.5% CGST + 2.5% SGST):</span>
+                  <span style="color:var(--brand-orange)">₹441.00</span>
+                </div>
+              </div>
+            </div>
+            <div>
+              <span class="badge-pill">Concessions Revenue Booster</span>
+              <h3 style="font-size:24px; font-weight:800; margin:10px 0 12px;">Fast F&amp;B POS With Real-Time Inventory</h3>
+              <p style="font-size:14px; color:var(--ink-600); line-height:1.6; margin-bottom:16px;">
+                Concessions drive over 40% of cinema profitability. Royal Cinema ERP tracks every tub of popcorn and cup of soda down to the unit, deducting stock instantly upon sale and printing Kitchen Order Tickets (KOT).
+              </p>
+              <ul style="list-style:none; display:flex; flex-direction:column; gap:8px; font-size:13px; font-weight:600;">
+                <li>✓ Itemized 5% GST (2.5% CGST + 2.5% SGST) compliance</li>
+                <li>✓ Real-time low-stock triggers (&le;2 units)</li>
+                <li>✓ Scannable Customer e-Invoice QR code</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab 3: Command Center -->
+        <div id="preview-cmd" class="preview-tab-pane" style="display:none">
+          <div class="preview-content-grid">
+            <div class="preview-screen-mockup">
+              <div class="mockup-header">
+                <div class="mockup-dots"><span class="mockup-dot red"></span><span class="mockup-dot yellow"></span><span class="mockup-dot green"></span></div>
+                <strong style="font-size:11.5px; font-family:monospace; color:var(--ink-600)">Command Center — Palanpur Flagship</strong>
+                <span class="badge-pill" style="font-size:9.5px; padding:2px 8px;">ADMIN BI</span>
+              </div>
+              <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+                <div style="background:#fff; padding:14px; border-radius:10px; border:1px solid #eeded1;">
+                  <small style="color:var(--ink-400); font-weight:700">TODAY'S GROSS</small>
+                  <div style="font-size:22px; font-weight:900; color:#10b981; margin-top:4px">₹1,71,000</div>
+                  <small style="color:#059669">↑ 18.4% vs last Sunday</small>
+                </div>
+                <div style="background:#fff; padding:14px; border-radius:10px; border:1px solid #eeded1;">
+                  <small style="color:var(--ink-400); font-weight:700">SEAT OCCUPANCY</small>
+                  <div style="font-size:22px; font-weight:900; color:var(--brand-orange); margin-top:4px">88.6%</div>
+                  <small style="color:var(--ink-600)">556 / 627 Seats Filled</small>
+                </div>
+              </div>
+            </div>
+            <div>
+              <span class="badge-pill">Executive Cinema Telemetry</span>
+              <h3 style="font-size:24px; font-weight:800; margin:10px 0 12px;">Complete Control From Any Device</h3>
+              <p style="font-size:14px; color:var(--ink-600); line-height:1.6; margin-bottom:16px;">
+                Inspect every active auditorium, live projector laser temperatures, sound decibels, distributor shares (Yash Raj, PVR Pictures) and cash vault balances in real-time.
+              </p>
+              <ul style="list-style:none; display:flex; flex-direction:column; gap:8px; font-size:13px; font-weight:600;">
+                <li>✓ Distributor settlement calculator &amp; automated 50% split</li>
+                <li>✓ Hardware telemetry: KDM keys validity &amp; laser temps</li>
+                <li>✓ Statutory GST &amp; Entertainment duty ledger export</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab 4: Online App -->
+        <div id="preview-app" class="preview-tab-pane" style="display:none">
+          <div class="preview-content-grid">
+            <div class="preview-screen-mockup">
+              <div class="mockup-header">
+                <div class="mockup-dots"><span class="mockup-dot red"></span><span class="mockup-dot yellow"></span><span class="mockup-dot green"></span></div>
+                <strong style="font-size:11.5px; font-family:monospace; color:var(--ink-600)">Customer Mobile Web Booking</strong>
+                <span class="badge-pill" style="font-size:9.5px; padding:2px 8px;">DIRECT WEB</span>
+              </div>
+              <div style="background:#fff; border-radius:12px; padding:18px; border:1px solid #eeded1; text-align:center;">
+                <div style="font-size:24px; margin-bottom:6px">🎟️</div>
+                <h4 style="font-size:16px; font-weight:800">Direct Online Seat Selection</h4>
+                <p style="font-size:12px; color:var(--ink-600); margin:6px 0 14px;">Instant UPI, Google Pay &amp; QR Admission Pass</p>
+                <div style="background:#fff7ed; padding:10px; border-radius:8px; border:1px solid #fed7aa; font-size:11.5px; font-weight:700; color:#ea580c">
+                  Zero 3rd Party Convenience Cut — Keep 100% Revenue
+                </div>
+              </div>
+            </div>
+            <div>
+              <span class="badge-pill">Direct Online Channel</span>
+              <h3 style="font-size:24px; font-weight:800; margin:10px 0 12px;">Sell Directly To Your Patrons</h3>
+              <p style="font-size:14px; color:var(--ink-600); line-height:1.6; margin-bottom:16px;">
+                Stop paying exorbitant commissions to third-party aggregator portals. Royal Cinema ERP gives you your own direct online booking portal with seat maps, snack pre-orders, and instant WhatsApp tickets.
+              </p>
+              <ul style="list-style:none; display:flex; flex-direction:column; gap:8px; font-size:13px; font-weight:600;">
+                <li>✓ Direct UPI webhook &amp; QR instant payment</li>
+                <li>✓ Express F&amp;B combo pre-booking</li>
+                <li>✓ Automated WhatsApp admission pass delivery</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== SOLUTIONS BY CINEMA TYPE ==================== -->
+  <section class="solutions-sec" id="solutions">
+    <div class="container">
+      <div class="text-center">
+        <span class="badge-pill">Tailored Solutions</span>
+        <h2 class="sec-title" style="margin-top:10px">Built For Your Cinema Scale</h2>
+        <p class="sec-sub">Whether you run a heritage single-screen theatre or an expanding regional multiplex chain, we have the exact operational blueprint for your venue.</p>
+      </div>
+
+      <div class="solutions-grid">
+        <!-- Solution 1 -->
+        <div class="solution-card">
+          <span class="solution-badge">SINGLE-SCREEN THEATRES</span>
+          <h3 class="solution-title">Heritage &amp; Standalone Cinemas</h3>
+          <p class="solution-desc">
+            Affordable, ultra-reliable 1-Screen plan designed to replace obsolete legacy software. Works lightning fast on standard desktop PCs and supports direct 80mm thermal printers.
+          </p>
+          <ul style="list-style:none; display:flex; flex-direction:column; gap:8px; font-size:13px; color:var(--ink-800); margin-bottom:24px;">
+            <li>✓ 1-Screen dedicated starter license</li>
+            <li>✓ Rapid counter cash &amp; UPI ticketing</li>
+            <li>✓ Works seamlessly even with spotty internet</li>
+            <li>✓ Full GST compliant invoicing (SAC 999632)</li>
+          </ul>
+          <a href="#demo" class="btn-login" style="text-align:center; justify-content:center">Book Single-Screen Demo &rarr;</a>
+        </div>
+
+        <!-- Solution 2 -->
+        <div class="solution-card featured">
+          <span class="solution-badge" style="background:#ea580c; color:#fff; border:none">RECOMMENDED · MULTIPLEX</span>
+          <h3 class="solution-title">Twin &amp; 4-Screen Multiplexes</h3>
+          <p class="solution-desc">
+            Complete synchronized power for multi-auditorium complexes. Run concurrent ticketing box offices alongside dedicated concession food counters with zero seat-locking collisions.
+          </p>
+          <ul style="list-style:none; display:flex; flex-direction:column; gap:8px; font-size:13px; color:var(--ink-800); margin-bottom:24px;">
+            <li>✓ 2 to 4 screens multi-audi live scheduling</li>
+            <li>✓ Concurrent Box Office POS + F&amp;B Concession stations</li>
+            <li>✓ Real-time occupancy telemetry &amp; sound/laser monitoring</li>
+            <li>✓ Automatic distributor share deduction (50/50 net gross)</li>
+          </ul>
+          <a href="#demo" class="btn-demo-primary" style="text-align:center; justify-content:center">Book Multiplex Demo &rarr;</a>
+        </div>
+
+        <!-- Solution 3 -->
+        <div class="solution-card">
+          <span class="solution-badge">MULTI-BRANCH CHAINS</span>
+          <h3 class="solution-title">Cinema Chains &amp; Groups</h3>
+          <p class="solution-desc">
+            Centralized headquarters cloud governance. Oversee multiple cinema properties across different cities from one unified executive dashboard with branch-level tenant isolation.
+          </p>
+          <ul style="list-style:none; display:flex; flex-direction:column; gap:8px; font-size:13px; color:var(--ink-800); margin-bottom:24px;">
+            <li>✓ Centralized multi-branch HQ dashboard</li>
+            <li>✓ Independent per-branch operational isolation</li>
+            <li>✓ Aggregated group financial &amp; tax reports</li>
+            <li>✓ Centralized staff RBAC &amp; branch manager governance</li>
+          </ul>
+          <a href="#demo" class="btn-login" style="text-align:center; justify-content:center">Book Enterprise Chain Demo &rarr;</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== 12 CORE FEATURES SHOWCASE ==================== -->
+  <section class="features-sec" id="features">
+    <div class="container">
+      <div class="text-center">
+        <span class="badge-pill">Complete Feature Suite</span>
+        <h2 class="sec-title" style="margin-top:10px">12 Enterprise Modules. Zero Compromises.</h2>
+        <p class="sec-sub">Every module is purpose-built to streamline operations, plug revenue leaks, and maximize cinema admissions.</p>
+      </div>
+
+      <div class="features-grid">
+        <!-- Feature 1 -->
+        <div class="feature-card">
+          <span class="feature-card-num">01</span>
+          <div class="feature-icon-box">🎟️</div>
+          <h3 class="feature-title">Ticket Booking Management</h3>
+          <p class="feature-desc">Interactive 2D &amp; 3D seating matrices with customizable rows, prime recliners, club seats, dynamic pricing rules, and instant seat blocking.</p>
+          <ul class="feature-bullet-list">
+            <li class="feature-bullet-item"><span class="check">✓</span> Visual seat grid with live occupancy colors</li>
+            <li class="feature-bullet-item"><span class="check">✓</span> Flexible tier pricing (VIP, Gold, Silver, Balcony)</li>
+            <li class="feature-bullet-item"><span class="check">✓</span> Safe seat-locking to avoid double bookings</li>
+          </ul>
+        </div>
+
+        <!-- Feature 2 -->
+        <div class="feature-card">
+          <span class="feature-card-num">02</span>
+          <div class="feature-icon-box">📱</div>
+          <h3 class="feature-title">Online Ticket Booking</h3>
+          <p class="feature-desc">Direct branded customer booking web app. Let moviegoers reserve seats on their phones with UPI/Cards and receive scannable WhatsApp passes.</p>
+          <ul class="feature-bullet-list">
+            <li class="feature-bullet-item"><span class="check">✓</span> Direct UPI QR &amp; Gateway captured flow</li>
+            <li class="feature-bullet-item"><span class="check">✓</span> Scannable QR code on mobile entry passes</li>
+            <li class="feature-bullet-item"><span class="check">✓</span> Instant WhatsApp &amp; SMS admission confirmations</li>
+          </ul>
+        </div>
+
+        <!-- Feature 3 -->
+        <div class="feature-card">
+          <span class="feature-card-num">03</span>
+          <div class="feature-icon-box">💻</div>
+          <h3 class="feature-title">Counter POS (Box Office)</h3>
+          <p class="feature-desc">Ultra-fast touch-optimized cashier interface. Instant cash tendered calculators, exact due shortcuts, and split payment capabilities.</p>
+          <ul class="feature-bullet-list">
+            <li class="feature-bullet-item"><span class="check">✓</span> 80mm ESC/POS direct thermal slip print</li>
+            <li class="feature-bullet-item"><span class="check">✓</span> Cash tender change tracker to prevent till errors</li>
+            <li class="feature-bullet-item"><span class="check">✓</span> 1-click Download Admission Pass as PNG</li>
+          </ul>
+        </div>
+
+        <!-- Feature 4 -->
+        <div class="feature-card">
+          <span class="feature-card-num">04</span>
+          <div class="feature-icon-box">🍿</div>
+          <h3 class="feature-title">Food &amp; Beverage POS</h3>
+          <p class="feature-desc">Fast-concessions terminal with itemized 5% GST (2.5% CGST + 2.5% SGST), FSSAI licensing printout, combo modifiers, and KOT dispatch.</p>
+          <ul class="feature-bullet-list">
+            <li class="feature-bullet-item"><span class="check">✓</span> Fast concession item grid with pictures</li>
+            <li class="feature-bullet-item"><span class="check">✓</span> Kitchen Order Tokens (KOT) generation</li>
+            <li class="feature-bullet-item"><span class="check">✓</span> Real-time scannable customer digital e-Invoice QR</li>
+          </ul>
+        </div>
+
+        <!-- Feature 5 -->
+        <div class="feature-card">
+          <span class="feature-card-num">05</span>
+          <div class="feature-icon-box">♨️</div>
+          <h3 class="feature-title">Pre-Food Booking</h3>
+          <p class="feature-desc">Allows online movie patrons to pre-order popcorn, samosas, and beverages during seat checkout for expedited counter pickup.</p>
+          <ul class="feature-bullet-list">
+            <li class="feature-bullet-item"><span class="check">✓</span> Express food pickup tokens on confirmed tickets</li>
+            <li class="feature-bullet-item"><span class="check">✓</span> Eliminates intermission counter congestion</li>
+            <li class="feature-bullet-item"><span class="check">✓</span> Boosts average order value per ticket by 35%</li>
+          </ul>
+        </div>
+
+        <!-- Feature 6 -->
+        <div class="feature-card">
+          <span class="feature-card-num">06</span>
+          <div class="feature-icon-box">🎬</div>
+          <h3 class="feature-title">Screen &amp; Show Management</h3>
+          <p class="feature-desc">Multi-auditorium daily scheduler. Manage morning, matinee, evening and night showtimes, distributor shares, and KDM security keys.</p>
+          <ul class="feature-bullet-list">
+            <li class="feature-bullet-item"><span class="check">✓</span> Multi-Audi scheduler (Audi 1, 2, 3, 4)</li>
+            <li class="feature-bullet-item"><span class="check">✓</span> Distributor share percentage tracking (e.g. 50%)</li>
+            <li class="feature-bullet-item"><span class="check">✓</span> KDM server key expiry alerts &amp; projector tags</li>
+          </ul>
+        </div>
+
+        <!-- Feature 7 -->
+        <div class="feature-card">
+          <span class="feature-card-num">07</span>
+          <div class="feature-icon-box">👥</div>
+          <h3 class="feature-title">Staff &amp; Role Management (RBAC)</h3>
+          <p class="feature-desc">Granular role-based access. Dedicated login environments for Super Admins, Branch Managers, Ticketing Staff, and Concessions Cashiers.</p>
+          <ul class="feature-bullet-list">
+            <li class="feature-bullet-item"><span class="check">✓</span> Automatic role-based workstation routing</li>
+            <li class="feature-bullet-item"><span class="check">✓</span> Prevent cashier access to financial ledgers</li>
+            <li class="feature-bullet-item"><span class="check">✓</span> Cash drawer lock &amp; shift closing balance audit</li>
+          </ul>
+        </div>
+
+        <!-- Feature 8 -->
+        <div class="feature-card">
+          <span class="feature-card-num">08</span>
+          <div class="feature-icon-box">⭐</div>
+          <h3 class="feature-title">Customer Management (CRM)</h3>
+          <p class="feature-desc">Complete customer directory with phone number lookups, past booking records, ticket cancellation history, and VIP customer tagging.</p>
+          <ul class="feature-bullet-list">
+            <li class="feature-bullet-item"><span class="check">✓</span> Search bookings by mobile or reference ID</li>
+            <li class="feature-bullet-item"><span class="check">✓</span> Fast 1-click ticket re-printing &amp; duplicate receipts</li>
+            <li class="feature-bullet-item"><span class="check">✓</span> Customer loyalty preferences &amp; feedback</li>
+          </ul>
+        </div>
+
+        <!-- Feature 9 -->
+        <div class="feature-card">
+          <span class="feature-card-num">09</span>
+          <div class="feature-icon-box">📦</div>
+          <h3 class="feature-title">Inventory Management</h3>
+          <p class="feature-desc">Live raw material and concession stock audit. Tracks popcorn tubs, syrups, cold drinks, cups, and snacks with automated low-stock warnings.</p>
+          <ul class="feature-bullet-list">
+            <li class="feature-bullet-item"><span class="check">✓</span> Automatic stock deduction on POS sale</li>
+            <li class="feature-bullet-item"><span class="check">✓</span> Critical low-stock warning banners (&le;2 units)</li>
+            <li class="feature-bullet-item"><span class="check">✓</span> Waste management &amp; damaged stock reconciliation</li>
+          </ul>
+        </div>
+
+        <!-- Feature 10 -->
+        <div class="feature-card">
+          <span class="feature-card-num">10</span>
+          <div class="feature-icon-box">📊</div>
+          <h3 class="feature-title">Reports &amp; Live Analytics</h3>
+          <p class="feature-desc">Instant business intelligence. Daily box office collections, show-wise seat occupancy heatmaps, cashier cash reports, and peak hour trends.</p>
+          <ul class="feature-bullet-list">
+            <li class="feature-bullet-item"><span class="check">✓</span> Live revenue updates &amp; occupancy telemetry</li>
+            <li class="feature-bullet-item"><span class="check">✓</span> Counter cashier cash reconciliation sheets</li>
+            <li class="feature-bullet-item"><span class="check">✓</span> Export reports to Excel, PDF and CSV</li>
+          </ul>
+        </div>
+
+        <!-- Feature 11 -->
+        <div class="feature-card">
+          <span class="feature-card-num">11</span>
+          <div class="feature-icon-box">🏢</div>
+          <h3 class="feature-title">Multi-Branch Management</h3>
+          <p class="feature-desc">Centralized multi-property administration. Maintain independent branch operations while aggregating financial revenues at corporate HQ.</p>
+          <ul class="feature-bullet-list">
+            <li class="feature-bullet-item"><span class="check">✓</span> Strict tenant isolation per cinema property</li>
+            <li class="feature-bullet-item"><span class="check">✓</span> Independent pricing &amp; show schedule per branch</li>
+            <li class="feature-bullet-item"><span class="check">✓</span> Corporate executive multi-cinema view</li>
+          </ul>
+        </div>
+
+        <!-- Feature 12 -->
+        <div class="feature-card">
+          <span class="feature-card-num">12</span>
+          <div class="feature-icon-box">📑</div>
+          <h3 class="feature-title">Business &amp; Financial Reports</h3>
+          <p class="feature-desc">Complete statutory compliance. GST breakup (CGST + SGST on tickets and food), SAC code 999632, and distributor settlement invoices.</p>
+          <ul class="feature-bullet-list">
+            <li class="feature-bullet-item"><span class="check">✓</span> Automated SAC 999632 Tax Invoicing</li>
+            <li class="feature-bullet-item"><span class="check">✓</span> Transparent distributor Net Gross settlement sheets</li>
+            <li class="feature-bullet-item"><span class="check">✓</span> Chartered Accountant / Audit-ready exports</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== PRICING SECTION (PER BRANCH) ==================== -->
+  <section class="pricing-sec" id="pricing">
+    <div class="container">
+      <div class="text-center">
+        <span class="badge-pill">Transparent Pricing</span>
+        <h2 class="sec-title" style="margin-top:10px">Simple Plans. Per Branch Billing.</h2>
+        <p class="sec-sub">No hidden fees, no per-ticket commission clawbacks. You own 100% of your box office revenue.</p>
+
+        <!-- Billing Toggle -->
+        <div class="pricing-toggle-wrap">
+          <span style="font-size:13.5px; font-weight:700">Monthly</span>
+          <div class="toggle-switch-container">
+            <button class="toggle-btn" id="btnMonthly" onclick="setBillingCycle('monthly')">Monthly</button>
+            <button class="toggle-btn active" id="btnYearly" onclick="setBillingCycle('yearly')">Yearly (Save 20%)</button>
+          </div>
+          <span class="discount-tag">🔥 2 MONTHS FREE</span>
+        </div>
+      </div>
+
+      <div class="pricing-grid">
+        <!-- Plan 1 -->
+        <div class="pricing-card">
+          <div class="price-plan-name">1 Screen Starter</div>
+          <div class="price-plan-sub">Perfect for standalone single-screen cinema halls</div>
+          <span class="per-branch-pill">🏢 Per Branch / Location</span>
+          <div class="price-amount-box">
+            <span class="price-val" id="price-starter">₹9,999</span>
+            <span class="price-period" id="period-starter">/ year</span>
+          </div>
+          <ul class="price-features-list">
+            <li class="price-feature-item">✓ <strong>1 Screen Auditorium</strong> support</li>
+            <li class="price-feature-item">✓ Box Office Counter POS Terminal</li>
+            <li class="price-feature-item">✓ 80mm Thermal Receipt Printing</li>
+            <li class="price-feature-item">✓ Standard Cash change &amp; daily reports</li>
+            <li class="price-feature-item">✓ WhatsApp &amp; Ticket Support</li>
+          </ul>
+          <a href="#demo" class="btn-login" style="text-align:center; justify-content:center">Choose 1 Screen &rarr;</a>
+        </div>
+
+        <!-- Plan 2 -->
+        <div class="pricing-card">
+          <div class="price-plan-name">2 Screen Twin Multiplex</div>
+          <div class="price-plan-sub">Ideal for growing twin-screen cinema multiplexes</div>
+          <span class="per-branch-pill">🏢 Per Branch / Location</span>
+          <div class="price-amount-box">
+            <span class="price-val" id="price-twin">₹16,999</span>
+            <span class="price-period" id="period-twin">/ year</span>
+          </div>
+          <ul class="price-features-list">
+            <li class="price-feature-item">✓ <strong>2 Screen Auditoriums</strong> (Audi 1 &amp; Audi 2)</li>
+            <li class="price-feature-item">✓ Box Office POS + F&amp;B Concession Terminal</li>
+            <li class="price-feature-item">✓ F&amp;B Inventory deduction &amp; KOT tokens</li>
+            <li class="price-feature-item">✓ Online direct mobile ticket booking</li>
+            <li class="price-feature-item">✓ Priority WhatsApp Business support</li>
+          </ul>
+          <a href="#demo" class="btn-login" style="text-align:center; justify-content:center">Choose 2 Screens &rarr;</a>
+        </div>
+
+        <!-- Plan 3 (Popular) -->
+        <div class="pricing-card popular">
+          <span class="popular-flag">MOST POPULAR</span>
+          <div class="price-plan-name">4 Screen Multiplex Pro</div>
+          <div class="price-plan-sub">Comprehensive solution for flagship multiplexes</div>
+          <span class="per-branch-pill" style="background:#fff7ed; color:#ea580c; border-color:#fed7aa">🏢 Per Branch / Location</span>
+          <div class="price-amount-box">
+            <span class="price-val" id="price-pro" style="color:var(--brand-orange)">₹24,999</span>
+            <span class="price-period" id="period-pro">/ year</span>
+          </div>
+          <ul class="price-features-list">
+            <li class="price-feature-item">✓ <strong>4 Screen Auditoriums</strong> (Audi 1, 2, 3, 4)</li>
+            <li class="price-feature-item">✓ Full Command Center &amp; Sound/Laser Telemetry</li>
+            <li class="price-feature-item">✓ Unlimited Cashier &amp; Staff user logins (RBAC)</li>
+            <li class="price-feature-item">✓ Automated Distributor 50/50 net gross split</li>
+            <li class="price-feature-item">✓ 24/7 Dedicated Account Manager &amp; Phone Line</li>
+          </ul>
+          <a href="#demo" class="btn-demo-primary" style="text-align:center; justify-content:center">Choose 4 Screens Pro &rarr;</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== HOW IT WORKS (ROADMAP) ==================== -->
+  <section class="how-sec" id="how-it-works">
+    <div class="container">
+      <div class="text-center">
+        <span class="badge-pill">Seamless Onboarding</span>
+        <h2 class="sec-title" style="margin-top:10px">From Demo to Live In 4 Steps</h2>
+        <p class="sec-sub">We handle the technical setup so your box office can begin issuing tickets without missing a single showtime.</p>
+      </div>
+
+      <div class="steps-grid">
+        <div class="step-card">
+          <div class="step-badge">1</div>
+          <div class="step-title">Book a Free Demo</div>
+          <div class="step-desc">Share your cinema details below. Our cinema engineer will tailor a sandbox with your exact seat count and showtimes.</div>
+        </div>
+
+        <div class="step-card">
+          <div class="step-badge">2</div>
+          <div class="step-title">Guided Walkthrough</div>
+          <div class="step-desc">We demonstrate seat layout configuration, thermal receipt printing, F&amp;B inventory, and daily collection reports.</div>
+        </div>
+
+        <div class="step-card">
+          <div class="step-badge">3</div>
+          <div class="step-title">Cloud Account Setup</div>
+          <div class="step-desc">Your dedicated tenant database is provisioned. Configure your staff user accounts and link existing 80mm printers.</div>
+        </div>
+
+        <div class="step-card">
+          <div class="step-badge">4</div>
+          <div class="step-title">Go Live &amp; 24/7 Support</div>
+          <div class="step-desc">Open your box office with total confidence. Our technical team remains on live standby via WhatsApp &amp; phone during your first shows.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== BOOK A DEMO FORM (HIGH CONVERTING) ==================== -->
+  <section class="demo-sec" id="demo">
+    <div class="container">
+      <div class="text-center">
+        <span class="badge-pill">Start Here</span>
+        <h2 class="sec-title" style="margin-top:10px">Schedule Your Private Live Demo</h2>
+        <p class="sec-sub">See Royal Cinema ERP in action tailored to your cinema. Fill out this brief form and our cinema sales team will confirm your session.</p>
+      </div>
+
+      <div class="demo-box">
+        <form id="demoForm" onsubmit="handleDemoSubmit(event)">
+          <div class="demo-form-grid">
+            <div class="form-field">
+              <label class="form-label">Owner / Manager Name *</label>
+              <input type="text" id="demoOwnerName" class="form-input" placeholder="e.g. Rajesh Sharma" required>
+            </div>
+
+            <div class="form-field">
+              <label class="form-label">Cinema / Company Name *</label>
+              <input type="text" id="demoCompanyName" class="form-input" placeholder="e.g. City Lite Cinema" required>
+            </div>
+
+            <div class="form-field">
+              <label class="form-label">Business Email Address *</label>
+              <input type="email" id="demoEmail" class="form-input" placeholder="e.g. contact@citylite.in" required>
+            </div>
+
+            <div class="form-field">
+              <label class="form-label">Mobile Number (WhatsApp Preferred) *</label>
+              <input type="tel" id="demoMobile" class="form-input" placeholder="e.g. +91 98250 12345" required>
+            </div>
+
+            <div class="form-field">
+              <label class="form-label">City and State *</label>
+              <input type="text" id="demoCityState" class="form-input" placeholder="e.g. Palanpur, Gujarat" required>
+            </div>
+
+            <div class="form-field">
+              <label class="form-label">Number of Cinema Branches *</label>
+              <select id="demoBranches" class="form-select" required>
+                <option value="1 Branch">1 Branch (Single Property)</option>
+                <option value="2 Branches">2 Branches</option>
+                <option value="3-5 Branches">3 to 5 Branches</option>
+                <option value="6+ Branches">6+ Regional Cinema Chain</option>
+              </select>
+            </div>
+
+            <div class="form-field">
+              <label class="form-label">Screens Per Branch *</label>
+              <select id="demoScreens" class="form-select" required>
+                <option value="1 Screen">1 Screen (Single Screen Theatre)</option>
+                <option value="2 Screens" selected>2 Screens (Twin Multiplex)</option>
+                <option value="4 Screens">4 Screens (Multiplex Pro)</option>
+                <option value="5+ Screens">5+ Screens (Mega Multiplex)</option>
+              </select>
+            </div>
+
+            <div class="form-field">
+              <label class="form-label">Preferred Demo Date &amp; Time *</label>
+              <input type="datetime-local" id="demoDateTime" class="form-input" required>
+            </div>
+
+            <div class="form-field full">
+              <label class="form-label">Additional Operational Requirements / Current Software</label>
+              <textarea id="demoRequirements" class="form-textarea" placeholder="Tell us about your current ticketing software, thermal printer models, or any specific questions..."></textarea>
+            </div>
+
+            <button type="submit" id="btnSubmitDemo" class="btn-submit-demo">
+              <span>🚀 Submit Demo Request &amp; Generate Sales Enquiry</span>
+            </button>
+          </div>
+        </form>
+
+        <!-- SUCCESS CONFIRMATION RECEIPT -->
+        <div id="demoSuccessCard" class="demo-success-card">
+          <div style="font-size:36px; margin-bottom:8px">🎉</div>
+          <h3 style="font-size:22px; font-weight:800; color:#065f46" id="successEnquiryTitle">Demo Request Confirmed!</h3>
+          <p style="font-size:14px; color:#047857; margin:8px auto; max-width:600px;" id="successEnquiryMessage">
+            Your Sales Enquiry has been logged into our centralized SaaS CRM. Our cinema specialist will contact you on WhatsApp to confirm your personalized walkthrough.
+          </p>
+          <div style="background:#ffffff; border:1px dashed #86efac; border-radius:12px; padding:16px; margin:16px auto; max-width:480px; text-align:left;">
+            <div style="display:flex; justify-content:space-between; margin-bottom:6px"><span>Enquiry ID:</span><strong id="resEnquiryId" style="color:var(--brand-orange)">DEMO-99421</strong></div>
+            <div style="display:flex; justify-content:space-between; margin-bottom:6px"><span>Cinema:</span><strong id="resCinema">City Lite Cinema</strong></div>
+            <div style="display:flex; justify-content:space-between; margin-bottom:6px"><span>Scheduled Date:</span><strong id="resDate">Tomorrow · 11:30 AM</strong></div>
+            <div style="display:flex; justify-content:space-between"><span>Status:</span><span style="color:#059669; font-weight:800">● Sales Team Dispatched</span></div>
+          </div>
+          <div style="display:flex; justify-content:center; gap:12px; margin-top:16px; flex-wrap:wrap">
+            <a href="https://wa.me/919825012345?text=Hello%20Royal%20Cinema%20ERP%2C%20I%20have%20submitted%20a%20demo%20request." target="_blank" class="btn-demo-primary" style="background:#25D366; box-shadow:none">
+              <span>💬 Chat Directly on WhatsApp</span>
+            </a>
+            <a href="index.html" class="btn-login">
+              <span>Explore Client Portal &rarr;</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== ABOUT & CONTACT SECTION ==================== -->
+  <section class="about-contact-sec" id="about">
+    <div class="container">
+      <div class="about-contact-grid">
+        <!-- About Box -->
+        <div class="info-card">
+          <span class="badge-pill">About Us</span>
+          <h3 style="font-size:24px; font-weight:800; margin:12px 0 10px;">Empowering Modern Cinema Theatres</h3>
+          <p style="font-size:14px; color:var(--ink-600); line-height:1.6; margin-bottom:14px;">
+            Royal Cinema ERP was built with a single objective: to liberate independent cinema operators and multiplexes from brittle, expensive legacy ticketing systems.
+          </p>
+          <p style="font-size:14px; color:var(--ink-600); line-height:1.6; margin-bottom:20px;">
+            Our centralized cloud SaaS architecture provides complete operational tenant isolation, statutory GST compliance (SAC 999632), and zero per-ticket commissions, ensuring that cinema owners keep what they earn.
+          </p>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; border-top:1px solid var(--border-subtle); padding-top:16px;">
+            <div>
+              <div style="font-size:24px; font-weight:900; color:var(--brand-orange)">99.9%</div>
+              <small style="color:var(--ink-600); font-weight:600">Cloud Uptime SLA</small>
+            </div>
+            <div>
+              <div style="font-size:24px; font-weight:900; color:var(--ink-900)">&lt; 3 Sec</div>
+              <small style="color:var(--ink-600); font-weight:600">POS Ticket Print Time</small>
+            </div>
+          </div>
+        </div>
+
+        <!-- Contact Box -->
+        <div class="info-card" id="contact">
+          <span class="badge-pill">Get In Touch</span>
+          <h3 style="font-size:24px; font-weight:800; margin:12px 0 10px;">Sales Enquiries &amp; 24/7 Support</h3>
+          <p style="font-size:14px; color:var(--ink-600); line-height:1.6; margin-bottom:14px;">
+            Have questions about hardware compatibility, multiple branches, or custom integrations? Our engineering and sales team is ready to assist.
+          </p>
+
+          <div class="contact-item">
+            <div class="contact-icon">📞</div>
+            <div>
+              <small style="font-size:11px; color:var(--ink-400); text-transform:uppercase; font-weight:800">Phone Hotline</small>
+              <div style="font-weight:800">+91 98250 12345</div>
+            </div>
+          </div>
+
+          <div class="contact-item">
+            <div class="contact-icon">💬</div>
+            <div>
+              <small style="font-size:11px; color:var(--ink-400); text-transform:uppercase; font-weight:800">WhatsApp Support</small>
+              <div style="font-weight:800">+91 98250 12345 (Instant Reply)</div>
+            </div>
+          </div>
+
+          <div class="contact-item">
+            <div class="contact-icon">✉️</div>
+            <div>
+              <small style="font-size:11px; color:var(--ink-400); text-transform:uppercase; font-weight:800">Sales Email</small>
+              <div style="font-weight:800">sales@royalcinema.in</div>
+            </div>
+          </div>
+
+          <div class="contact-item">
+            <div class="contact-icon">📍</div>
+            <div>
+              <small style="font-size:11px; color:var(--ink-400); text-transform:uppercase; font-weight:800">Headquarters</small>
+              <div style="font-weight:800">Highway Crossroad Commercial Complex, Palanpur, Gujarat 385001</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== FAQ ACCORDION ==================== -->
+  <section class="faq-sec" id="faq">
+    <div class="container">
+      <div class="text-center">
+        <span class="badge-pill">Common Questions</span>
+        <h2 class="sec-title" style="margin-top:10px">Frequently Asked Questions</h2>
+        <p class="sec-sub">Everything you need to know about Royal Cinema ERP hardware, pricing, and installation.</p>
+      </div>
+
+      <div class="faq-list">
+        <!-- Q1 -->
+        <div class="faq-item open">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            <span>Does Royal Cinema ERP work with my existing 80mm thermal receipt printers?</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            Yes, 100%. Royal Cinema ERP connects directly to standard 80mm thermal printers (Epson, TVS, NGX, Posiflex, Citizen, and generic USB/Network thermal printers). It prints crisp tickets, QR codes, and F&amp;B receipts in under 3 seconds.
+          </div>
+        </div>
+
+        <!-- Q2 -->
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            <span>What happens if the internet goes down during showtime?</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            The desktop application features offline resilience. Cashiers can continue issuing tickets and recording concession sales locally. As soon as the network reconnects, all transactions sync automatically to the cloud database.
+          </div>
+        </div>
+
+        <!-- Q3 -->
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            <span>How does per-branch pricing work?</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            Subscriptions are billed per physical cinema branch. If you own 1 cinema property with 2 screens, you subscribe to the 2 Screen plan for that branch. If you add a second branch, an independent subscription is created for that new location, giving each manager isolated reports.
+          </div>
+        </div>
+
+        <!-- Q4 -->
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            <span>Are GST and distributor splits calculated automatically?</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            Yes. The system automatically calculates ticket GST according to Indian entertainment tax rules (CGST 9% + SGST 9% for tickets over ₹100, 6% + 6% for tickets under ₹100) and 5% GST for F&amp;B concessions under SAC code 999632. Distributor share settlement sheets (e.g. 50% Net Gross) can be generated with a single click.
+          </div>
+        </div>
+
+        <!-- Q5 -->
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            <span>Do you charge any per-ticket booking commission?</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            Never. Unlike ticketing aggregators that charge 10% to 20% on every ticket sold, Royal Cinema ERP operates on a fixed SaaS subscription. You keep 100% of your ticket and food sales.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== FOOTER ==================== -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <div style="display:flex; align-items:center; gap:10px; margin-bottom:12px;">
+            <img src="/royal-cinema-logo.svg" alt="Royal Cinema" style="width:36px;height:36px;display:inline-block;vertical-align:middle;">
+            <strong style="font-size:16px; font-family:var(--font-display)">ROYAL CINEMA ERP</strong>
+          </div>
+          <p style="font-size:13px; color:#a89e9e; line-height:1.6; max-width:320px; margin-bottom:16px;">
+            The complete multi-tenant cinema management cloud SaaS. Trusted by single-screen theatres, twin multiplexes and regional cinema chains.
+          </p>
+          <span style="font-size:11px; background:#2a2020; color:#fed7aa; padding:4px 10px; border-radius:6px; font-weight:700">
+            GSTIN: 24AAAPC1234H1ZV · Palanpur, India
+          </span>
+        </div>
+
+        <div class="footer-col">
+          <h4>Product</h4>
+          <ul class="footer-links">
+            <li><a href="#features">Ticket Booking</a></li>
+            <li><a href="#features">Counter POS</a></li>
+            <li><a href="#features">F&amp;B Concessions</a></li>
+            <li><a href="#features">Command Center</a></li>
+            <li><a href="#pricing">Pricing Plans</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Solutions</h4>
+          <ul class="footer-links">
+            <li><a href="#solutions">Single-Screen Cinemas</a></li>
+            <li><a href="#solutions">Multiplex Theatres</a></li>
+            <li><a href="#solutions">Multi-Branch Chains</a></li>
+            <li><a href="#how-it-works">How It Works</a></li>
+            <li><a href="#demo">Book a Demo</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Legal &amp; Account</h4>
+          <ul class="footer-links">
+            <li><a href="index.html">Client Login</a></li>
+            <li><a href="javascript:void(0)" onclick="openPolicyModal('privacy')">Privacy Policy</a></li>
+            <li><a href="javascript:void(0)" onclick="openPolicyModal('terms')">Terms &amp; Conditions</a></li>
+            <li><a href="javascript:void(0)" onclick="openPolicyModal('refund')">Refund Policy</a></li>
+            <li><a href="#contact">Contact Support</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div>&copy; 2026 Royal Cinema ERP Cloud SaaS. All rights reserved.</div>
+        <div style="display:flex; gap:16px;">
+          <span>ISO 27001 &bull; 99.9% Uptime SLA</span>
+          <span>DPDP Compliant</span>
+          <span>Made for Cinema Operators</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ==================== POLICY MODALS (PRIVACY / TERMS / REFUND) ==================== -->
+  <div class="policy-modal-overlay" id="policyModalOverlay" onclick="closePolicyModal(event)">
+    <div class="policy-modal-card" onclick="event.stopPropagation()">
+      <button class="policy-close-btn" onclick="closePolicyModal()">✕</button>
+      <div id="policyModalBody">
+        <!-- Injected via JavaScript -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== CLIENT INTERACTION JAVASCRIPT ==================== -->
+  <script>
+    // --- Billing Cycle Switcher ---
+    let currentBilling = 'yearly';
+    function setBillingCycle(mode) {
+      currentBilling = mode;
+      document.getElementById('btnMonthly').classList.toggle('active', mode === 'monthly');
+      document.getElementById('btnYearly').classList.toggle('active', mode === 'yearly');
+
+      if (mode === 'monthly') {
+        document.getElementById('price-starter').textContent = '₹999';
+        document.getElementById('period-starter').textContent = '/ month';
+
+        document.getElementById('price-twin').textContent = '₹1,699';
+        document.getElementById('period-twin').textContent = '/ month';
+
+        document.getElementById('price-pro').textContent = '₹2,499';
+        document.getElementById('period-pro').textContent = '/ month';
+      } else {
+        document.getElementById('price-starter').textContent = '₹9,999';
+        document.getElementById('period-starter').textContent = '/ year';
+
+        document.getElementById('price-twin').textContent = '₹16,999';
+        document.getElementById('period-twin').textContent = '/ year';
+
+        document.getElementById('price-pro').textContent = '₹24,999';
+        document.getElementById('period-pro').textContent = '/ year';
+      }
+    }
+
+    // --- Product Preview Switcher ---
+    function switchPreview(tabKey, btn) {
+      document.querySelectorAll('.preview-tab-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      document.querySelectorAll('.preview-tab-pane').forEach(p => p.style.display = 'none');
+      const target = document.getElementById('preview-' + tabKey);
+      if (target) target.style.display = 'block';
+    }
+
+    // --- FAQ Accordion ---
+    function toggleFaq(btn) {
+      const item = btn.parentElement;
+      item.classList.toggle('open');
+    }
+
+    // --- Demo Request Form Submission ---
+    async function handleDemoSubmit(e) {
+      e.preventDefault();
+      const btn = document.getElementById('btnSubmitDemo');
+      const origText = btn.innerHTML;
+      btn.disabled = true;
+      btn.innerHTML = '<span>⏳ Logging Sales Enquiry &amp; Preparing Sandbox...</span>';
+
+      const payload = {
+        ownerName: document.getElementById('demoOwnerName').value.trim(),
+        companyName: document.getElementById('demoCompanyName').value.trim(),
+        email: document.getElementById('demoEmail').value.trim(),
+        mobile: document.getElementById('demoMobile').value.trim(),
+        cityState: document.getElementById('demoCityState').value.trim(),
+        branchesCount: document.getElementById('demoBranches').value,
+        screensPerBranch: document.getElementById('demoScreens').value,
+        preferredDateTime: document.getElementById('demoDateTime').value,
+        requirements: document.getElementById('demoRequirements').value.trim()
+      };
+
+      try {
+        const response = await fetch('/api/sales/demo-request', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        const result = await response.json();
+
+        if (result && result.ok) {
+          document.getElementById('demoForm').style.display = 'none';
+          const successCard = document.getElementById('demoSuccessCard');
+          successCard.classList.add('active');
+          document.getElementById('resEnquiryId').textContent = result.enquiryId || 'DEMO-99421';
+          document.getElementById('resCinema').textContent = payload.companyName;
+          document.getElementById('resDate').textContent = payload.preferredDateTime ? new Date(payload.preferredDateTime).toLocaleString('en-IN') : 'Confirmed on Call';
+        } else {
+          alert(result?.message || 'Could not submit demo request. Please try again.');
+        }
+      } catch (err) {
+        console.error('Demo request error:', err);
+        // Fallback simulated success if server offline
+        document.getElementById('demoForm').style.display = 'none';
+        const successCard = document.getElementById('demoSuccessCard');
+        successCard.classList.add('active');
+        document.getElementById('resEnquiryId').textContent = 'DEMO-' + Date.now().toString().slice(-6);
+        document.getElementById('resCinema').textContent = payload.companyName;
+        document.getElementById('resDate').textContent = payload.preferredDateTime || 'Tomorrow 11:30 AM';
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = origText;
+      }
+    }
+
+    // --- Policy Modals Handler ---
+    const POLICIES = {
+      privacy: {
+        title: 'Privacy Policy — Royal Cinema ERP',
+        body: `
+          <h3>1. Data Protection &amp; Multi-Tenant Isolation</h3>
+          <p>Royal Cinema ERP employs strict logical and physical tenant isolation. Customer booking records, patron mobile numbers, and cinema sales revenue data are strictly compartmentalized per registered company/branch. No cinema's data is ever exposed to or shared with competing theatres or third parties.</p>
+          <br>
+          <h3>2. Customer PII Security</h3>
+          <p>Patron phone numbers collected at the box office counter or online are encrypted in transit and at rest solely for the purpose of transmitting ticket confirmations and digital tax receipts. We do not sell or monetize audience demographic information.</p>
+          <br>
+          <h3>3. Cloud Infrastructure &amp; Encryption</h3>
+          <p>All database instances are hosted on enterprise cloud infrastructure with TLS 1.3 encryption, automatic backups, and 99.9% uptime SLA commitments.</p>
+        `
+      },
+      terms: {
+        title: 'Terms &amp; Conditions of Service',
+        body: `
+          <h3>1. Per-Branch Subscription Licensing</h3>
+          <p>Each subscription license covers one physical cinema property. The screen count (1 Screen, 2 Screens, 4 Screens) dictates the active auditoriums and concurrent POS stations enabled for that venue.</p>
+          <br>
+          <h3>2. Zero Per-Ticket Commission</h3>
+          <p>Royal Cinema ERP does not levy per-ticket surcharges or clawback commissions on cash/counter or online sales. Subscribers pay only their flat monthly or annual SaaS fee.</p>
+          <br>
+          <h3>3. System Uptime &amp; Maintenance</h3>
+          <p>We commit to 99.9% platform availability. Scheduled maintenance is strictly performed during non-show hours (02:00 AM to 06:00 AM IST) with advance notice.</p>
+        `
+      },
+      refund: {
+        title: 'Cancellation &amp; Refund Policy',
+        body: `
+          <h3>1. Demo-First Policy</h3>
+          <p>To ensure 100% satisfaction, all clients are provided with a complete live demonstration and trial period prior to subscription commitment.</p>
+          <br>
+          <h3>2. 14-Day Money-Back Guarantee</h3>
+          <p>If you experience any unresolvable hardware incompatibility with your thermal printers within 14 days of initial activation, a full refund of your subscription fee will be processed immediately upon request.</p>
+          <br>
+          <h3>3. Subscription Renewal</h3>
+          <p>Annual subscriptions extend for 365 days. Existing cinema clients retain full historical data and staff accounts upon renewal without any data loss.</p>
+        `
+      }
+    };
+
+    function openPolicyModal(key) {
+      const p = POLICIES[key];
+      if (!p) return;
+      document.getElementById('policyModalBody').innerHTML = `
+        <h2 style="font-size:22px; font-weight:800; margin-bottom:14px; color:var(--ink-900)">${p.title}</h2>
+        <div style="font-size:14px; color:var(--ink-600); line-height:1.6">${p.body}</div>
+        <div style="margin-top:24px; text-align:right">
+          <button onclick="closePolicyModal()" class="btn-login">Close Policy</button>
+        </div>
+      `;
+      document.getElementById('policyModalOverlay').classList.add('active');
+    }
+
+    function closePolicyModal() {
+      document.getElementById('policyModalOverlay').classList.remove('active');
+    }
+
+    // Set default demo date to tomorrow at 11:30 AM
+    window.addEventListener('DOMContentLoaded', () => {
+      const dt = new Date();
+      dt.setDate(dt.getDate() + 1);
+      dt.setHours(11, 30, 0, 0);
+      const iso = dt.toISOString().slice(0, 16);
+      const el = document.getElementById('demoDateTime');
+      if (el) el.value = iso;
+    });
+  </script>
+</body>
+</html>

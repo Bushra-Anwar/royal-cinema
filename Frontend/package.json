@@ -1,0 +1,9 @@
+{
+  "name": "royal-cinema-erp-frontend",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Royal Cinema ERP & Multi-Tenant Booking Client Portals",
+  "scripts": {
+    "serve": "node ../Backend/server.cjs"
+  }
+}

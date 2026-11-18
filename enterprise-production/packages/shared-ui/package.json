@@ -1,0 +1,12 @@
+{
+  "name": "@royal-cinema/shared-ui",
+  "version": "1.0.0",
+  "description": "Royal Cinema Rich Orange Design System UI Components",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "private": true,
+  "peerDependencies": {
+    "lucide-react": ">=0.380.0",
+    "react": ">=18.0.0"
+  }
+}

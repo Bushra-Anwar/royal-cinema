@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cinema ERP &amp; POS Cloud Service — Client Subscription Plans</title>
+  <style>
+    :root {
+      --canvas: #f8f4f4;
+      --card-bg: #ffffff;
+      --border: #e6dfdf;
+      --ink-900: #1a1616;
+      --ink-700: #3b3333;
+      --ink-500: #6e6363;
+      --crimson-600: #d31920;
+      --crimson-700: #b31218;
+      --amber-500: #f59e0b;
+      --amber-600: #d97706;
+      --emerald-600: #059669;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background-color: var(--canvas);
+      background-image:
+        radial-gradient(at 10% 10%, rgba(245, 158, 11, 0.08) 0px, transparent 40%),
+        radial-gradient(at 90% 20%, rgba(211, 25, 32, 0.06) 0px, transparent 45%);
+      color: var(--ink-900);
+      min-height: 100vh;
+      padding-bottom: 60px;
+    }
+
+    .top-nav {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .brand-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 19px;
+      font-weight: 800;
+      color: var(--ink-900);
+      text-decoration: none;
+    }
+
+    .brand-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #f59e0b, #ea580c);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      font-weight: 900;
+      box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .btn-login {
+      padding: 9px 20px;
+      border-radius: 10px;
+      background: #ffffff;
+      border: 1px solid var(--border);
+      color: var(--ink-900);
+      font-weight: 700;
+      font-size: 13px;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .btn-login:hover {
+      background: #f1ebeb;
+    }
+
+    /* Hero Section */
+    .hero-section {
+      max-width: 900px;
+      margin: 20px auto 40px auto;
+      text-align: center;
+      padding: 0 20px;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      padding: 6px 14px;
+      border-radius: 50px;
+      background: #fff3e0;
+      color: #b45309;
+      border: 1px solid #fed7aa;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+
+    .hero-title {
+      font-family: "Times New Roman", Times, serif;
+      font-size: clamp(32px, 4.5vw, 48px);
+      font-weight: 800;
+      color: var(--ink-900);
+      line-height: 1.15;
+      margin-bottom: 14px;
+    }
+
+    .hero-subtitle {
+      font-size: 16px;
+      color: var(--ink-500);
+      max-width: 680px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+
+    /* Plans Grid */
+    .plans-container {
+      max-width: 1180px;
+      margin: 0 auto 50px auto;
+      padding: 0 20px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 24px;
+    }
+
+    .plan-card {
+      background: var(--card-bg);
+      border-radius: 20px;
+      border: 2px solid var(--border);
+      padding: 32px 28px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+      transition: all 0.25s ease;
+      position: relative;
+    }
+
+    .plan-card:hover, .plan-card.active {
+      border-color: #ea580c;
+      transform: translateY(-4px);
+      box-shadow: 0 16px 36px rgba(234, 88, 12, 0.12);
+    }
+
+    .popular-tag {
+      position: absolute;
+      top: -14px;
+      right: 28px;
+      background: linear-gradient(135deg, #ea580c, #c2410c);
+      color: #fff;
+      font-size: 10.5px;
+      font-weight: 800;
+      padding: 4px 14px;
+      border-radius: 50px;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      box-shadow: 0 4px 12px rgba(234, 88, 12, 0.35);
+    }
+
+    .plan-name {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--ink-900);
+      margin-bottom: 6px;
+    }
+
+    .plan-desc {
+      font-size: 12.5px;
+      color: var(--ink-500);
+      min-height: 38px;
+      line-height: 1.45;
+    }
+
+    .plan-price-wrap {
+      margin: 20px 0;
+      padding: 16px 0;
+      border-top: 1px dashed var(--border);
+      border-bottom: 1px dashed var(--border);
+    }
+
+    .plan-price {
+      font-size: 36px;
+      font-weight: 900;
+      color: var(--ink-900);
+      font-family: -apple-system, sans-serif;
+    }
+
+    .plan-period {
+      font-size: 13px;
+      color: var(--ink-500);
+      font-weight: 600;
+    }
+
+    .features-list {
+      list-style: none;
+      margin-bottom: 26px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .features-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 13px;
+      color: var(--ink-700);
+      line-height: 1.4;
+    }
+
+    .check-icon {
+      color: #16a34a;
+      font-weight: 900;
+      font-size: 14px;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .btn-select-plan {
+      width: 100%;
+      padding: 14px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: #fbf8f8;
+      color: var(--ink-900);
+      font-size: 13px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-select-plan:hover, .plan-card.active .btn-select-plan {
+      background: linear-gradient(135deg, #f59e0b, #ea580c);
+      color: #ffffff;
+      border-color: transparent;
+      box-shadow: 0 6px 18px rgba(234, 88, 12, 0.25);
+    }
+
+    /* Checkout & Client Onboarding Section */
+    .checkout-section {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    .checkout-card {
+      background: #ffffff;
+      border-radius: 24px;
+      border: 1px solid var(--border);
+      padding: 40px;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.05);
+    }
+
+    .checkout-header {
+      margin-bottom: 28px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid #f1ebeb;
+    }
+
+    .checkout-step {
+      font-size: 11px;
+      font-weight: 800;
+      color: #ea580c;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+
+    .checkout-title {
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--ink-900);
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+
+    .form-full {
+      grid-column: span 2;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--ink-700);
+      margin-bottom: 6px;
+    }
+
+    .form-group input, .form-group select {
+      width: 100%;
+      padding: 12px 14px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: #fdfbfb;
+      font-size: 13.5px;
+      color: var(--ink-900);
+      transition: border 0.2s;
+    }
+
+    .form-group input:focus, .form-group select:focus {
+      outline: none;
+      border-color: #ea580c;
+      background: #ffffff;
+    }
+
+    .summary-box {
+      grid-column: span 2;
+      background: #fffaf5;
+      border: 1px solid #fed7aa;
+      border-radius: 14px;
+      padding: 18px;
+      margin: 10px 0;
+    }
+
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      text-align: center;
+      margin-top: 10px;
+    }
+
+    .summary-item-label {
+      font-size: 10px;
+      font-weight: 800;
+      color: var(--ink-500);
+      text-transform: uppercase;
+      margin-bottom: 3px;
+    }
+
+    .summary-item-val {
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--ink-900);
+    }
+
+    .btn-submit-sub {
+      width: 100%;
+      padding: 16px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #f59e0b, #ea580c);
+      color: #ffffff;
+      font-size: 14px;
+      font-weight: 800;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 8px 24px rgba(234, 88, 12, 0.3);
+      transition: all 0.2s;
+      margin-top: 12px;
+    }
+
+    .btn-submit-sub:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 28px rgba(234, 88, 12, 0.4);
+    }
+
+    .error-msg {
+      grid-column: span 2;
+      color: #b91c1c;
+      background: #fef2f2;
+      border: 1px solid #fecaca;
+      padding: 10px 14px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      display: none;
+    }
+
+    /* Modal */
+    .success-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: rgba(0,0,0,0.65);
+      backdrop-filter: blur(4px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .success-modal-card {
+      background: #ffffff;
+      border-radius: 20px;
+      max-width: 500px;
+      width: 100%;
+      padding: 32px;
+      text-align: center;
+      box-shadow: 0 24px 60px rgba(0,0,0,0.25);
+    }
+
+    @media (max-width: 768px) {
+      .form-grid { grid-template-columns: 1fr; }
+      .form-full { grid-column: span 1; }
+      .summary-box { grid-column: span 1; }
+      .summary-grid { grid-template-columns: 1fr 1fr; gap: 16px; }
+      .error-msg { grid-column: span 1; }
+      .checkout-card { padding: 24px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Navigation -->
+  <header class="top-nav">
+    <a href="#" class="brand-logo">
+      <div class="brand-icon">R</div>
+      <div>ROYAL CINEMA <span style="font-weight:400;color:var(--ink-500);font-size:14px">CLOUD SERVICES</span></div>
+    </a>
+    <div class="nav-actions">
+      <a href="index.html" class="btn-login">← Cinema Login</a>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="hero-badge">ENTERPRISE SAAS PROVIDER PLATFORM</div>
+    <h1 class="hero-title">Select Your Cinema ERP &amp; POS Subscription Plan</h1>
+    <p class="hero-subtitle">
+      Deploy Box Office Ticketing, Concessions F&amp;B POS, Live Kitchen Stream, and Cinema Owner Command Center for your theatre or multiplex.
+    </p>
+  </section>
+
+  <!-- Plans Comparison Cards (Strictly 1 Screen, 2 Screen, 4 Screen) -->
+  <section class="plans-container" id="plansContainer">
+    
+    <!-- Plan 1: 1 Screen Starter -->
+    <div class="plan-card" data-plan="1 Screen Starter Plan" data-price="9,999" data-val="₹9,999">
+      <div>
+        <div class="plan-name">1 Screen Starter</div>
+        <div class="plan-desc">For single-screen theatres &amp; standalone cinema halls.</div>
+        <div class="plan-price-wrap">
+          <span class="plan-price">₹9,999</span>
+          <span class="plan-period">/ Year (Billed Annually)</span>
+        </div>
+        <ul class="features-list">
+          <li><span class="check-icon">✓</span> <strong>1 Screen Auditorium</strong> with 2D Seat Matrix</li>
+          <li><span class="check-icon">✓</span> Box Office Counter POS Terminal</li>
+          <li><span class="check-icon">✓</span> Cash &amp; UPI QR Payment Processing</li>
+          <li><span class="check-icon">✓</span> 80mm POS Thermal Slips &amp; PNG Passes</li>
+          <li><span class="check-icon">✓</span> Daily Shift Day-Closing Ledger &amp; Cash Till Audit</li>
+        </ul>
+      </div>
+      <button class="btn-select-plan" onclick="selectPlan(this, '1 Screen Starter Plan', '₹9,999')">Choose 1 Screen Plan</button>
+    </div>
+
+    <!-- Plan 2: 2 Screen Twin Multiplex -->
+    <div class="plan-card" data-plan="2 Screen Twin Multiplex" data-price="16,999" data-val="₹16,999">
+      <div>
+        <div class="plan-name">2 Screen Twin Multiplex</div>
+        <div class="plan-desc">Designed for twin-theatre venues with dual show schedules &amp; food counter.</div>
+        <div class="plan-price-wrap">
+          <span class="plan-price">₹16,999</span>
+          <span class="plan-period">/ Year (Billed Annually)</span>
+        </div>
+        <ul class="features-list">
+          <li><span class="check-icon">✓</span> <strong>2 Screen Auditoriums</strong> (Audi 1 &amp; Audi 2)</li>
+          <li><span class="check-icon">✓</span> Dual Box Office POS Workstations</li>
+          <li><span class="check-icon">✓</span> Concessions Food Counter POS</li>
+          <li><span class="check-icon">✓</span> Food Billing with 2.5% CGST + 2.5% SGST</li>
+          <li><span class="check-icon">✓</span> Shift Settlement &amp; Distributor Ledger</li>
+        </ul>
+      </div>
+      <button class="btn-select-plan" onclick="selectPlan(this, '2 Screen Twin Multiplex', '₹16,999')">Choose 2 Screen Plan</button>
+    </div>
+
+    <!-- Plan 3: 4 Screen Multiplex Pro (Recommended) -->
+    <div class="plan-card active" data-plan="4 Screen Multiplex Pro" data-price="24,999" data-val="₹24,999">
+      <div class="popular-tag">MOST POPULAR ★</div>
+      <div>
+        <div class="plan-name">4 Screen Multiplex Pro</div>
+        <div class="plan-desc">Complete flagship suite for modern 4-screen multiplexes.</div>
+        <div class="plan-price-wrap">
+          <span class="plan-price">₹24,999</span>
+          <span class="plan-period">/ Year (Billed Annually)</span>
+        </div>
+        <ul class="features-list">
+          <li><span class="check-icon">✓</span> <strong>4 Screen Auditoriums</strong> (Dolby Atmos, 4K Laser, Recliner)</li>
+          <li><span class="check-icon">✓</span> Box Office POS + Concessions Food Counter POS</li>
+          <li><span class="check-icon">✓</span> Cinema Owner Command Center &amp; Distributor DCR</li>
+          <li><span class="check-icon">✓</span> Customer Online Mobile Booking App Portal</li>
+          <li><span class="check-icon">✓</span> Dedicated Staff Roles (Box Office &amp; Food Staff)</li>
+          <li><span class="check-icon">✓</span> Dual Supervisor Cash Till Audits &amp; Cloud Backup</li>
+        </ul>
+      </div>
+      <button class="btn-select-plan" onclick="selectPlan(this, '4 Screen Multiplex Pro', '₹24,999')">Selected 4 Screen Plan ✓</button>
+    </div>
+
+  </section>
+
+  <!-- Client Onboarding & Subscription Form -->
+  <section class="checkout-section">
+    <div class="checkout-card">
+      <div class="checkout-header">
+        <div class="checkout-step">STEP 2 OF 2 &bull; CLIENT DETAILS &amp; ACTIVATION</div>
+        <h2 class="checkout-title">Subscribe &amp; Provision Your Cinema Admin Account</h2>
+        <p style="font-size:13px;color:var(--ink-500);margin-top:4px">
+          Fill your cinema details below to activate your multi-station cloud license. You will immediately receive your Admin credentials.
+        </p>
+      </div>
+
+      <form id="clientSubForm" onsubmit="handleClientSubscription(event)">
+        <div class="form-grid">
+          
+          <div class="form-group form-full">
+            <label>Cinema / Theatre / Business Name *</label>
+            <input type="text" id="inpCinemaName" required placeholder="e.g. City Lite Cinema, Palanpur">
+          </div>
+
+          <div class="form-group">
+            <label>Business Type *</label>
+            <select id="inpBusinessType">
+              <option value="cinema">Cinema Multiplex</option>
+              <option value="single_theatre">Single Screen Theatre</option>
+              <option value="shop">Food Concessions Shop</option>
+              <option value="company">Cinema Chain &amp; Entertainment Group</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>City &amp; Location *</label>
+            <input type="text" id="inpCity" required placeholder="e.g. Palanpur, Gujarat">
+          </div>
+
+          <div class="form-group">
+            <label>Contact Phone / Mobile *</label>
+            <input type="tel" id="inpPhone" required placeholder="+91 98250 12345">
+          </div>
+
+          <div class="form-group">
+            <label>GSTIN (Optional)</label>
+            <input type="text" id="inpGstin" placeholder="e.g. 24AAACR1234F1Z9">
+          </div>
+
+          <div class="form-group">
+            <label>Admin Username (for your cinema login) *</label>
+            <input type="text" id="inpAdminUser" required placeholder="e.g. citylite_admin">
+          </div>
+
+          <div class="form-group">
+            <label>Admin Gmail / Email *</label>
+            <input type="email" id="inpAdminEmail" required placeholder="e.g. owner@citylite.in">
+          </div>
+
+          <div class="form-group form-full">
+            <label>Admin Password * (min 6 characters)</label>
+            <input type="password" id="inpAdminPass" required placeholder="Set secure password for your cinema admin">
+          </div>
+
+          <!-- Subscription Summary Calculation -->
+          <div class="summary-box">
+            <div style="font-size:11px;font-weight:800;color:#ea580c;letter-spacing:1px;text-transform:uppercase;">
+              📋 Selected Plan &amp; Billing Calculation
+            </div>
+            <div class="summary-grid">
+              <div>
+                <div class="summary-item-label">SELECTED PLAN</div>
+                <div class="summary-item-val" id="sumPlanName" style="color:#b45309">Multiplex Pro Cloud</div>
+              </div>
+              <div>
+                <div class="summary-item-label">AMOUNT PAID</div>
+                <div class="summary-item-val" id="sumAmount" style="color:#16a34a">₹24,999</div>
+              </div>
+              <div>
+                <div class="summary-item-label">VALID TILL (1 YEAR)</div>
+                <div class="summary-item-val" id="sumValidTill">15 Nov 2027</div>
+              </div>
+              <div>
+                <div class="summary-item-label">PAYMENT METHOD</div>
+                <div class="summary-item-val" id="sumMethod">UPI QR / Net Banking</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="error-msg" id="subErrorBox"></div>
+
+          <div class="form-full">
+            <button type="submit" class="btn-submit-sub" id="btnSubmit">
+              🚀 Activate Subscription &amp; Launch My Cinema ERP &rarr;
+            </button>
+            <div style="text-align:center;font-size:11px;color:var(--ink-500);margin-top:10px">
+              🔒 Instant Cloud Activation &bull; Direct Role-Based Workstation Access
+            </div>
+          </div>
+
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <!-- Success Confirmation Modal -->
+  <div id="successModal" class="success-modal" style="display:none">
+    <div class="success-modal-card">
+      <div style="font-size:48px;margin-bottom:12px">🎉</div>
+      <h2 style="font-size:24px;font-weight:800;color:var(--ink-900);margin-bottom:8px">Subscription Activated!</h2>
+      <p style="font-size:13.5px;color:var(--ink-500);line-height:1.5;margin-bottom:20px" id="successDesc">
+        Your cinema license has been provisioned. You can now log in using your admin credentials.
+      </p>
+
+      <div style="background:#f8f4f4;border-radius:12px;padding:16px;text-align:left;font-size:12.5px;margin-bottom:24px;border:1px solid #e8dfdf">
+        <div><strong>Cinema:</strong> <span id="resCinemaName"></span></div>
+        <div style="margin-top:4px"><strong>Plan:</strong> <span id="resPlanName" style="color:#ea580c;font-weight:700"></span></div>
+        <div style="margin-top:4px"><strong>Amount Paid:</strong> <span id="resAmount" style="color:#16a34a;font-weight:700"></span></div>
+        <div style="margin-top:4px"><strong>Valid Till:</strong> <span id="resValidTill"></span></div>
+        <div style="margin-top:4px"><strong>Admin Username:</strong> <span id="resUsername"></span></div>
+      </div>
+
+      <button onclick="window.location.href='index.html'" style="width:100%;padding:14px;border-radius:12px;background:#1a1616;color:#ffffff;font-size:13.5px;font-weight:800;border:none;cursor:pointer">
+        👉 Proceed to Cinema Sign-In &rarr;
+      </button>
+    </div>
+  </div>
+
+  <script>
+    let selectedPlanName = '4 Screen Multiplex Pro';
+    let selectedPlanAmount = '₹24,999';
+
+    // Set today and 1-year future date
+    const today = new Date();
+    const nextYear = new Date();
+    nextYear.setFullYear(today.getFullYear() + 1);
+
+    const todayStr = today.toISOString().slice(0, 10);
+    const nextYearStr = nextYear.toISOString().slice(0, 10);
+
+    const formattedToday = today.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+    const formattedNextYear = nextYear.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+
+    document.getElementById('sumValidTill').textContent = formattedNextYear;
+
+    function selectPlan(btn, planName, priceStr) {
+      selectedPlanName = planName;
+      selectedPlanAmount = priceStr;
+
+      // Update active cards
+      document.querySelectorAll('.plan-card').forEach(card => {
+        card.classList.remove('active');
+        const cardBtn = card.querySelector('.btn-select-plan');
+        if (cardBtn) cardBtn.textContent = 'Choose Plan';
+      });
+
+      const activeCard = btn.closest('.plan-card');
+      if (activeCard) {
+        activeCard.classList.add('active');
+        btn.textContent = 'Selected Plan ✓';
+      }
+
+      // Update summary box
+      document.getElementById('sumPlanName').textContent = planName;
+      document.getElementById('sumAmount').textContent = priceStr;
+
+      // Smooth scroll to form
+      document.querySelector('.checkout-section').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    async function handleClientSubscription(e) {
+      e.preventDefault();
+      const errBox = document.getElementById('subErrorBox');
+      errBox.style.display = 'none';
+
+      const cinemaName = document.getElementById('inpCinemaName').value.trim();
+      const companyType = document.getElementById('inpBusinessType').value;
+      const city = document.getElementById('inpCity').value.trim();
+      const phone = document.getElementById('inpPhone').value.trim();
+      const adminUsername = document.getElementById('inpAdminUser').value.trim().toLowerCase();
+      const adminEmail = document.getElementById('inpAdminEmail').value.trim().toLowerCase();
+      const adminPassword = document.getElementById('inpAdminPass').value.trim();
+
+      if (!cinemaName || !adminUsername || !adminEmail || !adminPassword) {
+        errBox.textContent = 'Please fill all required cinema & admin fields.';
+        errBox.style.display = 'block';
+        return;
+      }
+
+      const btn = document.getElementById('btnSubmit');
+      btn.disabled = true;
+      btn.textContent = 'Activating Subscription & Provisioning Cinema License... ⏳';
+
+      try {
+        const payload = {
+          companyName: cinemaName,
+          companyType: companyType,
+          address: city,
+          phone: phone,
+          adminUsername: adminUsername,
+          adminEmail: adminEmail,
+          adminPassword: adminPassword,
+          planName: selectedPlanName,
+          amountPaid: selectedPlanAmount,
+          paidDate: todayStr,
+          validTill: nextYearStr,
+          nextDueDate: nextYearStr,
+          billingCycle: 'Yearly / Annual',
+          paymentMethod: 'UPI / Bank Transfer (Ref: RC-ONLINE)'
+        };
+
+        const res = await fetch('/api/company/onboard', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        }).then(r => r.json());
+
+        if (!res.ok) {
+          errBox.textContent = res.message || 'Subscription failed. Please retry.';
+          errBox.style.display = 'block';
+          btn.disabled = false;
+          btn.textContent = '🚀 Activate Subscription & Launch My Cinema ERP →';
+          return;
+        }
+
+        // Show Success Modal
+        document.getElementById('resCinemaName').textContent = cinemaName;
+        document.getElementById('resPlanName').textContent = selectedPlanName;
+        document.getElementById('resAmount').textContent = selectedPlanAmount;
+        document.getElementById('resValidTill').textContent = formattedNextYear;
+        document.getElementById('resUsername').textContent = adminUsername;
+        document.getElementById('successModal').style.display = 'flex';
+
+      } catch (err) {
+        console.error(err);
+        errBox.textContent = 'Network or server error: ' + err.message;
+        errBox.style.display = 'block';
+      } finally {
+        btn.disabled = false;
+        btn.textContent = '🚀 Activate Subscription & Launch My Cinema ERP →';
+      }
+    }
+  </script>
+</body>
+</html>

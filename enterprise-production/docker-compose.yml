@@ -1,0 +1,66 @@
+version: '3.8'
+
+services:
+  # 1. MongoDB Database Container (Local dev replica of MongoDB Atlas)
+  mongodb:
+    image: mongo:7.0
+    container_name: royal-cinema-mongodb
+    restart: unless-stopped
+    ports:
+      - '27017:27017'
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: StrongPassword123
+      MONGO_INITDB_DATABASE: royal_cinema_erp
+    volumes:
+      - mongo_data:/data/db
+
+  # 2. Redis Cache Container (Local replica of AWS ElastiCache)
+  redis:
+    image: redis:7.2-alpine
+    container_name: royal-cinema-redis
+    restart: unless-stopped
+    ports:
+      - '6379:6379'
+    volumes:
+      - redis_data:/data
+
+  # 3. NestJS Enterprise Backend API Service
+  backend-api:
+    build:
+      context: ./backend-nestjs
+      dockerfile: Dockerfile
+    container_name: royal-cinema-backend-api
+    restart: unless-stopped
+    ports:
+      - '4000:4000'
+    environment:
+      NODE_ENV: development
+      PORT: 4000
+      MONGODB_URI: mongodb://admin:StrongPassword123@mongodb:27017/royal_cinema_erp?authSource=admin
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      SUPER_ADMIN_USERNAME: superadmin
+      SUPER_ADMIN_PASSWORD: Royal@SuperEnterprise2026!
+      JWT_SECRET: 836ca519441f9ec8d9279709b5d0d027123454d59f90f724a607591c7d72d6d4
+    depends_on:
+      - mongodb
+      - redis
+
+  # 4. Next.js Enterprise Web Frontend Service
+  frontend-web:
+    build:
+      context: ./frontend-nextjs
+      dockerfile: Dockerfile
+    container_name: royal-cinema-frontend-web
+    restart: unless-stopped
+    ports:
+      - '3001:3000'
+    environment:
+      NEXT_PUBLIC_API_URL: http://localhost:4000/api/v1
+    depends_on:
+      - backend-api
+
+volumes:
+  mongo_data:
+  redis_data:

@@ -1,0 +1,56 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --rich-orange: #F97316;
+    --deep-orange: #EA580C;
+    --burnt-orange: #C2410C;
+    --warm-cream: #FFF7ED;
+    --surface: #FFFFFF;
+    --dark-brown: #24170F;
+    --muted-brown: #806B5B;
+    --border: #F1E4D8;
+    --danger: #DC6262;
+    --success: #398765;
+  }
+
+  body {
+    background-color: var(--warm-cream);
+    color: var(--dark-brown);
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-feature-settings: 'tnum' on, 'cv02', 'cv03', 'cv04', 'cv11';
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  /* Headings: Dark Brown font with high contrast */
+  h1, h2, h3, h4, h5, h6 {
+    font-weight: 700;
+    color: var(--dark-brown);
+    letter-spacing: -0.02em;
+  }
+
+  /* Numbers: Tabular Figures */
+  .tabular-nums {
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+/* Rich Orange Enterprise Component Utilities */
+.card-enterprise {
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  box-shadow: 0 4px 14px rgba(154, 52, 18, 0.05);
+}
+
+.card-enterprise-hover {
+  transition: all 0.18s ease-in-out;
+}
+.card-enterprise-hover:hover {
+  border-color: #fed7aa;
+  box-shadow: 0 8px 24px rgba(234, 88, 12, 0.12);
+  transform: translateY(-1px);
+}

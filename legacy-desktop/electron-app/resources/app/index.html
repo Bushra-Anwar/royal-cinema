@@ -1,0 +1,3659 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="alternate icon" href="/favicon.ico">
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Royal Cinema ERP — Cloud Service & Multi-Station POS</title>
+<style>
+:root {
+  --primary-navy: #0e2942;
+  --primary-navy-hover: #081d30;
+  --accent-gold: #f59e0b;
+  --accent-gold-light: #fbbf24;
+  --text-dark: #0f172a;
+  --text-muted: #64748b;
+  --border-light: #e2e8f0;
+  --bg-input: #ffffff;
+  --bg-card: #ffffff;
+  --support-bg: #f0f4f9;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  min-height: 100vh;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  color: var(--text-dark);
+  background: radial-gradient(circle at 10% 20%, #f1f5f9 0%, #e2e8f0 100%);
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Background Filmstrip Watermark Accents */
+.filmstrip-watermark {
+  position: fixed;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.12;
+}
+.filmstrip-top-right {
+  top: -80px;
+  right: -80px;
+  width: 480px;
+  height: 480px;
+  transform: rotate(28deg);
+}
+.filmstrip-bottom-left {
+  bottom: -100px;
+  left: -80px;
+  width: 420px;
+  height: 420px;
+  transform: rotate(-18deg);
+}
+
+button, input, select { font: inherit; }
+.hidden { display: none !important; }
+.tab-btn.hidden, #headerSaasConsoleBtn.hidden { display: none !important; }
+
+/* ===== WELCOME ANIMATION SPLASH OVERLAY ===== */
+#welcomeSplash {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle at 50% 45%, #ffffff, #f1f5f9 85%);
+  backdrop-filter: blur(20px);
+  transition: opacity .45s ease, transform .45s ease;
+}
+#welcomeSplash.fade-out { opacity: 0; transform: scale(1.05); pointer-events: none; }
+.splash-icon {
+  width: 90px;
+  height: 90px;
+  border-radius: 28px;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(135deg, #0e2942, #1e3a5f);
+  color: #fbbf24;
+  box-shadow: 0 18px 45px rgba(14, 41, 66, 0.25);
+  animation: pulseZoom 1.4s infinite alternate ease-in-out;
+}
+.splash-title { font-size: 26px; font-weight: 800; margin-top: 22px; letter-spacing: -.5px; color: #0e2942; text-align: center; }
+.splash-sub { font-size: 13px; color: #64748b; margin-top: 8px; text-align: center; max-width: 480px; line-height: 1.5; }
+.splash-bar { width: 240px; height: 5px; background: rgba(0,0,0,0.08); border-radius: 99px; margin-top: 24px; overflow: hidden; }
+.splash-bar-fill { height: 100%; width: 0; background: linear-gradient(90deg, #f59e0b, #0e2942); border-radius: 99px; animation: loadBar 1.2s cubic-bezier(.4,0,.2,1) forwards; }
+
+@keyframes pulseZoom { from { transform: scale(1); } to { transform: scale(1.06); } }
+@keyframes loadBar { 0% { width: 0; } 100% { width: 100%; } }
+
+/* ===== EXACT PHOTO MATCH AUTH CONTAINER ===== */
+.auth-wrap {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 30px 16px;
+  position: relative;
+  z-index: 1;
+}
+
+.auth-card {
+  width: 1060px;
+  max-width: 96vw;
+  min-height: 640px;
+  border-radius: 26px;
+  background: #ffffff;
+  box-shadow: 0 25px 60px -10px rgba(15, 23, 42, 0.16), 0 0 0 1px rgba(226, 232, 240, 0.85);
+  display: grid;
+  grid-template-columns: 500px 1fr;
+  overflow: hidden;
+  position: relative;
+}
+
+/* ======================================================== */
+/* LEFT PANEL: CINEMA AUDITORIUM WITH MODULE CARDS & WAVE   */
+/* ======================================================== */
+.cinema-side {
+  position: relative;
+  background: url('cinema-hall.jpg') center/cover no-repeat;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 36px 34px 0 34px;
+  overflow: hidden;
+}
+
+.cinema-side-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(8, 14, 26, 0.82) 0%, rgba(8, 14, 26, 0.48) 38%, rgba(8, 14, 26, 0.86) 82%, rgba(8, 14, 26, 0.96) 100%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.cinema-content-top {
+  position: relative;
+  z-index: 2;
+}
+
+/* Top Left Brand Logo (Crown + 5-hole Reel) */
+.brand-header-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.brand-logo-icon {
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0;
+}
+.brand-title-wrap {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.15;
+}
+.brand-title-royal {
+  font-size: 19px;
+  font-weight: 900;
+  letter-spacing: 1.8px;
+  color: #ffffff;
+}
+.brand-title-cinema {
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  color: #ffffff;
+}
+
+/* Headline & Subtitle */
+.cinema-heading {
+  font-size: 27px;
+  font-weight: 750;
+  color: #ffffff;
+  line-height: 1.24;
+  margin-top: 36px;
+  letter-spacing: -0.3px;
+}
+.cinema-subheading {
+  font-size: 13.5px;
+  color: rgba(255, 255, 255, 0.86);
+  line-height: 1.48;
+  margin-top: 10px;
+  max-width: 420px;
+}
+.gold-bar-accent {
+  width: 45px;
+  height: 3.5px;
+  background: #eab308;
+  border-radius: 2px;
+  margin-top: 14px;
+}
+
+/* 3 Feature Module Cards Grid */
+.cinema-features-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  position: relative;
+  z-index: 2;
+  margin-top: 40px;
+  margin-bottom: 26px;
+}
+
+.cinema-feature-card {
+  background: rgba(14, 24, 42, 0.68);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+  padding: 14px 6px 12px 6px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 8px;
+  transition: transform 0.2s, background 0.2s;
+}
+.cinema-feature-card:hover {
+  transform: translateY(-2px);
+  background: rgba(14, 24, 42, 0.85);
+  border-color: rgba(245, 158, 11, 0.35);
+}
+.feature-icon-svg {
+  width: 22px;
+  height: 22px;
+  color: #fbbf24;
+  fill: currentColor;
+}
+.feature-card-label {
+  font-size: 10.5px;
+  font-weight: 600;
+  color: #ffffff;
+  line-height: 1.25;
+}
+
+/* Organic Curved Wave Overlay at Bottom */
+.cinema-wave-footer {
+  position: relative;
+  z-index: 3;
+  margin: 0 -34px;
+  background: #ffffff;
+  padding: 16px 28px 16px 32px;
+  border-top-left-radius: 36px;
+  border-top-right-radius: 36px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 -8px 20px rgba(0, 0, 0, 0.08);
+}
+.wave-cinema-icon {
+  width: 32px;
+  height: 22px;
+  color: #0e2942;
+  flex-shrink: 0;
+}
+.wave-trust-text {
+  font-size: 12px;
+  font-weight: 650;
+  color: #0e2942;
+}
+
+/* ======================================================== */
+/* RIGHT PANEL: CRISP WHITE FORM PANEL                     */
+/* ======================================================== */
+.form-side {
+  padding: 34px 44px 28px 44px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: #ffffff;
+  position: relative;
+  overflow-y: auto;
+  max-height: 92vh;
+}
+
+/* Top Row: Demo Link */
+.top-demo-row {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  font-size: 12.5px;
+  color: #64748b;
+  margin-bottom: 8px;
+}
+.top-demo-link {
+  color: #0e2942;
+  font-weight: 750;
+  text-decoration: none;
+  margin-left: 5px;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  transition: color 0.18s;
+}
+.top-demo-link:hover {
+  color: #ea580c;
+  text-decoration: underline;
+}
+
+/* Switcher Mode Tabs (Sign In vs Client & Subscription) */
+.mode-pills-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+.mode-pill-btn {
+  padding: 9px 24px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 650;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+.mode-pill-btn.active {
+  background: #0e2942;
+  color: #ffffff;
+  border: none;
+  box-shadow: 0 4px 14px rgba(14, 41, 66, 0.22);
+}
+.mode-pill-btn {
+  padding: 9px 24px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 650;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  background: #ffffff;
+  color: #475569;
+  border: 1.5px solid #e2e8f0;
+}
+.mode-pill-btn:hover {
+  border-color: #cbd5e1;
+  color: #0f172a;
+}
+.mode-pill-btn.active {
+  background: #0e2942 !important;
+  color: #ffffff !important;
+  border: 1.5px solid #0e2942 !important;
+  box-shadow: 0 4px 14px rgba(14, 41, 66, 0.22);
+}
+.mode-pill-btn.inactive:hover {
+  border-color: #cbd5e1;
+  color: #0f172a;
+}
+.mode-pill-icon {
+  width: 15px;
+  height: 15px;
+}
+
+/* Form Titles */
+.form-welcome-title {
+  font-size: 28px;
+  font-weight: 800;
+  color: #0f172a;
+  text-align: center;
+  letter-spacing: -0.4px;
+  margin-bottom: 4px;
+}
+.form-welcome-sub {
+  font-size: 13px;
+  color: #64748b;
+  text-align: center;
+  margin-bottom: 22px;
+}
+
+/* Inputs with Icons inside */
+.input-field-wrap {
+  position: relative;
+  margin-bottom: 14px;
+}
+.input-left-icon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 18px;
+  height: 18px;
+  color: #94a3b8;
+  pointer-events: none;
+}
+.styled-input {
+  width: 100%;
+  height: 48px;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 0 16px 0 44px;
+  font-size: 13.5px;
+  color: #0f172a;
+  background: #ffffff;
+  outline: none;
+  transition: border-color 0.18s, box-shadow 0.18s;
+}
+.styled-input:focus {
+  border-color: #0e2942;
+  box-shadow: 0 0 0 3px rgba(14, 41, 66, 0.1);
+}
+.styled-input::placeholder {
+  color: #94a3b8;
+}
+
+/* Password Eye Toggle */
+.password-input-wrap .styled-input {
+  padding-right: 48px;
+}
+.eye-toggle-btn {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #94a3b8;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.eye-toggle-btn:hover {
+  color: #475569;
+}
+.eye-toggle-btn svg {
+  width: 19px;
+  height: 19px;
+}
+
+/* Remember me & Forgot Password */
+.options-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 13px;
+  margin-top: 4px;
+  margin-bottom: 18px;
+}
+.remember-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #334155;
+  cursor: pointer;
+  user-select: none;
+}
+.remember-checkbox {
+  width: 16px;
+  height: 16px;
+  accent-color: #0e2942;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.forgot-pass-link {
+  color: #0e2942;
+  font-weight: 600;
+  text-decoration: none;
+}
+.forgot-pass-link:hover {
+  text-decoration: underline;
+}
+
+/* Submit Action Button */
+.signin-submit-btn {
+  width: 100%;
+  height: 48px;
+  border-radius: 999px;
+  background: #0e2942;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 750;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-shadow: 0 4px 14px rgba(14, 41, 66, 0.22);
+  transition: all 0.18s;
+}
+.signin-submit-btn:hover {
+  background: #081d30;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(14, 41, 66, 0.3);
+}
+.signin-submit-btn:active {
+  transform: translateY(0);
+}
+
+/* OR Divider */
+.or-divider-row {
+  display: flex;
+  align-items: center;
+  margin: 16px 0;
+  color: #94a3b8;
+  font-size: 11px;
+  font-weight: 750;
+}
+.or-divider-line {
+  flex: 1;
+  height: 1px;
+  background: #e2e8f0;
+}
+.or-divider-text {
+  padding: 0 12px;
+}
+
+/* Social SSO Buttons */
+.social-buttons-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.social-sso-btn {
+  height: 42px;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 999px;
+  background: #ffffff;
+  color: #334155;
+  font-size: 12px;
+  font-weight: 650;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.16s;
+}
+.social-sso-btn:hover {
+  background: #f8fafc;
+  border-color: #cbd5e1;
+  color: #0f172a;
+}
+.social-sso-btn:disabled {
+  opacity: 0.75;
+  cursor: wait;
+}
+.oauth-spinner {
+  width: 14px;
+  height: 14px;
+  border: 2px solid #cbd5e1;
+  border-top-color: #0e2942;
+  border-radius: 50%;
+  animation: oauthSpin 0.7s linear infinite;
+  display: inline-block;
+  vertical-align: middle;
+}
+@keyframes oauthSpin {
+  to { transform: rotate(360deg); }
+}
+.oauth-error-banner {
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #991b1b;
+  padding: 10px 14px;
+  border-radius: 12px;
+  font-size: 12px;
+  line-height: 1.45;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  text-align: left;
+}
+.social-logo-svg {
+  width: 17px;
+  height: 17px;
+  flex-shrink: 0;
+}
+
+/* Support Assistance Card */
+.support-assist-card {
+  background: var(--support-bg);
+  border-radius: 14px;
+  padding: 12px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 4px;
+}
+.support-card-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.support-card-headset {
+  width: 22px;
+  height: 22px;
+  color: #0e2942;
+  flex-shrink: 0;
+}
+.support-card-text {
+  display: flex;
+  flex-direction: column;
+}
+.support-card-title {
+  font-size: 12.5px;
+  font-weight: 750;
+  color: #0f172a;
+}
+.support-card-sub {
+  font-size: 11.5px;
+  color: #64748b;
+}
+.support-contact-btn {
+  border-radius: 999px;
+  padding: 7px 15px;
+  background: #ffffff;
+  border: 1.5px solid #cbd5e1;
+  font-size: 11px;
+  font-weight: 750;
+  color: #0f172a;
+  cursor: pointer;
+  text-decoration: none;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: all 0.16s;
+}
+.support-contact-btn:hover {
+  background: #f1f5f9;
+  border-color: #94a3b8;
+}
+
+/* Staff Quick Autofill Row (Discreet under support card) */
+.staff-autofill-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+.staff-autofill-title {
+  font-size: 9.5px;
+  font-weight: 750;
+  color: #94a3b8;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+}
+.staff-autofill-pill {
+  border: 1px solid #e2e8f0;
+  background: #f8fafc;
+  color: #475569;
+  border-radius: 6px;
+  padding: 3px 8px;
+  font-size: 10px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.staff-autofill-pill:hover {
+  background: #e2e8f0;
+  color: #0e2942;
+  border-color: #cbd5e1;
+}
+
+/* ======================================================== */
+/* OUTER FOOTER (OUTSIDE CARD)                              */
+/* ======================================================== */
+.auth-outside-footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  font-size: 11.5px;
+  color: #64748b;
+  margin-top: 24px;
+  flex-wrap: wrap;
+}
+.footer-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.footer-item svg {
+  width: 14px;
+  height: 14px;
+  color: #0e2942;
+}
+.footer-divider {
+  color: #cbd5e1;
+}
+
+/* Error message display */
+.error {
+  color: #dc2626;
+  font-size: 12px;
+  font-weight: 600;
+  margin-top: 8px;
+  text-align: center;
+}
+
+/* Responsive adjustments */
+@media (max-width: 960px) {
+  .auth-card {
+    grid-template-columns: 1fr;
+    max-width: 520px;
+  }
+  .cinema-side {
+    display: none;
+  }
+  .form-side {
+    padding: 30px 24px;
+  }
+}
+
+.dash-shell{min-height:100vh;display:flex;flex-direction:column;background:#f8f4f4}
+.topbar{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:0 20px;
+  height:60px;
+  border-bottom:1px solid #ede7e4;
+  background:#ffffff;
+  flex-shrink:0;
+  z-index:20;
+}
+.topbar .app-brand{
+  font-weight:850;
+  letter-spacing:.7px;
+  white-space:nowrap;
+  font-size:15px;
+  display:flex;
+  align-items:center;
+  gap:6px;
+  color:#161212;
+}
+.topbar .app-brand b{color:#ea580c}
+.topbar .role-badge{
+  padding:3px 10px;
+  border-radius:6px;
+  font-size:10px;
+  font-weight:800;
+  letter-spacing:1px;
+  white-space:nowrap;
+}
+.topbar .role-badge.admin{background:#fff7ed;color:#ea580c;border:1px solid #fed7aa}
+.topbar .role-badge.ticket{background:#f0f9ff;color:#0284c7;border:1px solid #bae6fd}
+.topbar .role-badge.food{background:#f0fdf4;color:#16a34a;border:1px solid #bbf7d0}
+
+/* Workspace navigation tabs */
+.workspace-tabs{display:flex;align-items:center;gap:6px;margin-left:14px;overflow-x:auto}
+.tab-btn{
+  height:34px;
+  padding:0 12px;
+  border:1px solid #e7dfda;
+  border-radius:8px;
+  background:#f8f5f3;
+  color:#475569;
+  font-size:11px;
+  font-weight:750;
+  cursor:pointer;
+  white-space:nowrap;
+  display:flex;
+  align-items:center;
+  gap:6px;
+  transition:all .18s;
+}
+.tab-btn:hover{background:#ffffff;color:#ea580c;border-color:#fed7aa}
+.tab-btn.active{
+  background:linear-gradient(100deg,#ffc258,#ea580c);
+  color:#ffffff;
+  border-color:#ea580c;
+  box-shadow:0 4px 14px rgba(234,88,12,0.25);
+}
+
+.topbar .user-info{margin-left:auto;display:flex;align-items:center;gap:12px}
+.topbar .user-info .name{font-size:12px;font-weight:800;color:#161212}
+.topbar .user-info .company{font-size:10px;color:#64748b}
+.logout{
+  height:34px;
+  padding:0 14px;
+  border:1px solid #fecaca;
+  border-radius:8px;
+  background:#ffffff;
+  color:#dc2626;
+  font-size:11px;
+  font-weight:750;
+  cursor:pointer;
+  transition:all .18s;
+}
+.logout:hover{background:#fef2f2}
+
+/* Main Dashboard content container */
+.main-view-container{flex:1;display:flex;flex-direction:column;position:relative}
+.dash-content{padding:24px 28px;overflow-y:auto;flex:1}
+
+/* ===== SUBSCRIPTION BILLING CARDS ===== */
+.sub-banner{
+  background:linear-gradient(135deg,#fff9f5 0%,#fff4ec 60%,#ffffff 100%);
+  border:1px solid #fcd34d;
+  border-radius:16px;
+  padding:22px;
+  margin-bottom:24px;
+  position:relative;
+  overflow:hidden;
+  box-shadow:0 4px 20px rgba(234,88,12,0.05);
+}
+.sub-banner:before{
+  content:"";
+  position:absolute;
+  right:-40px;
+  top:-40px;
+  width:180px;
+  height:180px;
+  background:rgba(245,158,11,0.08);
+  border-radius:50%;
+  filter:blur(30px);
+}
+.sub-banner-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  gap:14px;
+  margin-bottom:18px;
+}
+.sub-title{font-size:18px;font-weight:800;color:#161212;display:flex;align-items:center;gap:8px}
+.sub-plan-badge{
+  padding:4px 12px;
+  border-radius:99px;
+  background:#fff7ed;
+  border:1px solid #fed7aa;
+  color:#ea580c;
+  font-size:10px;
+  font-weight:800;
+  letter-spacing:1px;
+}
+
+.sub-metrics-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
+.sub-box{
+  background:#ffffff;
+  border:1px solid #e8e2de;
+  border-radius:12px;
+  padding:16px;
+  box-shadow:0 2px 10px rgba(0,0,0,0.02);
+}
+.sub-box-label{font-size:10px;font-weight:700;letter-spacing:1px;color:#64748b;text-transform:uppercase}
+.sub-box-val{font-size:24px;font-weight:900;color:#0f172a;margin-top:4px}
+.sub-box-sub{font-size:11px;color:#64748b;margin-top:4px}
+.sub-box.highlight-gold{border-color:#fde68a;background:#fffbeb}
+.sub-box.highlight-gold .sub-box-val{color:#d97706}
+.sub-box.highlight-green{border-color:#bbf7d0;background:#f0fdf4}
+.sub-box.highlight-green .sub-box-val{color:#16a34a}
+.sub-box.highlight-blue{border-color:#bae6fd;background:#f0f9ff}
+.sub-box.highlight-blue .sub-box-val{color:#0284c7}
+
+/* Tables & Management */
+.section-header{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin:22px 0 14px}
+.section-title{font-size:18px;font-weight:800;color:#161212}
+.section-sub{font-size:12px;color:#64748b}
+.add-btn{
+  height:38px;
+  padding:0 16px;
+  border:0;
+  border-radius:9px;
+  background:linear-gradient(100deg,#ffc258,#ea580c);
+  color:#ffffff;
+  font-weight:800;
+  font-size:11px;
+  cursor:pointer;
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  box-shadow:0 4px 14px rgba(234,88,12,0.25);
+  transition:all .18s;
+}
+.add-btn:hover{filter:brightness(1.06)}
+
+.table-wrap{
+  background:#ffffff;
+  border:1px solid #e7e0dc;
+  border-radius:14px;
+  overflow:hidden;
+  box-shadow:0 4px 18px rgba(0,0,0,0.03);
+}
+.data-table{width:100%;border-collapse:collapse}
+.data-table th{
+  text-align:left;
+  font-size:10px;
+  font-weight:700;
+  letter-spacing:1px;
+  color:#64748b;
+  text-transform:uppercase;
+  padding:12px 14px;
+  border-bottom:1px solid #e8e2de;
+  background:#f8f5f3;
+}
+.data-table td{padding:12px 14px;font-size:12px;border-bottom:1px solid #f1ece8;color:#1e293b}
+.data-table tr:hover td{background:#fdfaf8}
+.data-table .status{padding:2px 8px;border-radius:12px;font-size:10px;font-weight:700}
+.data-table .status.active{background:#dcfce7;color:#16a34a}
+.data-table .status.inactive{background:#fee2e2;color:#dc2626}
+.data-table .cred-tag{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  background:#f8fafc;
+  padding:2px 7px;
+  border-radius:6px;
+  font-family:monospace;
+  font-size:11px;
+  border:1px solid #cbd5e1;
+  color:#334155;
+}
+.action-btn{
+  padding:4px 10px;
+  border-radius:6px;
+  border:1px solid #cbd5e1;
+  background:#ffffff;
+  color:#475569;
+  font-size:11px;
+  cursor:pointer;
+  margin-right:4px;
+  font-weight:600;
+  transition:all .15s;
+}
+.action-btn:hover{border-color:#ea580c;color:#ea580c}
+.action-btn.quick-login{border-color:#a7f3d0;color:#059669;background:#ecfdf5}
+.action-btn.quick-login:hover{background:#d1fae5;border-color:#059669}
+.action-btn.danger{border-color:#fecaca;color:#dc2626;background:#fef2f2}
+.action-btn.danger:hover{border-color:#dc2626;background:#fee2e2}
+
+/* Embedded Workspace iframe */
+.workspace-frame-container{flex:1;display:flex;flex-direction:column;min-height:0;position:relative}
+.workspace-frame-container iframe{flex:1;border:0;width:100%;height:100%;background:#f8f4f4}
+
+/* Modals & Premium Support Dialog */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  background: rgba(15, 23, 42, 0.55);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-sizing: border-box;
+}
+.modal-card {
+  width: 100%;
+  max-width: 580px;
+  max-height: calc(100vh - 40px);
+  overflow-y: auto;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 20px;
+  padding: 26px 30px;
+  box-shadow: 0 25px 60px -12px rgba(15, 23, 42, 0.25), 0 0 0 1px rgba(226, 232, 240, 0.9);
+  color: #0f172a;
+  box-sizing: border-box;
+}
+.modal-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #f1f5f9;
+  margin-bottom: 18px;
+}
+.modal-header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.modal-header-badge {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  background: #fff7ed;
+  border: 1px solid #fed7aa;
+  color: #ea580c;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.modal-header-badge i {
+  width: 22px;
+  height: 22px;
+}
+.modal-card h2 {
+  font-size: 18.5px;
+  font-weight: 800;
+  color: #0f172a;
+  letter-spacing: -0.3px;
+  line-height: 1.25;
+  margin: 0;
+}
+.modal-card .modal-sub {
+  font-size: 12px;
+  color: #64748b;
+  margin-top: 3px;
+  margin-bottom: 0;
+  line-height: 1.4;
+}
+.modal-close-btn {
+  width: 34px;
+  height: 34px;
+  border-radius: 9px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #64748b;
+  transition: all .16s ease;
+  flex-shrink: 0;
+}
+.modal-close-btn:hover {
+  background: #f1f5f9;
+  border-color: #cbd5e1;
+  color: #0f172a;
+  transform: rotate(90deg);
+}
+
+/* Support Action Segmented Control Tabs */
+.mode-tabs {
+  display: flex;
+  gap: 6px;
+  padding: 4px;
+  background: #f1f5f9;
+  border-radius: 12px;
+  margin-bottom: 22px;
+  border: 1px solid #e2e8f0;
+}
+.mode-tab-btn {
+  flex: 1;
+  height: 38px;
+  border: none;
+  border-radius: 9px;
+  background: transparent;
+  color: #64748b;
+  font-size: 12px;
+  font-weight: 750;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: all .18s cubic-bezier(0.4, 0, 0.2, 1);
+  white-space: nowrap;
+}
+.mode-tab-btn i {
+  width: 15px;
+  height: 15px;
+}
+.mode-tab-btn:hover {
+  color: #0f172a;
+  background: rgba(255, 255, 255, 0.65);
+}
+.mode-tab-btn.active {
+  background: #ffffff;
+  color: #ea580c;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+  font-weight: 800;
+  border: 1px solid rgba(234, 88, 12, 0.16);
+}
+
+/* Form Layout Grid & Input Styling */
+.field-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 14px;
+  width: 100%;
+}
+.field-row .field {
+  margin-bottom: 0;
+}
+.field label {
+  font-size: 11.5px;
+  font-weight: 750;
+  color: #334155;
+  letter-spacing: 0.2px;
+  display: block;
+}
+.field label .req-star {
+  color: #ea580c;
+  font-weight: 800;
+  margin-left: 2px;
+}
+.field input,
+.field select,
+.field textarea {
+  width: 100%;
+  height: 44px;
+  padding: 0 14px;
+  background: #f8fafc;
+  border: 1.5px solid #cbd5e1;
+  border-radius: 11px;
+  font-size: 13px;
+  font-family: inherit;
+  color: #0f172a;
+  transition: all .16s ease;
+  outline: none;
+  box-sizing: border-box;
+}
+.field select {
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  background-size: 16px;
+  padding-right: 38px;
+}
+.field textarea {
+  height: auto;
+  min-height: 110px;
+  padding: 12px 14px;
+  resize: vertical;
+  line-height: 1.5;
+}
+.field input::placeholder,
+.field textarea::placeholder {
+  color: #94a3b8;
+  font-size: 12.5px;
+}
+.field input:focus,
+.field select:focus,
+.field textarea:focus {
+  border-color: #ea580c;
+  background: #ffffff;
+  box-shadow: 0 0 0 3.5px rgba(234, 88, 12, 0.15);
+}
+
+/* Modal Actions Footer */
+.modal-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 22px;
+  padding-top: 18px;
+  border-top: 1px solid #f1f5f9;
+}
+.modal-cancel {
+  height: 42px;
+  padding: 0 20px;
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+  background: #ffffff;
+  color: #475569;
+  font-weight: 700;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all .16s ease;
+}
+.modal-cancel:hover {
+  background: #f8fafc;
+  border-color: #94a3b8;
+  color: #0f172a;
+}
+.add-btn, #dtSubmitBtn {
+  height: 42px;
+  padding: 0 24px;
+  border: none;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #f59e0b, #ea580c);
+  color: #ffffff;
+  font-weight: 800;
+  font-size: 13px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  box-shadow: 0 4px 14px rgba(234, 88, 12, 0.35);
+  transition: all .18s ease;
+}
+.add-btn:hover:not(:disabled), #dtSubmitBtn:hover:not(:disabled) {
+  box-shadow: 0 6px 18px rgba(234, 88, 12, 0.45);
+  transform: translateY(-1px);
+}
+.add-btn:disabled, #dtSubmitBtn:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Direct Channels (Tab 3) */
+.contact-channel-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px 18px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  margin-bottom: 12px;
+  transition: all .16s ease;
+}
+.contact-channel-card:hover {
+  background: #ffffff;
+  border-color: #cbd5e1;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
+}
+.contact-channel-info {
+  flex: 1;
+  min-width: 0;
+}
+.contact-channel-title {
+  font-size: 13.5px;
+  font-weight: 800;
+  color: #0f172a;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 3px;
+}
+.contact-channel-title i {
+  width: 16px;
+  height: 16px;
+}
+.contact-channel-desc {
+  font-size: 12px;
+  color: #64748b;
+  margin-bottom: 4px;
+  line-height: 1.4;
+}
+.contact-channel-value {
+  font-size: 13px;
+  font-weight: 750;
+  font-family: monospace;
+}
+.contact-channel-action {
+  height: 38px;
+  padding: 0 16px;
+  border-radius: 9px;
+  font-size: 12px;
+  font-weight: 750;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all .16s ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+.contact-channel-action:hover {
+  filter: brightness(0.92);
+  transform: translateY(-1px);
+}
+
+/* Responsive Support Modal Rules */
+@media (max-width: 640px) {
+  .modal-overlay {
+    padding: 12px !important;
+  }
+  .modal-card {
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 18px 14px !important;
+    max-height: 94vh !important;
+    border-radius: 16px !important;
+  }
+  .modal-header-row h2 {
+    font-size: 16px !important;
+  }
+  .field-row {
+    grid-template-columns: 1fr !important;
+    gap: 12px !important;
+    margin-bottom: 12px !important;
+  }
+  .mode-tabs {
+    flex-direction: column !important;
+    gap: 4px !important;
+    padding: 4px !important;
+  }
+  .mode-tab-btn {
+    width: 100% !important;
+    font-size: 11.5px !important;
+    height: 36px !important;
+  }
+  .modal-actions {
+    flex-direction: column-reverse !important;
+    gap: 8px !important;
+    width: 100% !important;
+  }
+  .modal-cancel, .add-btn, #dtSubmitBtn {
+    width: 100% !important;
+    justify-content: center !important;
+  }
+  .contact-channel-card {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 12px !important;
+  }
+  .contact-channel-action {
+    width: 100% !important;
+    text-align: center !important;
+  }
+}
+
+@media(max-width:850px){
+  .auth-wrap{padding:12px 8px;width:100%;max-width:100vw}
+  .auth-card{grid-template-columns:1fr;min-height:0;width:100%;max-width:100%}
+  .brand{min-height:140px;flex-direction:row;justify-content:flex-start;text-align:left;padding:18px 20px}
+  .mark{width:54px;height:54px;font-size:28px}
+  .form-side{padding:24px 20px}
+  .sub-metrics-grid{grid-template-columns:1fr}
+  .topbar{padding:0 12px;flex-wrap:wrap;height:auto;min-height:56px;padding-top:8px;padding-bottom:8px}
+  .workspace-tabs{order:3;width:100%;margin:6px 0 0}
+}
+
+/* ===== LUCIDE ICON STANDARDIZATION ===== */
+.lucide { stroke-width: 1.85px; display: inline-block; vertical-align: middle; }
+.feature-icon-lucide { width: 22px; height: 22px; stroke: #fbbf24; margin-bottom: 6px; }
+.mode-pill-lucide { width: 16px; height: 16px; margin-right: 6px; display: inline-block; vertical-align: -2px; }
+.input-left-lucide { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); width: 18px; height: 18px; color: #94a3b8; pointer-events: none; }
+.eye-toggle-lucide { width: 18px; height: 18px; color: #94a3b8; }
+.btn-arrow-lucide { width: 16px; height: 16px; margin-left: 6px; display: inline-block; vertical-align: -2px; }
+.footer-lucide-icon { width: 16px; height: 16px; margin-right: 6px; display: inline-block; vertical-align: -2px; }
+.modal-close-lucide { width: 18px; height: 18px; stroke: #64748b; }
+.tab-icon-lucide { width: 15px; height: 15px; margin-right: 5px; display: inline-block; vertical-align: -2px; }
+.support-card-headset { width: 22px; height: 22px; stroke: #0284c7; flex-shrink: 0; }
+.wave-cinema-icon { width: 18px; height: 18px; stroke: #0e2942; flex-shrink: 0; }
+
+/* Enhanced Responsive Topbar */
+.topbar {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 10px !important;
+  padding: 0 16px !important;
+  height: 60px !important;
+  min-height: 60px !important;
+  border-bottom: 1px solid #ede7e4 !important;
+  background: #ffffff !important;
+  flex-shrink: 0 !important;
+  z-index: 20 !important;
+  box-sizing: border-box !important;
+}
+.topbar-left {
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  flex-shrink: 0 !important;
+}
+.topbar .app-brand {
+  font-weight: 850 !important;
+  letter-spacing: .7px !important;
+  white-space: nowrap !important;
+  font-size: 14.5px !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  color: #161212 !important;
+}
+.topbar .app-brand b { color: #ea580c !important; }
+.topbar .role-badge {
+  padding: 3px 8px !important;
+  border-radius: 6px !important;
+  font-size: 10px !important;
+  font-weight: 800 !important;
+  letter-spacing: .5px !important;
+  white-space: nowrap !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 4px !important;
+}
+.topbar .role-badge.admin { background: #fff7ed !important; color: #ea580c !important; border: 1px solid #fed7aa !important; }
+.topbar .role-badge.ticket { background: #f0f9ff !important; color: #0284c7 !important; border: 1px solid #bae6fd !important; }
+.topbar .role-badge.food { background: #f0fdf4 !important; color: #16a34a !important; border: 1px solid #bbf7d0 !important; }
+
+.topbar {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 8px !important;
+  padding: 0 14px !important;
+  height: 54px !important;
+  border-bottom: 1px solid #ede7e4 !important;
+  background: #ffffff !important;
+  flex-shrink: 0 !important;
+}
+.topbar-left {
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  flex-shrink: 0 !important;
+}
+.topbar .role-badge {
+  padding: 3px 8px !important;
+  border-radius: 6px !important;
+  font-size: 9.5px !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.5px !important;
+  white-space: nowrap !important;
+}
+.workspace-tabs {
+  display: flex !important;
+  align-items: center !important;
+  gap: 4px !important;
+  margin: 0 !important;
+  overflow-x: auto !important;
+  overflow-y: hidden !important;
+  white-space: nowrap !important;
+  flex: 1 1 auto !important;
+  min-width: 0 !important;
+  scrollbar-width: none !important;
+}
+.workspace-tabs::-webkit-scrollbar { display: none !important; }
+
+.tab-btn {
+  height: 30px !important;
+  padding: 0 8px !important;
+  border: 1px solid #e2e8f0 !important;
+  border-radius: 7px !important;
+  background: #f8fafc !important;
+  color: #334155 !important;
+  font-size: 10.5px !important;
+  font-weight: 750 !important;
+  cursor: pointer !important;
+  white-space: nowrap !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 4px !important;
+  flex-shrink: 0 !important;
+  transition: all .18s !important;
+}
+.tab-btn:hover { background: #ffffff !important; color: #ea580c !important; border-color: #fed7aa !important; }
+.tab-btn.active {
+  background: linear-gradient(100deg, #ffc258, #ea580c) !important;
+  color: #ffffff !important;
+  border-color: #ea580c !important;
+  box-shadow: 0 4px 14px rgba(234, 88, 12, 0.25) !important;
+}
+
+.topbar .user-info {
+  display: flex !important;
+  align-items: center !important;
+  gap: 5px !important;
+  flex-shrink: 0 !important;
+  margin-left: auto !important;
+  white-space: nowrap !important;
+}
+.topbar .user-details {
+  text-align: right !important;
+  max-width: 95px !important;
+  line-height: 1.15 !important;
+}
+.topbar .user-info .name {
+  font-size: 10.5px !important;
+  font-weight: 800 !important;
+  color: #161212 !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+.topbar .user-info .company {
+  font-size: 9px !important;
+  color: #64748b !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+.header-action-btn {
+  height: 30px !important;
+  padding: 0 7px !important;
+  font-size: 10.5px !important;
+  text-decoration: none !important;
+}
+.logout {
+  height: 30px !important;
+  padding: 0 9px !important;
+  border: 1px solid #fecaca !important;
+  border-radius: 7px !important;
+  background: #ffffff !important;
+  color: #dc2626 !important;
+  font-size: 10.5px !important;
+  font-weight: 750 !important;
+  cursor: pointer !important;
+  white-space: nowrap !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 4px !important;
+  flex-shrink: 0 !important;
+  transition: all .16s !important;
+}
+.logout:hover {
+  background: #fef2f2 !important;
+  border-color: #f87171 !important;
+}
+</style>
+  <script src="lucide.min.js"></script>
+<script>
+  // Lucide Icon Auto-Initialization
+  function initLucide() {
+    if (window.lucide && typeof window.lucide.createIcons === 'function') {
+      try { window.lucide.createIcons(); } catch(e) {}
+    }
+  }
+  initLucide();
+  window.addEventListener('DOMContentLoaded', initLucide);
+  window.addEventListener('load', initLucide);
+  setTimeout(initLucide, 50);
+  setTimeout(initLucide, 300);
+</script>
+  <style>
+    .lucide { stroke-width: 1.85px; display: inline-block; vertical-align: middle; }
+    .feature-icon-lucide { width: 22px; height: 22px; stroke: #fbbf24; margin-bottom: 6px; }
+    .mode-pill-lucide { width: 16px; height: 16px; margin-right: 6px; display: inline-block; vertical-align: -2px; }
+    .input-left-lucide { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); width: 18px; height: 18px; color: #94a3b8; pointer-events: none; }
+    .eye-toggle-lucide { width: 18px; height: 18px; color: #94a3b8; }
+    .btn-arrow-lucide { width: 16px; height: 16px; margin-left: 6px; display: inline-block; vertical-align: -2px; }
+    .footer-lucide-icon { width: 16px; height: 16px; margin-right: 6px; display: inline-block; vertical-align: -2px; }
+    .modal-close-lucide { width: 18px; height: 18px; stroke: #64748b; }
+    .tab-icon-lucide { width: 15px; height: 15px; margin-right: 6px; display: inline-block; vertical-align: -2px; }
+    .support-card-headset { width: 22px; height: 22px; stroke: #0284c7; flex-shrink: 0; }
+    .wave-cinema-icon { width: 18px; height: 18px; stroke: #0e2942; flex-shrink: 0; }
+  </style>
+</head>
+<body>
+
+<!-- ====================================================== -->
+<!-- WELCOME ANIMATION SPLASH OVERLAY                       -->
+<!-- ====================================================== -->
+<div id="welcomeSplash" class="hidden">
+  <div class="splash-icon" id="splashIcon">👑</div>
+  <h1 class="splash-title" id="splashTitle">Welcome to Royal Cinema ERP</h1>
+  <p class="splash-sub" id="splashSub">Initializing your cloud workstation and services...</p>
+  <div class="splash-bar"><div class="splash-bar-fill"></div></div>
+</div>
+
+<!-- ====================================================== -->
+<!-- AUTHENTICATION & SERVICE ONBOARDING PAGE               -->
+<!-- ====================================================== -->
+<!-- ====================================================== -->
+<!-- AUTHENTICATION & SERVICE ONBOARDING PAGE (IMAGE EXACT) -->
+<!-- ====================================================== -->
+<!-- Decorative Faint Filmstrip Watermarks -->
+<svg class="filmstrip-watermark filmstrip-top-right" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect x="20" y="20" width="160" height="160" rx="8" stroke="#0e2942" stroke-width="4" stroke-dasharray="8 8"/>
+  <rect x="40" y="40" width="120" height="120" rx="6" stroke="#0e2942" stroke-width="2" stroke-dasharray="6 6"/>
+  <circle cx="30" cy="50" r="4" fill="#0e2942"/>
+  <circle cx="30" cy="80" r="4" fill="#0e2942"/>
+  <circle cx="30" cy="110" r="4" fill="#0e2942"/>
+  <circle cx="30" cy="140" r="4" fill="#0e2942"/>
+  <circle cx="170" cy="50" r="4" fill="#0e2942"/>
+  <circle cx="170" cy="80" r="4" fill="#0e2942"/>
+  <circle cx="170" cy="110" r="4" fill="#0e2942"/>
+  <circle cx="170" cy="140" r="4" fill="#0e2942"/>
+</svg>
+
+<main id="authView" class="auth-wrap">
+  <section class="auth-card">
+    
+    <!-- LEFT PANEL: CINEMA AUDITORIUM WITH 4 FEATURE CARDS & WAVE -->
+    <aside class="cinema-side">
+      <div class="cinema-side-overlay"></div>
+      
+      <div class="cinema-content-top">
+        <!-- Top Left Brand Logo (Crown + 5-hole Reel) -->
+        <div class="brand-header-row">
+          <svg class="brand-logo-icon" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#fbbf24"/>
+                <stop offset="100%" stop-color="#d97706"/>
+              </linearGradient>
+            </defs>
+            <!-- Crown -->
+            <path d="M16 23L22 14L32 20L42 14L48 23L45 27H19L16 23Z" fill="url(#goldGrad)" stroke="#b45309" stroke-width="1.2"/>
+            <circle cx="22" cy="13" r="2.2" fill="#fef08a"/>
+            <circle cx="32" cy="18" r="2.5" fill="#fef08a"/>
+            <circle cx="42" cy="13" r="2.2" fill="#fef08a"/>
+            <!-- 5-Hole Film Reel -->
+            <circle cx="32" cy="41" r="19" fill="url(#goldGrad)" stroke="#b45309" stroke-width="1.5"/>
+            <circle cx="32" cy="41" r="6" fill="#0a121e" stroke="url(#goldGrad)" stroke-width="1.5"/>
+            <!-- 5 Spool Holes -->
+            <circle cx="32" cy="29" r="3.2" fill="#0a121e"/>
+            <circle cx="42" cy="36" r="3.2" fill="#0a121e"/>
+            <circle cx="38" cy="48" r="3.2" fill="#0a121e"/>
+            <circle cx="26" cy="48" r="3.2" fill="#0a121e"/>
+            <circle cx="22" cy="36" r="3.2" fill="#0a121e"/>
+          </svg>
+          <div class="brand-title-wrap">
+            <span class="brand-title-royal">ROYAL</span>
+            <span class="brand-title-cinema">CINEMA ERP</span>
+          </div>
+        </div>
+
+        <!-- Headline & Subtitle -->
+        <h1 class="cinema-heading">Sign in to your<br>Cinema Management Account</h1>
+        <p class="cinema-subheading">Manage ticketing, bookings, and operations with ease &mdash; all in one powerful platform.</p>
+        <div class="gold-bar-accent"></div>
+      </div>
+
+      <!-- 3 Feature Cards (Modules Row) -->
+      <div class="cinema-features-row">
+        <!-- Card 1: Ticket Booking -->
+        <div class="cinema-feature-card" onclick="handleFeatureCardClick('booking')" style="cursor:pointer;" title="Click to fill Box Office POS credentials">
+          <i data-lucide="ticket" class="feature-icon-lucide"></i>
+          <span class="feature-card-label">Ticket<br>Booking</span>
+        </div>
+
+        <!-- Card 2: Food & Beverage -->
+        <div class="cinema-feature-card" onclick="handleFeatureCardClick('food')" style="cursor:pointer;" title="Click to fill Food Staff credentials">
+          <i data-lucide="utensils" class="feature-icon-lucide"></i>
+          <span class="feature-card-label">Food &amp;<br>Beverage</span>
+        </div>
+
+        <!-- Card 3: Reports & Analytics -->
+        <div class="cinema-feature-card" onclick="handleFeatureCardClick('manager')" style="cursor:pointer;" title="Click to fill Cinema Manager credentials">
+          <i data-lucide="bar-chart-3" class="feature-icon-lucide"></i>
+          <span class="feature-card-label">Reports &amp;<br>Analytics</span>
+        </div>
+      </div>
+
+      <!-- Organic Wave Bottom Overlay -->
+      <div class="cinema-wave-footer">
+        <i data-lucide="building-2" class="wave-cinema-icon"></i>
+        <span class="wave-trust-text">Trusted by Cinema Businesses Across India</span>
+      </div>
+    </aside>
+
+    <!-- RIGHT PANEL: CRISP WHITE FORM (EXACT MATCH) -->
+    <section class="form-side">
+      <div>
+        <!-- Top Row: Book a Demo link -->
+        <div class="top-demo-row">
+          <span>Don't have an account?</span>
+          <a href="javascript:void(0)" onclick="openDemoModal()" class="top-demo-link">Book a Demo <i data-lucide="arrow-right" class="btn-arrow-lucide"></i></a>
+        </div>
+
+        <!-- Switcher Pills: Sign In vs Client & Subscription -->
+        <div class="mode-pills-row">
+          <button type="button" class="mode-pill-btn active" id="tabModeLogin"><i data-lucide="log-in" class="mode-pill-lucide"></i> Sign In</button>
+          <button type="button" class="mode-pill-btn inactive" id="tabModeOnboard"><i data-lucide="credit-card" class="mode-pill-lucide"></i> Client &amp; Subscription</button>
+        </div>
+
+        <!-- VIEW 1: SIGN IN VIEW -->
+        <div id="loginFormContainer">
+          <h2 class="form-welcome-title">Welcome Back!</h2>
+          <p class="form-welcome-sub">Sign in to access your Royal Cinema ERP account</p>
+
+          <form id="loginForm" novalidate>
+            <!-- Input 1: Email or Username -->
+            <div class="input-field-wrap">
+              <i data-lucide="mail" class="input-left-lucide"></i>
+              <input id="loginId" class="styled-input" type="text" autocomplete="username" placeholder="Email address or Username" value="superadmin@royalcinema.in" required>
+            </div>
+
+            <!-- Input 2: Password with Eye Toggle -->
+            <div class="input-field-wrap password-input-wrap">
+              <i data-lucide="lock" class="input-left-lucide"></i>
+              <input id="loginPass" class="styled-input" type="password" autocomplete="current-password" placeholder="Password" value="Royal@Super2026" required>
+              <button type="button" id="toggleEye" class="eye-toggle-btn" title="Toggle password visibility"><i data-lucide="eye" id="eyeIcon" class="eye-toggle-lucide"></i></button>
+            </div>
+
+            <!-- Options: Remember me & Forgot Password -->
+            <div class="options-row">
+              <label class="remember-label">
+                <input type="checkbox" id="rememberMe" class="remember-checkbox" checked>
+                <span>Remember me</span>
+              </label>
+              <a href="javascript:void(0)" onclick="openForgotPassModal()" class="forgot-pass-link">Forgot Password?</a>
+            </div>
+
+            <div class="error" id="loginError" role="alert"></div>
+
+            <!-- Main Sign In Button -->
+            <button type="submit" id="loginSubmitBtn" class="signin-submit-btn">
+              Sign In <i data-lucide="arrow-right" class="btn-arrow-lucide"></i>
+            </button>
+          </form>
+
+          <!-- OR Divider -->
+          <div class="or-divider-row">
+            <span class="or-divider-line"></span>
+            <span class="or-divider-text">OR</span>
+            <span class="or-divider-line"></span>
+          </div>
+
+          <!-- Social SSO Buttons (2 Columns) -->
+          <div class="social-buttons-grid">
+            <!-- Google SSO -->
+            <button type="button" class="social-sso-btn" id="btnGoogleLogin" onclick="handleOAuthLogin('google')">
+              <svg class="social-logo-svg" viewBox="0 0 24 24">
+                <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
+                <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
+              </svg>
+              <span id="btnGoogleText">Continue with Google</span>
+            </button>
+
+            <!-- Microsoft SSO -->
+            <button type="button" class="social-sso-btn" id="btnMicrosoftLogin" onclick="handleOAuthLogin('microsoft')">
+              <svg class="social-logo-svg" viewBox="0 0 24 24">
+                <rect x="1" y="1" width="10" height="10" fill="#F25022"/>
+                <rect x="13" y="1" width="10" height="10" fill="#7FBA00"/>
+                <rect x="1" y="13" width="10" height="10" fill="#00A4EF"/>
+                <rect x="13" y="13" width="10" height="10" fill="#FFB900"/>
+              </svg>
+              <span id="btnMicrosoftText">Continue with Microsoft</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- VIEW 2: CLIENT SUBSCRIPTION & ONBOARDING / RENEW FORM -->
+        <div id="onboardFormContainer" class="hidden">
+          <h2 class="form-welcome-title">Client &amp; Subscription</h2>
+          <p class="form-welcome-sub">Choose a plan or renew your active cinema subscription</p>
+
+          <div id="obExistingClientAlert" class="hidden" style="margin-bottom:14px;"></div>
+
+          <!-- 3 Plan Cards (1 Screen, 2 Screen, 4 Screen Pro) -->
+          <div style="display:grid;grid-template-columns:repeat(3, 1fr);gap:8px;margin-bottom:14px;">
+            <div onclick="selectOnboardPlan('1 Screen Starter Plan', '₹9,999', this)" class="ob-plan-card" style="padding:10px 6px;border-radius:10px;border:1.5px solid #e2e8f0;background:#ffffff;cursor:pointer;text-align:center;transition:all .18s">
+              <div style="font-size:11px;font-weight:800;color:#0e2942">1 Screen</div>
+              <div style="font-size:13px;font-weight:800;color:#b45309">₹9,999/yr</div>
+              <div style="font-size:9.5px;color:#64748b">Single Screen</div>
+            </div>
+            <div onclick="selectOnboardPlan('2 Screen Twin Multiplex', '₹16,999', this)" class="ob-plan-card" style="padding:10px 6px;border-radius:10px;border:1.5px solid #e2e8f0;background:#ffffff;cursor:pointer;text-align:center;transition:all .18s">
+              <div style="font-size:11px;font-weight:800;color:#0e2942">2 Screens</div>
+              <div style="font-size:13px;font-weight:800;color:#b45309">₹16,999/yr</div>
+              <div style="font-size:9.5px;color:#64748b">Twin Multiplex</div>
+            </div>
+            <div onclick="selectOnboardPlan('4 Screen Multiplex Pro', '₹24,999', this)" class="ob-plan-card active" style="padding:10px 6px;border-radius:10px;border:1.5px solid #0e2942;background:#f0f4f9;cursor:pointer;text-align:center;transition:all .18s">
+              <div style="font-size:11px;font-weight:800;color:#0e2942">4 Screens ★</div>
+              <div style="font-size:13px;font-weight:800;color:#16a34a">₹24,999/yr</div>
+              <div style="font-size:9.5px;color:#64748b">Multiplex Pro</div>
+            </div>
+          </div>
+          <input type="hidden" id="obSelectedPlan" value="4 Screen Multiplex Pro">
+
+          <form id="onboardForm" novalidate>
+            <div class="input-field-wrap">
+              <input id="obCompanyName" class="styled-input" style="padding-left:14px" placeholder="Cinema / Business Name *" required>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px">
+              <select id="obCompanyType" class="styled-input" style="padding-left:14px">
+                <option value="cinema">Cinema Multiplex</option>
+                <option value="shop">Food / Concessions Shop</option>
+                <option value="company">Cinema Chain</option>
+              </select>
+              <input id="obPhone" class="styled-input" style="padding-left:14px" placeholder="Phone *" required>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px">
+              <input id="obAdminUser" class="styled-input" style="padding-left:14px" placeholder="Admin Username *" required>
+              <input id="obAdminEmail" type="email" class="styled-input" style="padding-left:14px" placeholder="Admin Gmail *" required>
+            </div>
+            <div class="input-field-wrap">
+              <input id="obAdminPass" type="password" class="styled-input" style="padding-left:14px" placeholder="Admin Password (min 6 chars) *" required>
+            </div>
+            
+            <div style="display:none">
+              <input id="obAmountPaid" value="₹24,999">
+              <input id="obValidTill">
+              <input id="obPaidDate">
+              <input id="obNextDue">
+            </div>
+
+            <div class="error" id="obError" role="alert"></div>
+            <button class="signin-submit-btn" id="obSubmitBtn" type="submit" style="margin-top:8px">Activate Subscription &amp; Launch ERP &rarr;</button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Bottom Card Elements: Support Card & Staff Autofill -->
+      <div>
+        <!-- Need Help Support Card -->
+        <div class="support-assist-card">
+          <div class="support-card-left">
+            <i data-lucide="headset" class="support-card-headset"></i>
+            <div class="support-card-text">
+              <span class="support-card-title">Need Help?</span>
+              <span class="support-card-sub">Our support team is here for you.</span>
+            </div>
+          </div>
+          <button type="button" onclick="openSupportModal()" class="support-contact-btn">
+            Contact Support <i data-lucide="arrow-right" class="btn-arrow-lucide"></i>
+          </button>
+        </div>
+
+        <!-- Staff Access Autofill Pills (Quick 1-click test for user/dev) -->
+        <div class="staff-autofill-bar">
+          <span class="staff-autofill-title">STAFF AUTOFILL:</span>
+          <button type="button" class="staff-autofill-pill" onclick="quickFillRole('superadmin', 'Royal@Super2026', 'SaaS Owner')">SaaS Owner</button>
+          <button type="button" class="staff-autofill-pill" onclick="quickFillRole('admin@royalcinema.in', 'Admin@12345', 'Manager')">Manager</button>
+          <button type="button" class="staff-autofill-pill" onclick="quickFillRole('foodstaff', 'User@12345', 'Food Provider')">Food Provider</button>
+        </div>
+      </div>
+    </section>
+  </section>
+
+  <!-- Outside Footer (Exact Photo Match) -->
+  <footer class="auth-outside-footer">
+    <div class="footer-item"><i data-lucide="shield-check" class="footer-lucide-icon"></i> <span>Secure &amp; Encrypted</span></div>
+    <span class="footer-divider">|</span>
+    <div class="footer-item"><i data-lucide="headset" class="footer-lucide-icon"></i> <span>24/7 Support</span></div>
+    <span class="footer-divider">|</span>
+    <div class="footer-item"><i data-lucide="users" class="footer-lucide-icon"></i> <span>Powered by Royal Cinema ERP</span></div>
+  </footer>
+</main>
+
+
+<main id="appShell" class="dash-shell hidden">
+  <header class="topbar">
+    <div class="topbar-left">
+      <div class="app-brand">
+        <b>ROYAL</b> CINEMA ERP
+      </div>
+      <span class="role-badge admin" id="headerRoleBadge"><i data-lucide="shield-check" class="tab-icon-lucide"></i> CINEMA GENERAL MANAGER</span>
+    </div>
+
+    <!-- Top Workspace Navigation Tabs -->
+    <nav class="workspace-tabs" id="workspaceNav" style="gap:4px;margin:0 4px;scrollbar-width:none;">
+      <!-- Injected dynamically based on role -->
+    </nav>
+
+    <div class="user-info" style="gap:6px;display:flex;align-items:center;flex-shrink:0;">
+      <a href="super-admin-portal.html" id="headerSaasConsoleBtn" class="tab-btn header-action-btn hidden" style="border:1px solid #fed7aa;background:#fff7ed;color:#ea580c;padding:0 8px;font-size:11px;font-weight:750;text-decoration:none;" title="Open SaaS Owner Console">
+        <i data-lucide="crown" class="tab-icon-lucide"></i> <span>SaaS Console</span>
+      </a>
+      <div class="user-details" style="max-width:115px;text-align:right;">
+        <div class="name" id="headerUserName" style="font-size:11px;font-weight:750;color:#1e293b;">Super Admin</div>
+        <div class="company" id="headerCompanyName" style="font-size:9.5px;color:#64748b;">Cloud HQ</div>
+      </div>
+      
+      <!-- Multi-Branch Selector & Support Integration -->
+      <button class="tab-btn header-action-btn" id="branchSelectorBtn" onclick="openBranchSelectorModal()" style="border-color:#bae6fd;background:#f0f9ff;color:#0284c7;padding:0 7px;font-size:10.5px;" title="Switch Cinema Branch">
+        <i data-lucide="building-2" class="tab-icon-lucide"></i> <span id="currentBranchDisplay">Ahmedabad</span> ▾
+      </button>
+      <button class="tab-btn header-action-btn" id="supportModalBtn" onclick="openSupportModal()" style="border-color:#fed7aa;background:#fff7ed;color:#ea580c;padding:0 7px;font-size:10.5px;" title="Raise Ticket or Call Request">
+        <i data-lucide="headset" class="tab-icon-lucide"></i> <span>Support</span>
+      </button>
+      <a href="saas-website.html" target="_blank" class="tab-btn header-action-btn" style="border:1px solid #fed7aa;background:#fff7ed;color:#ea580c;padding:0 7px;" title="Open Public SaaS Website">
+        <i data-lucide="globe" class="tab-icon-lucide" style="margin-right:0;"></i>
+      </a>
+      <button class="logout" id="logoutBtn" title="Sign Out of Session" style="padding:0 8px;font-size:10.5px;"><i data-lucide="log-out" class="tab-icon-lucide"></i> Logout</button>
+    </div>
+  </header>
+
+  <div class="main-view-container">
+    <!-- View 1: Admin Master Dashboard (Subscription & Counter Staff) -->
+    <div id="adminMasterPanel" class="dash-content hidden">
+
+      <!-- 👑 SUPER ADMIN SERVICE PROVIDER CONSOLE (Only visible to Super Admin) -->
+      <section id="superAdminConsole" class="sub-banner hidden" style="background:#ffffff;border:1.5px solid #fed7aa;margin-bottom:24px">
+        <div class="sub-banner-header">
+          <div>
+            <div class="sub-title">
+              <span><i data-lucide="shield-check" class="tab-icon-lucide" style="color:#ea580c"></i> Super Admin Cloud Provider Console</span>
+              <span class="sub-plan-badge" style="background:#fff3e0;color:#b45309;border:1px solid #fed7aa">SaaS Service Provider Mode</span>
+            </div>
+            <p style="font-size:12px;color:#64748b;margin-top:4px">
+              You are the service provider. Below are all the cinema clients &amp; shops who have taken subscriptions from you.
+            </p>
+          </div>
+          <div style="display:flex;gap:10px">
+            <a href="subscription-plans.html" target="_blank" class="add-btn" style="background:#fff3e0;color:#b45309;border:1px solid #fed7aa;text-decoration:none">
+              <i data-lucide="external-link" class="tab-icon-lucide"></i> Open Client Subscription Page
+            </a>
+            <button class="add-btn" onclick="openAddClientModal()">
+              <i data-lucide="plus-circle" class="tab-icon-lucide"></i> Onboard New Client Cinema
+            </button>
+          </div>
+        </div>
+
+        <!-- Super Admin KPI Metrics -->
+        <div class="sub-metrics-grid" style="margin-top:14px">
+          <div class="sub-box highlight-gold">
+            <div class="sub-box-label">TOTAL CINEMA CLIENTS</div>
+            <div class="sub-box-val" id="saTotalClients">1 Theatres</div>
+            <div class="sub-box-sub">Active Cloud Tenants</div>
+          </div>
+          <div class="sub-box highlight-green">
+            <div class="sub-box-label">TOTAL REVENUE COLLECTED</div>
+            <div class="sub-box-val" id="saTotalRevenue">₹24,999</div>
+            <div class="sub-box-sub">From Client Subscriptions</div>
+          </div>
+          <div class="sub-box highlight-blue">
+            <div class="sub-box-label">SERVICE STATUS</div>
+            <div class="sub-box-val" style="color:#059669;font-size:22px">All Systems Online</div>
+            <div class="sub-box-sub">RAID-10 &bull; Cloud POS Live</div>
+          </div>
+        </div>
+
+        <!-- Subscribed Clients Table -->
+        <div style="margin-top:20px">
+          <div style="font-size:14px;font-weight:800;color:#161212;margin-bottom:10px;display:flex;align-items:center;justify-content:space-between">
+            <span><i data-lucide="building-2" class="tab-icon-lucide"></i> All Subscribed Cinema Clients &amp; Workstation Licenses</span>
+            <span style="font-size:11px;color:#64748b">Changes apply immediately to client workstations</span>
+          </div>
+          <div class="table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>CINEMA NAME &amp; CITY</th>
+                  <th>ADMIN USERNAME</th>
+                  <th>GMAIL / EMAIL</th>
+                  <th>SUBSCRIBED PLAN</th>
+                  <th>AMOUNT PAID</th>
+                  <th>VALID TILL</th>
+                  <th>STATUS</th>
+                  <th>ACTIONS</th>
+                </tr>
+              </thead>
+              <tbody id="saClientsTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+      <!-- 💳 SUBSCRIPTION & PAYMENT TRACKER (REQUESTED FEATURE) -->
+      <section class="sub-banner">
+        <div class="sub-banner-header">
+          <div>
+            <div class="sub-title">
+              <span><i data-lucide="credit-card" class="tab-icon-lucide"></i> Company Subscription &amp; Billing Service</span>
+              <span class="sub-plan-badge" id="subPlanBadge">ENTERPRISE CINEMA ERP &amp; POS CLOUD SERVICE</span>
+            </div>
+            <p style="font-size:12px;color:#64748b;margin-top:4px">
+              Client: <strong id="subCompanyName" style="color:#161212">Royal Cinema &mdash; Palanpur Flagship</strong> &bull; Live Cloud Multi-Station License
+            </p>
+          </div>
+          <button class="add-btn" id="editSubBtn" style="background:#ffffff;color:#161212;border:1px solid #cbd5e1;box-shadow:0 2px 6px rgba(0,0,0,0.04)">
+            <i data-lucide="edit-3" class="tab-icon-lucide"></i> Update Subscription / Record Payment
+          </button>
+        </div>
+
+        <div class="sub-metrics-grid">
+          <!-- 1. Kitne ko bhara -->
+          <div class="sub-box highlight-green">
+            <div class="sub-box-label">KITNE KO BHARA (AMOUNT PAID)</div>
+            <div class="sub-box-val" id="subAmountPaid">₹25,000</div>
+            <div class="sub-box-sub">Paid on: <strong id="subPaidDate" style="color:#166534">14 Nov 2026</strong></div>
+          </div>
+
+          <!-- 2. Kab tak bharna hai / Valid Till -->
+          <div class="sub-box highlight-blue">
+            <div class="sub-box-label">KAB TAK BHARNA HAI (VALID TILL)</div>
+            <div class="sub-box-val" id="subValidTill">14 Nov 2027</div>
+            <div class="sub-box-sub" id="subDaysLeft">365 Days Remaining</div>
+          </div>
+
+          <!-- 3. Kab bharne ka hai / Next Due Date -->
+          <div class="sub-box highlight-gold">
+            <div class="sub-box-label">KAB BHARNE KA HAI (NEXT DUE DATE)</div>
+            <div class="sub-box-val" id="subNextDue">14 Nov 2027</div>
+            <div class="sub-box-sub">Status: <strong id="subStatusText" style="color:#16a34a">Active</strong></div>
+          </div>
+
+          <!-- 4. Billing Cycle -->
+          <div class="sub-box">
+            <div class="sub-box-label">BILLING CYCLE &amp; METHOD</div>
+            <div class="sub-box-val" id="subCycle" style="font-size:20px">Yearly / Annual</div>
+            <div class="sub-box-sub" id="subMethod">UPI / Bank Transfer (Ref: RC-99421)</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 👥 COUNTER STAFF MANAGEMENT (Only 2 Roles: Ticket Staff & Food Staff) -->
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">Counter Staff Team</h2>
+          <p class="section-sub">Add your Box Office Ticketing Staff and Food Counter Staff. They can log in from the unified login page using either their Username or Gmail.</p>
+        </div>
+        <button class="add-btn" id="addStaffBtn"><i data-lucide="user-plus" class="tab-icon-lucide"></i> Add Staff User</button>
+      </div>
+
+      <div class="table-wrap">
+        <table class="data-table" id="staffTable">
+          <thead>
+            <tr>
+              <th>STAFF NAME</th>
+              <th>COUNTER STATION</th>
+              <th>USERNAME</th>
+              <th>GMAIL / EMAIL</th>
+              <th>PASSWORD</th>
+              <th>CREATED</th>
+              <th>STATUS</th>
+              <th>ACTIONS</th>
+            </tr>
+          </thead>
+          <tbody id="staffBody"></tbody>
+        </table>
+        <div class="empty-state hidden" id="noStaff" style="padding:20px;text-align:center;color:#64748b">No staff added yet. Click "+ Add Staff User" to create Ticket or Food counter staff.</div>
+      </div>
+    </div>
+
+    <!-- View 2: Live Embedded Workspaces (Food POS, Ticket POS, Command Center, Booking) -->
+    <div id="workspaceFrameContainer" class="workspace-frame-container hidden">
+      <iframe id="activeWorkspaceFrame" title="Cinema Workstation"></iframe>
+    </div>
+  </div>
+</main>
+
+<!-- ====================================================== -->
+<!-- UPDATE SUBSCRIPTION MODAL                              -->
+<!-- ====================================================== -->
+<div id="subModal" class="modal-overlay hidden">
+  <div class="modal-card">
+    <h2>Update Subscription &amp; Billing</h2>
+    <p class="modal-sub">Record payment details, renewal dates, and subscription status.</p>
+    <form id="subForm" novalidate>
+      <div class="field"><label>Plan Name *</label><input id="inpPlanName" value="Enterprise Cinema ERP &amp; POS Cloud Service" required></div>
+      <div class="field"><label>Kitne Ko Bhara (Amount Paid) *</label><input id="inpAmountPaid" placeholder="e.g. ₹25,000" required></div>
+      <div class="field"><label>Paid Date *</label><input id="inpPaidDate" type="date" required></div>
+      <div class="field"><label>Kab Tak Bharna Hai (Valid Till / Expiry Date) *</label><input id="inpValidTill" type="date" required></div>
+      <div class="field"><label>Kab Bharne Ka Hai (Next Due Date) *</label><input id="inpNextDue" type="date" required></div>
+      <div class="field">
+        <label>Billing Cycle *</label>
+        <select id="inpCycle">
+          <option value="Yearly / Annual">Yearly / Annual</option>
+          <option value="Half-Yearly (6 Months)">Half-Yearly (6 Months)</option>
+          <option value="Quarterly (3 Months)">Quarterly (3 Months)</option>
+          <option value="Monthly">Monthly</option>
+        </select>
+      </div>
+      <div class="field"><label>Payment Method / Ref</label><input id="inpMethod" placeholder="e.g. UPI / Bank Transfer (Ref: RC-99421)"></div>
+      <div class="field">
+        <label>Status *</label>
+        <select id="inpStatus">
+          <option value="Active">Active (All Cleared ✅)</option>
+          <option value="Due Soon">Due Soon ⚠️</option>
+          <option value="Overdue">Overdue ❌</option>
+        </select>
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="modal-cancel" id="subCancel">Cancel</button>
+        <button type="submit" class="add-btn">Save Subscription &rarr;</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ====================================================== -->
+<!-- ADD STAFF MODAL (Ticket or Food)                       -->
+<!-- ====================================================== -->
+<div id="addStaffModal" class="modal-overlay hidden">
+  <div class="modal-card">
+    <h2>Add Counter Staff User</h2>
+    <p class="modal-sub">Assign staff to Box Office Ticketing or Food Concessions Counter.</p>
+    <form id="addStaffForm" novalidate>
+      <div class="field"><label>Staff Full Name *</label><input id="stfName" placeholder="e.g. Ramesh Patel" required></div>
+      <div class="field">
+        <label>Counter Station *</label>
+        <select id="stfStation">
+          <option value="ticket">🎟️ Box Office Ticketing Staff</option>
+          <option value="food">🍿 Food Counter Concessions Staff</option>
+        </select>
+      </div>
+      <div class="field"><label>Username *</label><input id="stfUsername" placeholder="e.g. ramesh_ticket" required></div>
+      <div class="field"><label>Gmail / Email *</label><input id="stfEmail" type="email" placeholder="e.g. ramesh@gmail.com" required></div>
+      <div class="field"><label>Password * (min 6 chars)</label><input id="stfPassword" type="password" placeholder="Set staff password" required></div>
+      <div class="error" id="stfError" role="alert"></div>
+      <div class="modal-actions">
+        <button type="button" class="modal-cancel" id="stfCancel">Cancel</button>
+        <button type="submit" class="add-btn">Create Counter Staff &rarr;</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+(() => {
+  
+  // --- Multi-Branch & Help/Support Client Logic ---
+  let activeBranchId = 'br_ahm_01';
+  let activeBranchName = 'Royal Cinema - Ahmedabad Main';
+  let companyBranchesCache = [
+    { branchId: 'br_ahm_01', branchName: 'Royal Cinema - Ahmedabad Main', city: 'Ahmedabad', screens: 4, subscription: { status: 'active', planName: 'Enterprise', validTill: '14 Nov 2027', daysRemaining: 362 } },
+    { branchId: 'br_gn_02', branchName: 'Royal Cinema - Gandhinagar Twin', city: 'Gandhinagar', screens: 2, subscription: { status: 'active', planName: 'Professional', validTill: '14 Nov 2027', daysRemaining: 362 } },
+    { branchId: 'br_surat_03', branchName: 'Royal Cinema - Surat Heritage', city: 'Surat', screens: 1, subscription: { status: 'expired', planName: 'Starter', validTill: '15 Nov 2026', daysRemaining: 0 } }
+  ];
+
+  window.openBranchSelectorModal = async function() {
+    try {
+      const res = await fetch('/api/client/branches').then(r => r.json());
+      if (res && res.branches && res.branches.length > 0) {
+        companyBranchesCache = res.branches;
+      }
+    } catch(e) {}
+
+    renderBranchModalList();
+    document.getElementById('branchAlertBox').classList.add('hidden');
+    document.getElementById('branchModal').classList.remove('hidden');
+  };
+
+  window.closeBranchModal = function() {
+    document.getElementById('branchModal').classList.add('hidden');
+  };
+
+  function renderBranchModalList() {
+    const list = document.getElementById('branchesModalList');
+    if (!list) return;
+
+    list.innerHTML = companyBranchesCache.map(b => {
+      const sub = b.subscription || {};
+      const isAct = sub.status === 'active';
+      const isCurrent = b.branchId === activeBranchId;
+
+      return `
+        <div style="border:1.5px solid ${isCurrent ? '#ea580c' : isAct ? '#e2e8f0' : '#fecaca'};background:${isCurrent ? '#fffaf5' : isAct ? '#ffffff' : '#fef2f2'};border-radius:12px;padding:14px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;" onclick="selectBranchFromModal('${b.branchId}')">
+          <div>
+            <div style="display:flex;align-items:center;gap:8px;">
+              <strong style="font-size:13.5px;color:#0f172a;">${b.branchName}</strong>
+              ${isCurrent ? '<span style="font-size:10px;padding:2px 6px;border-radius:4px;background:#ea580c;color:#fff;font-weight:800;">CURRENT POS</span>' : ''}
+              ${isAct ? '<span style="font-size:10px;padding:2px 6px;border-radius:4px;background:#dcfce7;color:#16a34a;font-weight:700;">ACTIVE</span>' : '<span style="font-size:10px;padding:2px 6px;border-radius:4px;background:#fee2e2;color:#dc2626;font-weight:700;">EXPIRED</span>'}
+            </div>
+            <div style="font-size:11.5px;color:#64748b;margin-top:3px;">
+              ${b.city || 'Gujarat'} &bull; ${b.screens || 1} Screen &bull; Plan: <b>${sub.planName || 'Standard'}</b> &bull; Valid till: ${sub.validTill || 'N/A'}
+            </div>
+          </div>
+          <div>
+            ${isAct 
+              ? `<button type="button" style="padding:6px 14px;border-radius:8px;background:${isCurrent ? '#ea580c' : '#f1f5f9'};color:${isCurrent ? '#fff' : '#0f172a'};border:none;font-weight:750;font-size:11.5px;cursor:pointer;">${isCurrent ? 'Selected' : 'Switch Branch'}</button>`
+              : `<button type="button" onclick="event.stopPropagation(); window.open('client-portal.html', '_blank')" style="padding:6px 14px;border-radius:8px;background:#dc2626;color:#fff;border:none;font-weight:750;font-size:11.5px;cursor:pointer;">Renew Branch &rarr;</button>`
+            }
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  window.selectBranchFromModal = function(branchId) {
+    const target = companyBranchesCache.find(b => b.branchId === branchId);
+    if (!target) return;
+
+    if (target.subscription && target.subscription.status !== 'active') {
+      const alertBox = document.getElementById('branchAlertBox');
+      alertBox.classList.remove('hidden');
+      alertBox.innerHTML = `
+        <strong>⚠️ Surat Branch Subscription Expired:</strong><br>
+        Surat branch subscription ended on ${target.subscription.validTill}. Workstation access for Surat is temporarily restricted.<br>
+        <strong>Important:</strong> Your other cinema branches (Ahmedabad &amp; Gandhinagar) remain fully operational and active.
+        <div style="margin-top:8px;">
+          <a href="client-portal.html" target="_blank" style="color:#dc2626;font-weight:800;text-decoration:underline;">Click here to Renew Surat Branch in Client Portal &rarr;</a>
+        </div>
+      `;
+      return;
+    }
+
+    activeBranchId = branchId;
+    activeBranchName = target.branchName;
+    const disp = document.getElementById('currentBranchDisplay');
+    if (disp) disp.textContent = target.branchName.replace('Royal Cinema - ', '');
+    closeBranchModal();
+  };
+
+  // --- Help & Support Modal Functions ---
+  window.openSupportModal = function() {
+  setTimeout(() => { if (window.lucide) lucide.createIcons(); }, 10);
+    document.getElementById('desktopSupportModal').classList.remove('hidden');
+    switchSupportTab('ticket');
+  };
+
+  window.closeSupportModal = function() {
+    document.getElementById('desktopSupportModal').classList.add('hidden');
+  };
+
+  window.switchSupportTab = function(tab) {
+    document.getElementById('tabSupportTicket').classList.toggle('active', tab === 'ticket');
+    document.getElementById('tabSupportCall').classList.toggle('active', tab === 'call');
+    document.getElementById('tabSupportContact').classList.toggle('active', tab === 'contact');
+
+    document.getElementById('viewSupportTicket').classList.toggle('hidden', tab !== 'ticket');
+    document.getElementById('viewSupportCall').classList.toggle('hidden', tab !== 'call');
+    document.getElementById('viewSupportContact').classList.toggle('hidden', tab !== 'contact');
+  };
+
+  window.submitDesktopTicket = async function(e) {
+    e.preventDefault();
+    const btn = document.getElementById('dtSubmitBtn');
+    const orig = btn.textContent;
+    btn.disabled = true;
+    btn.textContent = 'Submitting Ticket... ⏳';
+
+    const branchName = document.getElementById('dtBranchSelect').value;
+    const category = document.getElementById('dtCategory').value;
+    const priority = document.getElementById('dtPriority').value;
+    const requesterPhone = document.getElementById('dtPhone').value;
+    const subject = document.getElementById('dtSubject').value;
+    const description = document.getElementById('dtDesc').value;
+
+    try {
+      const res = await fetch('/api/support/ticket/create', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          branchName, category, priority, requesterPhone, subject, description,
+          requesterName: (currentUser && currentUser.name) ? currentUser.name : 'Counter Manager',
+          companyId: 'company_001'
+        })
+      }).then(r => r.json());
+
+      if (res && res.ok) {
+        document.getElementById('dtResultMsg').style.color = '#16a34a';
+        document.getElementById('dtResultMsg').textContent = '✅ Ticket #' + (res.ticket ? res.ticket.id : 'NEW') + ' created! SLA timer started.';
+        setTimeout(() => {
+          closeSupportModal();
+          document.getElementById('dtResultMsg').textContent = '';
+          document.getElementById('deskTicketForm').reset();
+        }, 1800);
+      } else {
+        document.getElementById('dtResultMsg').style.color = '#dc2626';
+        document.getElementById('dtResultMsg').textContent = res?.message || 'Failed to submit ticket.';
+      }
+    } catch(err) {
+      document.getElementById('dtResultMsg').style.color = '#dc2626';
+      document.getElementById('dtResultMsg').textContent = 'Error: ' + err.message;
+    } finally {
+      btn.disabled = false;
+      btn.innerHTML = origHtml;
+      if (window.lucide) lucide.createIcons();
+    }
+  };
+
+  window.submitDesktopCall = async function(e) {
+    e.preventDefault();
+    const name = document.getElementById('dcName').value;
+    const phone = document.getElementById('dcPhone').value;
+    const urgency = document.getElementById('dcUrgency').value;
+
+    try {
+      const res = await fetch('/api/support/call-request', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, phone, urgency, branchName: activeBranchName })
+      }).then(r => r.json());
+
+      if (res && res.ok) {
+        document.getElementById('dcResultMsg').textContent = '✅ Priority callback request dispatched! Support agent will call ' + phone + ' in 15 mins.';
+        setTimeout(() => {
+          closeSupportModal();
+          document.getElementById('dcResultMsg').textContent = '';
+        }, 2200);
+      }
+    } catch(err) {
+      alert('Callback request error: ' + err.message);
+    }
+  };
+
+  // --- Select Plan on Onboarding form ---
+  window.selectOnboardPlan = function(planName, amount, el) {
+    document.querySelectorAll('.ob-plan-card').forEach(c => {
+      c.classList.remove('active');
+      c.style.borderColor = '#ded5d5';
+      c.style.background = '#ffffff';
+    });
+    if (el) {
+      el.classList.add('active');
+      el.style.borderColor = '#ea580c';
+      el.style.background = '#fffaf5';
+    }
+    const planInput = document.getElementById('obSelectedPlan');
+    if (planInput) planInput.value = planName;
+    const amountInput = document.getElementById('obAmountPaid');
+    if (amountInput) amountInput.value = amount;
+  };
+
+  // --- Super Admin Load Clients ---
+  async function loadSuperAdminClients() {
+    try {
+      const res = await fetch('/api/company/list').then(r => r.json());
+      const tbody = document.getElementById('saClientsTableBody');
+      if (!tbody) return;
+
+      const totalClients = res.length;
+      let totalRev = 0;
+
+      tbody.innerHTML = res.map(c => {
+        const sub = c.subscription || {};
+        const amtStr = sub.amountPaid || '₹0';
+        const num = parseInt(amtStr.replace(/[^0-9]/g, '')) || 0;
+        totalRev += num;
+
+        const isActive = c.status !== 'suspended';
+        const statusBadge = isActive
+          ? '<span style="padding:3px 8px;border-radius:6px;background:#f0fdf4;color:#16a34a;font-weight:700;font-size:11px;display:inline-flex;align-items:center;gap:3px;"><i data-lucide=\"check-circle-2\" style=\"width:12px;height:12px;\"></i> Active</span>'
+          : '<span style="padding:3px 8px;border-radius:6px;background:#fef2f2;color:#dc2626;font-weight:700;font-size:11px;display:inline-flex;align-items:center;gap:3px;"><i data-lucide=\"alert-circle\" style=\"width:12px;height:12px;\"></i> Suspended</span>';
+
+        const toggleBtnLabel = isActive ? '<i data-lucide=\"lock\" style=\"width:12px;height:12px;margin-right:3px;\"></i> Suspend Access' : '<i data-lucide=\"unlock\" style=\"width:12px;height:12px;margin-right:3px;\"></i> Activate Access';
+        const toggleBtnClass = isActive ? 'style="color:#dc2626;background:#fef2f2;border:1px solid #fecaca;padding:4px 8px;border-radius:6px;font-size:11px;font-weight:750;cursor:pointer;display:inline-flex;align-items:center;"' : 'style="color:#16a34a;background:#f0fdf4;border:1px solid #bbf7d0;padding:4px 8px;border-radius:6px;font-size:11px;font-weight:750;cursor:pointer;display:inline-flex;align-items:center;"';
+
+        return `
+          <tr>
+            <td>
+              <strong style="color:#161212">${c.name}</strong>
+              <div style="font-size:11px;color:#64748b">${c.address || 'Palanpur'} &bull; ${c.type || 'cinema'}</div>
+            </td>
+            <td><code>${c.adminUsername}</code></td>
+            <td>${c.adminEmail}</td>
+            <td><strong style="color:#b45309">${sub.planName || 'Multiplex Plan'}</strong></td>
+            <td><strong style="color:#16a34a">${sub.amountPaid || '₹24,999'}</strong></td>
+            <td>${sub.validTill || '14 Nov 2027'}</td>
+            <td>${statusBadge}</td>
+            <td>
+              <div style="display:flex;gap:6px">
+                <button onclick="toggleCompanyStatus('${c.id}')" ${toggleBtnClass}>${toggleBtnLabel}</button>
+                <button onclick="quickRenewCompany('${c.id}', '${c.name}')" style="background:#fff3e0;color:#b45309;border:1px solid #fed7aa;padding:4px 8px;border-radius:6px;font-size:11px;font-weight:750;cursor:pointer;display:inline-flex;align-items:center;gap:3px;"><i data-lucide=\"refresh-cw\" style=\"width:12px;height:12px;\"></i> Extend 1 Yr</button>
+              </div>
+            </td>
+          </tr>
+        `;
+      }).join('');
+      if (window.lucide) setTimeout(() => lucide.createIcons(), 10);
+
+      document.getElementById('saTotalClients').textContent = totalClients + ' Theatres';
+      document.getElementById('saTotalRevenue').textContent = '₹' + totalRev.toLocaleString('en-IN');
+
+    } catch (e) {
+      console.error('Failed to load Super Admin clients:', e);
+    }
+  }
+
+  window.toggleCompanyStatus = async function(companyId) {
+    if (!confirm('Are you sure you want to toggle access for this cinema client?')) return;
+    try {
+      await fetch('/api/company/toggleStatus', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ companyId })
+      });
+      loadSuperAdminClients();
+    } catch (e) {
+      alert('Error updating status: ' + e.message);
+    }
+  };
+
+  window.quickRenewCompany = async function(companyId, companyName) {
+    const nextYear = new Date();
+    nextYear.setFullYear(nextYear.getFullYear() + 1);
+    const validTill = nextYear.toISOString().slice(0, 10);
+
+    if (!confirm('Extend subscription for ' + companyName + ' for 1 year (Valid till ' + validTill + ')?')) return;
+    try {
+      await fetch('/api/company/renew', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          companyId,
+          renewData: {
+            amountPaid: '₹24,999',
+            validTill,
+            nextDueDate: validTill
+          }
+        })
+      });
+      alert('Subscription extended successfully for ' + companyName + '!');
+      loadSuperAdminClients();
+    } catch (e) {
+      alert('Error renewing subscription: ' + e.message);
+    }
+  };
+
+  window.openAddClientModal = function() {
+    window.open('subscription-plans.html', '_blank');
+  };
+
+  // --- API Polyfill for Browser & Electron ---
+  if (!window.royalERP) {
+    window.royalERP = {
+      login: (data) => fetch('/api/auth/login', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) }).then(r => r.json()),
+      onboardCompany: (data) => fetch('/api/company/onboard', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) }).then(r => r.json()),
+      getSubscription: (companyId) => {
+        const cid = companyId || (currentUser ? currentUser.companyId : '');
+        const url = cid ? ('/api/subscription/get?companyId=' + encodeURIComponent(cid)) : '/api/subscription/get';
+        return fetch(url).then(r => r.json()).then(sub => ({
+          ok: true,
+          companyName: (currentUser && currentUser.companyName) || 'Royal Cinema',
+          subscription: sub
+        }));
+      },
+      updateSubscription: (data) => fetch('/api/subscription/update', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) }).then(r => r.json()),
+      listUsers: (companyId) => {
+        const cid = companyId || (currentUser ? currentUser.companyId : '');
+        const url = cid ? ('/api/user/list?companyId=' + encodeURIComponent(cid)) : '/api/user/list';
+        return fetch(url).then(r => r.json());
+      },
+      addUser: (data) => {
+        const payload = { ...data, companyId: (currentUser ? currentUser.companyId : 'cmp-primary') };
+        return fetch('/api/user/add', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) }).then(r => r.json());
+      },
+      deleteUser: (data) => fetch('/api/user/delete', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) }).then(r => r.json()),
+      toggleUserStatus: (data) => fetch('/api/user/toggleStatus', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) }).then(r => r.json()),
+      getDemoAccounts: () => fetch('/api/demo-accounts').then(r => r.json())
+    };
+  }
+
+  const $ = id => document.getElementById(id);
+  let currentUser = null;
+  let currentSubscription = null;
+
+  // --- Workspaces ---
+  const WORKSPACES = {
+    food: { title: '🍿 Food Counter POS', file: 'city_lite_f_b_counter_pos_role_login.html', role: 'COUNTER_STAFF' },
+    ticket: { title: '🎟️ Box Office Ticketing', file: 'city_lite_cinema_erp_multi_counter_role_login.html', role: 'SUPER_ADMIN' },
+    manager: { title: '📊 Command Center & Ledger', file: 'city_lite_cinema_erp_command_center_role_login.html', role: 'BRANCH_MANAGER' },
+    booking: { title: '📱 Customer Booking App', file: 'customer-ticket-booking.html', role: 'CUSTOMER' }
+  };
+
+  // --- Mode Switcher (Login vs Onboard) ---
+  $('tabModeLogin').addEventListener('click', () => {
+    $('tabModeLogin').classList.add('active');
+    $('tabModeOnboard').classList.remove('active');
+    $('loginFormContainer').classList.remove('hidden');
+    $('onboardFormContainer').classList.add('hidden');
+  });
+
+  $('tabModeOnboard').addEventListener('click', () => {
+    $('tabModeOnboard').classList.add('active');
+    $('tabModeLogin').classList.remove('active');
+    $('onboardFormContainer').classList.remove('hidden');
+    $('loginFormContainer').classList.add('hidden');
+
+    // Preset dates
+    const today = new Date().toISOString().slice(0, 10);
+    const nextYear = new Date();
+    nextYear.setFullYear(nextYear.getFullYear() + 1);
+    const nextYearStr = nextYear.toISOString().slice(0, 10);
+
+    $('obPaidDate').value = today;
+    $('obValidTill').value = nextYearStr;
+    $('obNextDue').value = nextYearStr;
+  });
+
+  // --- Quick Fill Demo Credentials ---
+  window.quickFillRole = (id, pass, label) => {
+    $('tabModeLogin').click();
+    $('loginId').value = id;
+    $('loginPass').value = pass;
+    $('loginError').textContent = '';
+    const roleName = label || (id.includes('superadmin') ? 'Super Admin' : id.includes('admin') ? 'Cinema Admin' : id.includes('ticket') ? 'Box Office Staff' : 'Food Staff');
+    if (typeof showToast === 'function') {
+      showToast('🔑 Selected ' + roleName + '. Press Sign In to enter.');
+    }
+    const btn = $('loginSubmitBtn');
+    if (btn) {
+      btn.style.boxShadow = '0 0 0 3px rgba(234, 88, 12, 0.45)';
+      setTimeout(() => { btn.style.boxShadow = ''; }, 1200);
+    }
+  };
+
+  // --- Password Eye Toggle (SVG Icon) ---
+  $('toggleEye').addEventListener('click', () => {
+    const inp = $('loginPass');
+    const isPass = inp.type === 'password';
+    inp.type = isPass ? 'text' : 'password';
+    $('toggleEye').innerHTML = isPass
+      ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:19px;height:19px"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24M1 1l22 22"/></svg>'
+      : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:19px;height:19px"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>';
+  });
+
+  // --- Dynamic Existing Subscription & Renewal Detection ---
+  async function checkExistingSubscription(query) {
+    if (!query || query.length < 3) {
+      $('obExistingClientAlert').classList.add('hidden');
+      return;
+    }
+    try {
+      const resp = await fetch('/api/company/check-subscription?identifier=' + encodeURIComponent(query));
+      if (!resp.ok) return;
+      const data = await resp.json();
+      if (!data.found) {
+        $('obExistingClientAlert').classList.add('hidden');
+        return;
+      }
+
+      const alertBox = $('obExistingClientAlert');
+      alertBox.classList.remove('hidden');
+
+      if (!data.isExpired) {
+        alertBox.innerHTML = `
+          <div style="background:#f0fdf4;border:1.5px solid #86efac;border-radius:12px;padding:14px;color:#166534">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
+              <b style="font-size:13px">✅ Active Subscription Maujood Hai!</b>
+              <span style="background:#bbf7d0;color:#166534;font-size:10.5px;font-weight:750;padding:2px 8px;border-radius:99px">${data.daysLeft} Din Bache Hain</span>
+            </div>
+            <p style="font-size:12px;line-height:1.4;margin-bottom:10px">
+              Cinema: <b>${data.companyName}</b> (${data.planName})<br>
+              Valid Till: <b>${data.validTill}</b>. Aapka data bilkul safe hai. Naya account banane ki zaroorat nahi hai.
+            </p>
+            <div style="display:flex;gap:8px">
+              <button type="button" onclick="$('tabModeLogin').click();$('loginId').value='${query}'" style="flex:1;height:34px;border-radius:8px;background:#166534;color:#ffffff;border:none;font-weight:750;font-size:11.5px;cursor:pointer">🔑 Direct Sign In Karein &rarr;</button>
+              <button type="button" onclick="directRenew('${data.companyId}')" style="height:34px;border-radius:8px;background:#ffffff;color:#166534;border:1.5px solid #86efac;font-weight:750;font-size:11.5px;padding:0 12px;cursor:pointer">🔄 Extend / Renew</button>
+            </div>
+          </div>
+        `;
+      } else {
+        alertBox.innerHTML = `
+          <div style="background:#fffbeb;border:1.5px solid #fcd34d;border-radius:12px;padding:14px;color:#92400e">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
+              <b style="font-size:13px">⚠️ Subscription Expire Ho Chuka Hai</b>
+              <span style="background:#fef3c7;color:#92400e;font-size:10.5px;font-weight:750;padding:2px 8px;border-radius:99px">Expired on ${data.validTill}</span>
+            </div>
+            <p style="font-size:12px;line-height:1.4;margin-bottom:10px">
+              Cinema: <b>${data.companyName}</b>. Aapka sara purana records aur sales data surakshit hai. Kripya niche diye button se 1-click renew karein.
+            </p>
+            <button type="button" onclick="directRenew('${data.companyId}')" style="width:100%;height:38px;border-radius:8px;background:#d97706;color:#ffffff;border:none;font-weight:800;font-size:12.5px;cursor:pointer;box-shadow:0 3px 10px rgba(217,119,6,0.3)">⚡ 1-Click Renew Subscription &amp; Continue &rarr;</button>
+          </div>
+        `;
+      }
+    } catch (e) {
+      console.warn('Check sub error:', e);
+    }
+  }
+
+  window.directRenew = async (companyId) => {
+    try {
+      const resp = await fetch('/api/company/renew-direct', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          companyId,
+          planName: $('obSelectedPlan')?.value || '4 Screen Multiplex Pro',
+          amountPaid: '₹24,999',
+          billingCycle: 'Yearly / Annual'
+        })
+      });
+      const res = await resp.json();
+      if (res.ok) {
+        alert('🎉 Subscription successfully renewed till ' + res.subscription.validTill + '! Ab aap login kar sakte hain.');
+        $('tabModeLogin').click();
+      } else {
+        alert('Renewal error: ' + (res.message || 'Failed'));
+      }
+    } catch (e) {
+      alert('Network error: ' + e.message);
+    }
+  };
+
+  $('obCompanyName').addEventListener('blur', () => checkExistingSubscription($('obCompanyName').value.trim()));
+  $('obAdminEmail').addEventListener('blur', () => checkExistingSubscription($('obAdminEmail').value.trim()));
+  $('obAdminUser').addEventListener('blur', () => checkExistingSubscription($('obAdminUser').value.trim()));
+
+
+  // --- Client Onboarding & Subscription Submission ---
+  $('onboardForm').addEventListener('submit', async e => {
+    e.preventDefault();
+    $('obError').textContent = '';
+    const btn = $('obSubmitBtn');
+    const orig = btn.textContent;
+
+    const companyName = $('obCompanyName').value.trim();
+    const companyType = $('obCompanyType').value;
+    const phone = $('obPhone').value.trim();
+    const adminUsername = $('obAdminUser').value.trim();
+    const adminEmail = $('obAdminEmail').value.trim();
+    const adminPassword = $('obAdminPass').value.trim();
+
+    const amountPaid = $('obAmountPaid').value.trim();
+    const paidDate = $('obPaidDate').value;
+    const validTill = $('obValidTill').value;
+    const nextDueDate = $('obNextDue').value;
+
+    if (!companyName || !adminUsername || !adminEmail || !adminPassword || !amountPaid || !paidDate || !validTill) {
+      $('obError').textContent = 'Please fill all required company & subscription fields.';
+      return;
+    }
+
+    try {
+      btn.disabled = true;
+      btn.textContent = 'Activating Subscription & Cloud Services... 🚀';
+
+      const res = await window.royalERP.onboardCompany({
+        companyName, companyType, phone,
+        adminUsername, adminEmail, adminPassword,
+        planName: $('obSelectedPlan')?.value || '4 Screen Multiplex Pro',
+        amountPaid, paidDate, validTill, nextDueDate,
+        billingCycle: 'Yearly / Annual',
+        paymentMethod: 'UPI / Bank Transfer (Ref: RC-99421)'
+      });
+
+      if (!res.ok) {
+        $('obError').textContent = res.message || 'Onboarding failed.';
+        btn.disabled = false;
+        btn.textContent = orig;
+        return;
+      }
+
+      currentUser = res.user;
+
+      // Play welcome animation
+      showWelcomeSplash(currentUser, () => {
+        openAppShell();
+      });
+    } catch (err) {
+      console.error(err);
+      $('obError').textContent = 'Error: ' + err.message;
+    } finally {
+      btn.disabled = false;
+      btn.textContent = orig;
+    }
+  });
+
+  // Restore remembered login if available
+  try {
+    const savedId = localStorage.getItem('rc_remember_id');
+    if (savedId && $('loginId')) {
+      $('loginId').value = savedId;
+      if ($('rememberMe')) $('rememberMe').checked = true;
+    }
+  } catch (err) {}
+
+  // --- Unified Login ---
+  $('loginForm').addEventListener('submit', async e => {
+    e.preventDefault();
+    $('loginError').textContent = '';
+    const btn = $('loginSubmitBtn');
+    const origText = btn.textContent;
+
+    const identifier = $('loginId').value.trim();
+    const password = $('loginPass').value.trim();
+
+    if ($('rememberMe') && $('rememberMe').checked) {
+      try { localStorage.setItem('rc_remember_id', identifier); } catch (err) {}
+    } else {
+      try { localStorage.removeItem('rc_remember_id'); } catch (err) {}
+    }
+
+    if (!identifier || !password) {
+      $('loginError').textContent = 'Please enter username/Gmail and password.';
+      return;
+    }
+
+    try {
+      btn.disabled = true;
+      btn.textContent = 'Verifying credentials... ⏳';
+
+      const res = await window.royalERP.login({ identifier, password });
+      if (!res.ok) {
+        if (res.noSubscription) {
+          $('loginError').innerHTML = `${res.message}<br><button type="button" onclick="$('tabModeOnboard').click()" style="margin-top:6px;background:none;border:none;color:#ea580c;font-weight:800;text-decoration:underline;cursor:pointer">👉 Click here to Choose a Plan &amp; Subscribe &rarr;</button>`;
+          setTimeout(() => { $('tabModeOnboard').click(); }, 2200);
+        } else {
+          $('loginError').textContent = res.message || 'Username or password is incorrect.';
+        }
+        btn.disabled = false;
+        btn.textContent = origText;
+        return;
+      }
+
+      currentUser = res.user;
+
+      // Trigger Welcome Animation before opening workspace
+      showWelcomeSplash(currentUser, () => {
+        openAppShell();
+      });
+    } catch (err) {
+      console.error(err);
+      $('loginError').textContent = 'Connection error: ' + err.message;
+    } finally {
+      btn.disabled = false;
+      btn.textContent = origText;
+    }
+  });
+
+  // --- Welcome Animation ---
+  function showWelcomeSplash(user, callback) {
+    const splash = $('welcomeSplash');
+    const icon = $('splashIcon');
+    const title = $('splashTitle');
+    const sub = $('splashSub');
+
+    if (user.role === 'admin') {
+      icon.textContent = '👑';
+      title.textContent = '✨ Welcome, Executive Admin!';
+      sub.textContent = 'Subscription Active! Loading All-in-One Command Center, Billing Tracker & Cinema Workstations...';
+    } else if (user.role === 'ticket') {
+      icon.textContent = '🎟️';
+      title.textContent = '🎟️ Welcome, Box Office Staff!';
+      sub.textContent = 'Opening Live Multi-Counter Ticketing Workstation...';
+    } else {
+      icon.textContent = '🍿';
+      title.textContent = '🍿 Welcome, Food Counter Staff!';
+      sub.textContent = 'Opening Concessions POS & KDS Stream...';
+    }
+
+    splash.classList.remove('hidden');
+    splash.classList.remove('fade-out');
+
+    setTimeout(() => {
+      splash.classList.add('fade-out');
+      setTimeout(() => {
+        splash.classList.add('hidden');
+        if (callback) callback();
+      }, 450);
+    }, 1200);
+  }
+
+  // --- App Shell Open ---
+  window.launchSuperAdminWorkspace = function() {
+    currentUser = { name: 'Super Admin', companyName: 'Royal Cinema Cloud Platform', role: 'superadmin', isSuperAdmin: true };
+    openAppShell();
+  };
+
+  window.launchManagerWorkspace = function() {
+    currentUser = { name: 'Rajesh Sharma', companyName: 'Royal Cinema Ahmedabad', role: 'admin' };
+    openAppShell();
+  };
+
+  function openAppShell() {
+    $('authView').classList.add('hidden');
+    $('appShell').classList.remove('hidden');
+
+    const displayName = (currentUser.isSuperAdmin || currentUser.role === 'superadmin') ? 'Super Admin' : currentUser.name;
+    $('headerUserName').textContent = displayName;
+    const displayComp = (currentUser.isSuperAdmin || currentUser.role === 'superadmin') ? 'Cloud HQ' : (currentUser.companyName || 'Palanpur');
+    $('headerCompanyName').textContent = displayComp;
+
+    const badge = $('headerRoleBadge');
+    badge.className = 'role-badge ' + (currentUser.role || 'admin');
+
+    // Role Separation: Food Provider & Customer redirect directly to dedicated interfaces
+    const userRole = (currentUser.role || '').toLowerCase();
+    if (userRole === 'food' || userRole === 'foodstaff' || userRole === 'food_provider') {
+      window.location.href = 'workspaces/city_lite_f_b_counter_pos_role_login.html';
+      return;
+    }
+    if (userRole === 'customer' || userRole === 'guest') {
+      window.location.href = 'workspaces/customer-ticket-booking.html';
+      return;
+    }
+
+    // Role 1: SERVICE PROVIDER (SaaS Business Owner)
+    if (currentUser.role === 'superadmin' || currentUser.isSuperAdmin || userRole === 'service_provider') {
+      badge.innerHTML = '<i data-lucide="crown" class="tab-icon-lucide"></i> SERVICE PROVIDER';
+      badge.className = 'role-badge admin';
+      const saasBtn = $('headerSaasConsoleBtn');
+      if (saasBtn) saasBtn.classList.remove('hidden');
+      renderAdminNav();
+      selectTab('overview');
+      document.getElementById('superAdminConsole').classList.remove('hidden');
+      if (window.lucide) setTimeout(() => lucide.createIcons(), 20);
+      loadSuperAdminClients();
+      loadSubscription();
+      loadStaffUsers();
+    } 
+    // Role 2: UNIFIED CINEMA MANAGER (Combining Admin + Super Admin operational + Manager)
+    else {
+      badge.innerHTML = '<i data-lucide="shield-check" class="tab-icon-lucide"></i> CINEMA GENERAL MANAGER';
+      badge.className = 'role-badge admin';
+      const saasBtn = $('headerSaasConsoleBtn');
+      if (saasBtn) saasBtn.classList.add('hidden');
+      renderAdminNav();
+      selectTab('overview');
+      document.getElementById('superAdminConsole').classList.add('hidden');
+      if (window.lucide) setTimeout(() => lucide.createIcons(), 20);
+      loadSubscription();
+      loadStaffUsers();
+    }
+  }
+
+  // --- Navigation Tabs Render ---
+  function renderAdminNav() {
+    const nav = $('workspaceNav');
+    nav.innerHTML = '';
+    const tabs = [
+      { id: 'overview', icon: 'credit-card', label: 'Subscription' },
+      { id: 'food', icon: 'utensils', label: 'Food POS' },
+      { id: 'ticket', icon: 'ticket', label: 'Box Office' },
+      { id: 'manager', icon: 'layout-dashboard', label: 'Command Center' },
+      { id: 'booking', icon: 'smartphone', label: 'Customer Kiosk' }
+    ];
+
+    tabs.forEach(t => {
+      const btn = document.createElement('button');
+      btn.className = 'tab-btn';
+      btn.dataset.tab = t.id;
+      btn.innerHTML = '<i data-lucide="' + t.icon + '" class="tab-icon-lucide"></i> <span>' + t.label + '</span>';
+      btn.addEventListener('click', () => selectTab(t.id));
+      nav.appendChild(btn);
+    });
+    if (window.lucide) {
+      setTimeout(() => lucide.createIcons(), 10);
+    }
+  }
+
+  function renderStaffNav(roleKey) {
+    const nav = $('workspaceNav');
+    nav.innerHTML = '';
+    const tabs = roleKey === 'ticket'
+      ? [
+          { id: 'ticket', icon: 'ticket', label: 'Box Office' },
+          { id: 'booking', icon: 'smartphone', label: 'Customer Kiosk' }
+        ]
+      : [
+          { id: 'food', icon: 'utensils', label: 'Food POS' }
+        ];
+
+    tabs.forEach(t => {
+      const btn = document.createElement('button');
+      btn.className = 'tab-btn';
+      btn.dataset.tab = t.id;
+      btn.innerHTML = '<i data-lucide="' + t.icon + '" class="tab-icon-lucide"></i> <span>' + t.label + '</span>';
+      btn.addEventListener('click', () => selectTab(t.id));
+      nav.appendChild(btn);
+    });
+    if (window.lucide) {
+      setTimeout(() => lucide.createIcons(), 10);
+    }
+  }
+
+  function selectTab(tabKey) {
+    document.querySelectorAll('#workspaceNav .tab-btn').forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.tab === tabKey);
+    });
+
+    $('adminMasterPanel').classList.add('hidden');
+    $('workspaceFrameContainer').classList.add('hidden');
+
+    if (tabKey === 'overview') {
+      $('adminMasterPanel').classList.remove('hidden');
+    } else if (WORKSPACES[tabKey]) {
+      $('workspaceFrameContainer').classList.remove('hidden');
+      loadWorkspaceIframe(tabKey);
+    }
+  }
+
+  function loadWorkspaceIframe(wsKey) {
+    const ws = WORKSPACES[wsKey];
+    if (!ws) return;
+
+    // Calculate exact screen count strictly matching subscription plan (1, 2, or 4 screens)
+    const planName = (currentSubscription?.planName || currentUser?.subscription?.planName || '').toLowerCase();
+    let screenCount = 4;
+    if (planName.includes('1 screen') || planName.includes('starter') || planName.includes('single')) {
+      screenCount = 1;
+    } else if (planName.includes('2 screen') || planName.includes('twin')) {
+      screenCount = 2;
+    } else {
+      screenCount = 4;
+    }
+
+    const company = currentUser?.companyName || 'Royal Cinema';
+    const cleanPlan = currentSubscription?.planName || currentUser?.subscription?.planName || '4 Screen Multiplex Pro';
+    const session = {
+      name: currentUser?.name || 'Admin',
+      email: currentUser?.email || 'admin@royalcinema.in',
+      role: ws.role,
+      company: company,
+      screens: screenCount,
+      plan: cleanPlan
+    };
+    const params = new URLSearchParams({
+      screens: screenCount,
+      plan: cleanPlan,
+      company: company
+    });
+    $('activeWorkspaceFrame').src = `workspaces/${ws.file}?${params.toString()}#cl-session=${encodeURIComponent(JSON.stringify(session))}`;
+  }
+
+  // --- Logout ---
+  function doAppLogout() {
+    currentUser = null;
+    try {
+      localStorage.removeItem('cl_session');
+      localStorage.removeItem('royal_current_user');
+      sessionStorage.clear();
+    } catch (_) {}
+    if ($('activeWorkspaceFrame')) {
+      $('activeWorkspaceFrame').src = 'about:blank';
+    }
+    $('appShell').classList.add('hidden');
+    $('authView').classList.remove('hidden');
+    $('tabModeLogin').click();
+    $('loginPass').value = '';
+    $('loginError').textContent = '';
+  }
+
+  $('logoutBtn').addEventListener('click', doAppLogout);
+
+  // Listen for logout events from embedded workspaces (Food POS, Ticket POS, Command Center)
+  window.addEventListener('message', (event) => {
+    if (event.data && (event.data.type === 'royal-cinema-logout' || event.data === 'royal-cinema-logout')) {
+      console.log('Received logout postMessage from workspace iframe');
+      doAppLogout();
+    }
+  });
+
+  // ======================================================
+  // SUBSCRIPTION MANAGEMENT
+  // ======================================================
+  async function loadSubscription() {
+    try {
+      const res = await window.royalERP.getSubscription(currentUser ? currentUser.companyId : null);
+      if (!res.ok) return;
+
+      currentSubscription = res.subscription;
+      $('subCompanyName').textContent = res.companyName || 'Royal Cinema — Palanpur Flagship';
+      $('subPlanBadge').textContent = (currentSubscription.planName || 'ENTERPRISE CINEMA ERP & POS CLOUD SERVICE').toUpperCase();
+
+      $('subAmountPaid').textContent = currentSubscription.amountPaid || '₹25,000';
+      $('subPaidDate').textContent = formatDate(currentSubscription.paidDate);
+      $('subValidTill').textContent = formatDate(currentSubscription.validTill);
+      $('subNextDue').textContent = formatDate(currentSubscription.nextDueDate || currentSubscription.validTill);
+
+      $('subCycle').textContent = currentSubscription.billingCycle || 'Yearly / Annual';
+      $('subMethod').textContent = currentSubscription.paymentMethod || 'UPI / Bank Transfer (Ref: RC-99421)';
+
+      const statusEl = $('subStatusText');
+      statusEl.textContent = currentSubscription.status || 'Active';
+      statusEl.style.color = currentSubscription.status === 'Active' ? '#16a34a' : '#d97706';
+
+      if (currentSubscription.validTill) {
+        const diffDays = Math.ceil((new Date(currentSubscription.validTill) - new Date()) / (1000 * 60 * 60 * 24));
+        $('subDaysLeft').textContent = diffDays > 0 ? `${diffDays} Days Remaining` : 'Expired / Renewal Required';
+        $('subDaysLeft').style.color = diffDays > 30 ? '#0284c7' : diffDays > 0 ? '#d97706' : '#dc2626';
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
+  $('editSubBtn').addEventListener('click', () => {
+    if (currentSubscription) {
+      $('inpPlanName').value = currentSubscription.planName || 'Enterprise Cinema ERP & POS Cloud Service';
+      $('inpAmountPaid').value = currentSubscription.amountPaid || '₹25,000';
+      $('inpPaidDate').value = currentSubscription.paidDate || new Date().toISOString().slice(0, 10);
+      $('inpValidTill').value = currentSubscription.validTill || '2027-11-14';
+      $('inpNextDue').value = currentSubscription.nextDueDate || '2027-11-14';
+      $('inpCycle').value = currentSubscription.billingCycle || 'Yearly / Annual';
+      $('inpMethod').value = currentSubscription.paymentMethod || 'UPI / Bank Transfer (Ref: RC-99421)';
+      $('inpStatus').value = currentSubscription.status || 'Active';
+    }
+    $('subModal').classList.remove('hidden');
+  });
+
+  $('subCancel').addEventListener('click', () => $('subModal').classList.add('hidden'));
+  $('subModal').addEventListener('click', e => { if (e.target === $('subModal')) $('subModal').classList.add('hidden'); });
+
+  $('subForm').addEventListener('submit', async e => {
+    e.preventDefault();
+    const data = {
+      planName: $('inpPlanName').value.trim(),
+      amountPaid: $('inpAmountPaid').value.trim(),
+      paidDate: $('inpPaidDate').value,
+      validTill: $('inpValidTill').value,
+      nextDueDate: $('inpNextDue').value,
+      billingCycle: $('inpCycle').value,
+      paymentMethod: $('inpMethod').value.trim(),
+      status: $('inpStatus').value
+    };
+
+    const res = await window.royalERP.updateSubscription(data);
+    if (res.ok) {
+      $('subModal').classList.add('hidden');
+      loadSubscription();
+    } else {
+      alert(res.message || 'Failed to update subscription.');
+    }
+  });
+
+  // ======================================================
+  // STAFF USERS MANAGEMENT (Ticket & Food Staff only)
+  // ======================================================
+  async function loadStaffUsers() {
+    try {
+      const users = await window.royalERP.listUsers(currentUser ? currentUser.companyId : null);
+      const tbody = $('staffBody');
+      tbody.innerHTML = '';
+
+      if (!users || users.length === 0) {
+        $('staffTable').classList.add('hidden');
+        $('noStaff').classList.remove('hidden');
+        return;
+      }
+
+      $('staffTable').classList.remove('hidden');
+      $('noStaff').classList.add('hidden');
+
+      users.forEach(u => {
+        const isTicket = u.station === 'ticket';
+        const stationBadge = isTicket
+          ? '<span style="padding:3px 9px;border-radius:12px;font-size:10px;font-weight:750;background:#f0f9ff;color:#0284c7;border:1px solid #bae6fd;display:inline-flex;align-items:center;gap:3px;"><i data-lucide="ticket" style="width:12px;height:12px;"></i> Box Office Ticketing</span>'
+          : '<span style="padding:3px 9px;border-radius:12px;font-size:10px;font-weight:750;background:#f0fdf4;color:#16a34a;border:1px solid #bbf7d0;display:inline-flex;align-items:center;gap:3px;"><i data-lucide="utensils" style="width:12px;height:12px;"></i> Food Counter POS</span>';
+
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td style="font-weight:750;color:#161212">${esc(u.name)}</td>
+          <td>${stationBadge}</td>
+          <td style="font-family:monospace;color:#ea580c;font-weight:700">${esc(u.username)}</td>
+          <td>${esc(u.email)}</td>
+          <td><span class="cred-tag" style="display:inline-flex;align-items:center;gap:4px;"><i data-lucide="key" style="width:12px;height:12px;color:#d97706;"></i> ${esc(u.plainPassword || 'User@12345')}</span></td>
+          <td style="font-size:11px;color:#64748b">${formatDate(u.createdAt)}</td>
+          <td><span class="status ${u.status}">${u.status}</span></td>
+          <td>
+            <button class="action-btn quick-login" onclick="loginAsStaff('${esc(u.username)}', '${esc(u.plainPassword || 'User@12345')}')" title="Test login as this staff" style="display:inline-flex;align-items:center;gap:3px;"><i data-lucide="log-in" style="width:12px;height:12px;"></i> Switch Login</button>
+            <button class="action-btn" onclick="toggleStaff('${u.id}')">${u.status === 'active' ? 'Deactivate' : 'Activate'}</button>
+            <button class="action-btn danger" onclick="deleteStaff('${u.id}', '${esc(u.name)}')">Delete</button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+      if (window.lucide) setTimeout(() => lucide.createIcons(), 10);
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
+  window.loginAsStaff = async (username, password) => {
+    const res = await window.royalERP.login({ identifier: username, password });
+    if (res.ok) {
+      currentUser = res.user;
+      showWelcomeSplash(currentUser, () => {
+        openAppShell();
+      });
+    } else {
+      alert(res.message);
+    }
+  };
+
+  window.toggleStaff = async (id) => {
+    await window.royalERP.toggleUserStatus({ userId: id });
+    loadStaffUsers();
+  };
+
+  window.deleteStaff = async (id, name) => {
+    if (!confirm(`Are you sure you want to delete staff user "${name}"?`)) return;
+    await window.royalERP.deleteUser({ userId: id });
+    loadStaffUsers();
+  };
+
+  // Add Staff Modal
+  $('addStaffBtn').addEventListener('click', () => {
+    $('addStaffForm').reset();
+    $('stfError').textContent = '';
+    $('addStaffModal').classList.remove('hidden');
+  });
+
+  $('stfCancel').addEventListener('click', () => $('addStaffModal').classList.add('hidden'));
+  $('addStaffModal').addEventListener('click', e => { if (e.target === $('addStaffModal')) $('addStaffModal').classList.add('hidden'); });
+
+  $('addStaffForm').addEventListener('submit', async e => {
+    e.preventDefault();
+    $('stfError').textContent = '';
+
+    const name = $('stfName').value.trim();
+    const station = $('stfStation').value;
+    const username = $('stfUsername').value.trim();
+    const email = $('stfEmail').value.trim();
+    const password = $('stfPassword').value;
+
+    if (!name || !username || !email || !password) {
+      $('stfError').textContent = 'Please fill all required fields.';
+      return;
+    }
+    if (password.length < 6) {
+      $('stfError').textContent = 'Password must be at least 6 characters.';
+      return;
+    }
+
+    const res = await window.royalERP.addUser({ name, username, email, password, station });
+    if (!res.ok) {
+      $('stfError').textContent = res.message || 'Failed to add staff.';
+      return;
+    }
+
+    $('addStaffModal').classList.add('hidden');
+    loadStaffUsers();
+  });
+
+  function esc(str) {
+    const d = document.createElement('div');
+    d.textContent = str || '';
+    return d.innerHTML;
+  }
+
+  function formatDate(d) {
+    if (!d) return '—';
+    try {
+      return new Date(d).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
+    } catch {
+      return d;
+    }
+  }
+
+  // --- Real-time Existing Client Subscription & Renewal Detection ---
+  let checkTimer = null;
+  async function checkExistingSubscription(identifier) {
+    if (!identifier || identifier.trim().length < 3) {
+      $('obExistingClientAlert').classList.add('hidden');
+      $('obSubmitBtn').style.display = 'block';
+      return;
+    }
+    try {
+      let res;
+      if (window.royalERP && window.royalERP.checkSubscription) {
+        res = await window.royalERP.checkSubscription(identifier.trim());
+      } else {
+        const f = await fetch('/api/company/check-subscription?identifier=' + encodeURIComponent(identifier.trim()));
+        res = await f.json();
+      }
+
+      const alertBox = $('obExistingClientAlert');
+      if (res && res.exists && res.company) {
+        const c = res.company;
+        const sub = c.subscription || {};
+        if (sub.isExpired) {
+          // EXPIRED: Prompt renewal without wiping existing database
+          alertBox.className = '';
+          alertBox.innerHTML = `
+            <div style="background:#fffbeb;border:1.5px solid #fcd34d;border-radius:12px;padding:14px;box-shadow:0 4px 14px rgba(245,158,11,0.08);">
+              <div style="display:flex;align-items:center;gap:8px;color:#b45309;font-weight:800;font-size:12.5px;">
+                <span>⚠️</span> Subscription Expired
+              </div>
+              <div style="margin-top:6px;font-size:11.5px;color:#92400e;line-height:1.5;">
+                <strong>${c.name}</strong>'s subscription expired on <strong>${sub.validTill}</strong>.<br>
+                Aapka cinema database, staff accounts aur reports safe hain.<br>
+                Naya account banaye bina 1 saal ke liye renew karein:
+              </div>
+              <div style="margin-top:10px;display:flex;gap:8px;">
+                <button type="button" onclick="renewExistingClientDirect('${c.adminUsername}')" style="flex:1;padding:10px;background:linear-gradient(100deg,#ffc258,#ea580c);color:#fff;border:none;border-radius:8px;font-weight:800;font-size:11.5px;cursor:pointer;">
+                  🔄 Renew Plan for 1 Year
+                </button>
+                <button type="button" onclick="switchToSignIn('${c.adminUsername}')" style="padding:10px 14px;background:#fff;border:1px solid #d1d5db;border-radius:8px;font-weight:700;font-size:11.5px;cursor:pointer;">
+                  Sign In
+                </button>
+              </div>
+            </div>
+          `;
+          $('obSubmitBtn').style.display = 'none';
+        } else {
+          // ACTIVE: Inform client and route to Sign In
+          alertBox.className = '';
+          alertBox.innerHTML = `
+            <div style="background:#f0fdf4;border:1.5px solid #86efac;border-radius:12px;padding:14px;box-shadow:0 4px 14px rgba(34,197,94,0.08);">
+              <div style="display:flex;align-items:center;gap:8px;color:#15803d;font-weight:800;font-size:12.5px;">
+                <span>✅</span> Cinema Already Registered &amp; Subscribed!
+              </div>
+              <div style="margin-top:6px;font-size:11.5px;color:#166534;line-height:1.5;">
+                <strong>${c.name}</strong> is currently active on <strong>${sub.planName}</strong>.<br>
+                Valid till: <strong>${sub.validTill}</strong> (<strong>${sub.daysRemaining} days remaining</strong>).<br>
+                Aapka record, staff accounts aur settings safe hain. Naya account banakar purana data erase na karein.
+              </div>
+              <button type="button" onclick="switchToSignIn('${c.adminUsername}')" style="margin-top:10px;width:100%;padding:10px;background:#16a34a;color:#fff;border:none;border-radius:8px;font-weight:800;font-size:12px;cursor:pointer;">
+                👉 Proceed to Sign In (Direct Login)
+              </button>
+            </div>
+          `;
+          $('obSubmitBtn').style.display = 'none';
+        }
+      } else {
+        alertBox.className = 'hidden';
+        alertBox.innerHTML = '';
+        $('obSubmitBtn').style.display = 'block';
+      }
+    } catch(e) {
+      console.warn('Subscription check error:', e);
+    }
+  }
+
+  $('obAdminUser').addEventListener('input', () => {
+    clearTimeout(checkTimer);
+    checkTimer = setTimeout(() => checkExistingSubscription($('obAdminUser').value), 400);
+  });
+  $('obAdminEmail').addEventListener('input', () => {
+    clearTimeout(checkTimer);
+    checkTimer = setTimeout(() => checkExistingSubscription($('obAdminEmail').value), 400);
+  });
+
+  window.switchToSignIn = (username) => {
+    $('tabModeLogin').click();
+    $('loginId').value = username;
+    $('loginPass').focus();
+  };
+
+  window.renewExistingClientDirect = async (username) => {
+    const selPlan = $('obSelectedPlan')?.value || '4 Screen Multiplex Pro';
+    const amount = (selPlan.includes('1 Screen') ? '₹9,999' : selPlan.includes('2 Screen') ? '₹16,999' : '₹24,999');
+    try {
+      let res;
+      if (window.royalERP && window.royalERP.renewDirect) {
+        res = await window.royalERP.renewDirect({ identifier: username, planName: selPlan, amountPaid: amount });
+      } else {
+        const f = await fetch('/api/company/renew-direct', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ identifier: username, planName: selPlan, amountPaid: amount })
+        });
+        res = await f.json();
+      }
+
+      if (res && res.ok) {
+        alert('✅ Subscription renewed successfully for 1 Year!\n\nValid till: ' + res.subscription.validTill + '\n\nPlease sign in with your credentials.');
+        switchToSignIn(username);
+      } else {
+        alert(res?.message || 'Renewal failed. Please try again.');
+      }
+    } catch(err) {
+      alert('Error during renewal: ' + err.message);
+    }
+  };
+})();
+
+  // --- Toast Notification Helper ---
+  window.showToast = function(msg, duration = 3000) {
+    const t = document.getElementById('toastNotification');
+    if (!t) return;
+    t.textContent = msg;
+    t.style.display = 'flex';
+    t.style.opacity = '1';
+    clearTimeout(t._timer);
+    t._timer = setTimeout(() => {
+      t.style.opacity = '0';
+      setTimeout(() => { t.style.display = 'none'; }, 200);
+    }, duration);
+  };
+
+  // --- Left Hero Feature Cards Handler ---
+  window.handleFeatureCardClick = function(type) {
+    if (type === 'booking') {
+      quickFillRole('ticketstaff', 'User@12345', 'Box Office Ticketing');
+      showToast('🎟️ Box Office Ticketing selected. Click Sign In to launch.');
+    } else if (type === 'pos') {
+      quickFillRole('ticketstaff', 'User@12345', 'Counter POS');
+      showToast('🎫 Counter POS role selected. Click Sign In to launch POS counter.');
+    } else if (type === 'food') {
+      quickFillRole('foodstaff', 'User@12345', 'Food Staff');
+      showToast('🍿 Food & Beverage Concession role selected. Click Sign In.');
+    } else if (type === 'admin') {
+      quickFillRole('admin@royalcinema.in', 'Admin@12345', 'Cinema Manager');
+      showToast('📊 Super Admin & Analytics role selected. Click Sign In.');
+    }
+  };
+
+  // --- Forgot Password Modal Functions ---
+  window.openForgotPassModal = function() {
+  setTimeout(() => { if (window.lucide) lucide.createIcons(); }, 10);
+    document.getElementById('forgotPassModal').classList.remove('hidden');
+    document.getElementById('fpResultMsg').textContent = '';
+  };
+  window.closeForgotPassModal = function() {
+    document.getElementById('forgotPassModal').classList.add('hidden');
+  };
+  window.handleForgotPassSubmit = function(e) {
+    e.preventDefault();
+    const id = document.getElementById('fpIdentifier').value.trim();
+    const msg = document.getElementById('fpResultMsg');
+    msg.style.color = '#16a34a';
+    msg.textContent = '✅ Reset PIN & recovery instructions dispatched to ' + id + '!';
+    setTimeout(() => {
+      closeForgotPassModal();
+      showToast('🔑 Password reset instructions dispatched to registered admin.');
+    }, 1600);
+  };
+
+  // --- Book a Demo Modal Functions ---
+  window.openDemoModal = function() {
+  setTimeout(() => { if (window.lucide) lucide.createIcons(); }, 10);
+    document.getElementById('demoModal').classList.remove('hidden');
+    document.getElementById('dmResultMsg').textContent = '';
+  };
+  window.closeDemoModal = function() {
+    document.getElementById('demoModal').classList.add('hidden');
+  };
+  window.handleDemoSubmit = async function(e) {
+    e.preventDefault();
+    const cinemaName = document.getElementById('dmCinema').value.trim();
+    const contactName = document.getElementById('dmName').value.trim();
+    const phone = document.getElementById('dmPhone').value.trim();
+    const city = document.getElementById('dmCity').value.trim();
+    const screens = document.getElementById('dmScreens').value;
+
+    try {
+      await fetch('/api/sales/demo-request', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ cinemaName, contactName, phone, city, screens, email: '' })
+      });
+      const msg = document.getElementById('dmResultMsg');
+      msg.style.color = '#16a34a';
+      msg.textContent = '✅ Demo booked! Our cinema consultant will contact ' + phone + ' today.';
+      setTimeout(() => {
+        closeDemoModal();
+        showToast('🎬 Demo booked successfully for ' + cinemaName + '!');
+      }, 1800);
+    } catch (err) {
+      const msg = document.getElementById('dmResultMsg');
+      msg.style.color = '#16a34a';
+      msg.textContent = '✅ Demo requested! We will call ' + phone + ' shortly.';
+      setTimeout(() => { closeDemoModal(); }, 1800);
+    }
+  };
+
+  // ═══════════════════════════════════════════════════════════
+  // OAUTH 2.0 LOGIN CONTROLLER (Google & Microsoft)
+  // ═══════════════════════════════════════════════════════════
+
+  window.handleOAuthLogin = function(provider) {
+    const isGoogle = provider === 'google';
+    const btn = isGoogle ? $('btnGoogleLogin') : $('btnMicrosoftLogin');
+    const textSpan = isGoogle ? $('btnGoogleText') : $('btnMicrosoftText');
+    const providerName = isGoogle ? 'Google' : 'Microsoft';
+
+    if (btn) btn.disabled = true;
+    if (textSpan) {
+      textSpan.innerHTML = `<span style="display:inline-flex;align-items:center;gap:6px;"><span class="oauth-spinner"></span> Connecting to ${providerName}...</span>`;
+    }
+    if ($('loginError')) $('loginError').innerHTML = '';
+
+    // Direct browser navigation to backend OAuth initiation route
+    window.location.href = `/api/auth/oauth/${provider}/start?redirect=` + encodeURIComponent(window.location.pathname);
+  };
+
+  // Check URL query parameters for OAuth responses (errors or session tokens)
+  (async function initOAuthResponseHandler() {
+    try {
+      const urlParams = new URLSearchParams(window.location.search);
+
+      // Handle OAuth Error (e.g. Access Denied, Cancelled, State Expired)
+      if (urlParams.has('oauth_error')) {
+        const errorMsg = urlParams.get('oauth_error');
+        const loginErrEl = $('loginError');
+        if (loginErrEl) {
+          loginErrEl.innerHTML = `
+            <div class="oauth-error-banner">
+              <span style="font-size:16px;line-height:1">⚠️</span>
+              <div>
+                <strong>Authentication Notice:</strong><br>
+                ${esc(errorMsg)}
+              </div>
+            </div>
+          `;
+        }
+        // Clean URL without reloading page
+        window.history.replaceState({}, document.title, window.location.pathname);
+        return;
+      }
+
+      // Handle Successful OAuth Authentication Token
+      if (urlParams.has('oauth_token')) {
+        const token = urlParams.get('oauth_token');
+        const assignedRole = urlParams.get('role');
+
+        const btnGoogle = $('btnGoogleLogin');
+        const btnMs = $('btnMicrosoftLogin');
+        if (btnGoogle) btnGoogle.disabled = true;
+        if (btnMs) btnMs.disabled = true;
+
+        if ($('loginError')) {
+          $('loginError').innerHTML = `
+            <div style="background:#eff6ff;border:1px solid #bfdbfe;color:#1e40af;padding:10px 14px;border-radius:12px;font-size:12px;margin-bottom:12px;display:flex;align-items:center;gap:8px;">
+              <span class="oauth-spinner" style="border-top-color:#1e40af;"></span>
+              <span>Single Sign-On verified! Initializing authorized session...</span>
+            </div>
+          `;
+        }
+
+        // Fetch validated session data from backend
+        const sessionRes = await fetch('/api/auth/session?token=' + encodeURIComponent(token));
+        const sessionData = await sessionRes.json();
+
+        if (sessionData && sessionData.ok && sessionData.user) {
+          currentUser = sessionData.user;
+          try {
+            localStorage.setItem('royal_current_user', JSON.stringify(currentUser));
+          } catch (_) {}
+
+          // Clean URL
+          window.history.replaceState({}, document.title, window.location.pathname);
+
+          // Clear login error
+          if ($('loginError')) $('loginError').innerHTML = '';
+
+          // Launch authenticated workspace
+          showWelcomeSplash(currentUser, () => {
+            openAppShell();
+          });
+        } else {
+          if ($('loginError')) {
+            $('loginError').innerHTML = `
+              <div class="oauth-error-banner">
+                <span>⚠️</span>
+                <div>Failed to retrieve authenticated session. Please try logging in again.</div>
+              </div>
+            `;
+          }
+          if (btnGoogle) btnGoogle.disabled = false;
+          if (btnMs) btnMs.disabled = false;
+        }
+      }
+    } catch (err) {
+      console.warn('OAuth response handling notice:', err);
+    }
+  })();
+
+</script>
+
+<!-- ====================================================== -->
+<!-- MULTI-BRANCH SELECTOR MODAL (SECTION 6 BLUEPRINT)      -->
+<!-- ====================================================== -->
+<div id="branchModal" class="modal-overlay hidden">
+  <div class="modal-card" style="max-width:560px;">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+      <div>
+        <h2><i data-lucide="building-2" class="tab-icon-lucide"></i> Select Cinema Branch to Launch</h2>
+        <p class="modal-sub" style="margin-bottom:0">Per-Branch subscription model. Expired branches do not affect active branches.</p>
+      </div>
+      <button onclick="closeBranchModal()" style="background:none;border:none;cursor:pointer;color:#64748b;display:inline-flex;align-items:center;" aria-label="Close"><i data-lucide="x" class="modal-close-lucide"></i></button>
+    </div>
+
+    <!-- Alert banner if Surat is selected or user encounters expired branch -->
+    <div id="branchAlertBox" class="hidden" style="margin-bottom:14px;padding:12px;border-radius:10px;background:#fef2f2;border:1px solid #fecaca;color:#dc2626;font-size:12px;line-height:1.5;">
+    </div>
+
+    <div id="branchesModalList" style="display:flex;flex-direction:column;gap:10px;margin-bottom:16px;">
+      <!-- Branch items injected dynamically -->
+    </div>
+
+    <div style="display:flex;justify-content:space-between;align-items:center;padding-top:12px;border-top:1px solid #e2e8f0;">
+      <a href="client-portal.html" target="_blank" style="font-size:12px;color:#ea580c;font-weight:750;text-decoration:none">
+        🏢 Open Client Portal for Branch Licenses &rarr;
+      </a>
+      <button type="button" class="modal-cancel" onclick="closeBranchModal()">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- ====================================================== -->
+<!-- DESKTOP HELP & SUPPORT MODAL (SECTION 7 BLUEPRINT)     -->
+<!-- ====================================================== -->
+<div id="desktopSupportModal" class="modal-overlay hidden">
+  <div class="modal-card" style="max-width:580px;">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+      <div>
+        <h2><i data-lucide="headset" class="tab-icon-lucide"></i> Cinema Help &amp; Fast Support</h2>
+        <p class="modal-sub" style="margin-bottom:0">Critical SLA: 15 Mins • WhatsApp • Priority Phone Hotline</p>
+      </div>
+      <button onclick="closeSupportModal()" class="modal-close-btn" aria-label="Close"><i data-lucide="x" class="modal-close-lucide"></i></button>
+    </div>
+
+    <!-- Mode Tabs: Raise Ticket vs Request a Call -->
+    <div class="mode-tabs" style="margin-bottom:16px;">
+      <button class="mode-tab-btn active" id="tabSupportTicket" onclick="switchSupportTab('ticket')" type="button"><i data-lucide="mail" class="tab-icon-lucide"></i> Raise Ticket</button>
+      <button class="mode-tab-btn" id="tabSupportCall" onclick="switchSupportTab('call')" type="button"><i data-lucide="phone-call" class="tab-icon-lucide"></i> Request Call</button>
+      <button class="mode-tab-btn" id="tabSupportContact" onclick="switchSupportTab('contact')" type="button"><i data-lucide="message-square" class="tab-icon-lucide"></i> Direct Channels</button>
+    </div>
+
+    <!-- TAB 1: RAISE TICKET -->
+    <div id="viewSupportTicket">
+      <form id="deskTicketForm" onsubmit="submitDesktopTicket(event)">
+        <div class="field-row">
+          <div class="field">
+            <label>Branch <span class="req-star">*</span></label>
+            <select id="dtBranchSelect" required>
+              <option value="Royal Cinema - Ahmedabad Main">Ahmedabad Main (Active)</option>
+              <option value="Royal Cinema - Gandhinagar Twin">Gandhinagar Twin (Active)</option>
+              <option value="Royal Cinema - Surat Heritage">Surat Heritage (Expired)</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Category <span class="req-star">*</span></label>
+            <select id="dtCategory" required>
+              <option value="POS Hardware & Printers">POS Hardware &amp; Printers</option>
+              <option value="Ticket Booking Issue">Ticket Booking Issue</option>
+              <option value="Food & F&B Concession">Food &amp; F&amp;B Concession</option>
+              <option value="License & Renewal">License &amp; Renewal</option>
+              <option value="Reports & Accounting">Reports &amp; Accounting</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="field-row">
+          <div class="field">
+            <label>Priority / Urgency <span class="req-star">*</span></label>
+            <select id="dtPriority" required>
+              <option value="High">High (1 Hour SLA)</option>
+              <option value="Critical">Critical (15 Mins SLA - Counter Stopped)</option>
+              <option value="Medium">Medium (4 Hours SLA)</option>
+              <option value="Low">Low (1 Day SLA)</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Contact Phone <span class="req-star">*</span></label>
+            <input id="dtPhone" type="tel" value="+91 98765 43210" required>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Issue Subject <span class="req-star">*</span></label>
+          <input id="dtSubject" placeholder="e.g. Thermal printer cutting off ticket QR code" required>
+        </div>
+
+        <div class="field">
+          <label>Detailed Description <span class="req-star">*</span></label>
+          <textarea id="dtDesc" rows="3" style="width:100%;padding:10px;border-radius:10px;border:1.5px solid #e5e7eb;font-family:inherit;font-size:13px;" placeholder="Describe what happened at the counter..." required></textarea>
+        </div>
+
+        <div id="dtResultMsg" class="error" style="color:#16a34a;"></div>
+
+        <div class="modal-actions">
+          <button type="button" class="modal-cancel" onclick="closeSupportModal()">Cancel</button>
+          <button type="submit" class="add-btn" id="dtSubmitBtn">Submit Ticket &rarr;</button>
+        </div>
+      </form>
+    </div>
+
+    <!-- TAB 2: REQUEST A CALL -->
+    <div id="viewSupportCall" class="hidden">
+      <form id="deskCallForm" onsubmit="submitDesktopCall(event)">
+        <p style="font-size:12px;color:#64748b;margin-bottom:14px;">Our cinema technical specialist will call back your manager directly within 15 minutes.</p>
+        <div class="field-row">
+          <div class="field"><label>Your Name <span class="req-star">*</span></label><input id="dcName" value="Manager Ramesh" required></div>
+          <div class="field"><label>Direct Phone Number <span class="req-star">*</span></label><input id="dcPhone" type="tel" value="+91 98765 43210" required></div>
+        </div>
+        <div class="field">
+          <label>Urgency <span class="req-star">*</span></label>
+          <select id="dcUrgency">
+            <option value="Immediate (Show starting in 15 mins)">Immediate (Show starting in 15 mins)</option>
+            <option value="Today within 1-2 hours">Today within 1-2 hours</option>
+            <option value="General Enquiry">General Enquiry</option>
+          </select>
+        </div>
+        <div id="dcResultMsg" class="error" style="color:#16a34a;"></div>
+        <div class="modal-actions">
+          <button type="button" class="modal-cancel" onclick="closeSupportModal()">Cancel</button>
+          <button type="submit" class="add-btn">Request Urgent Callback &rarr;</button>
+        </div>
+      </form>
+    </div>
+
+    <!-- TAB 3: DIRECT CHANNELS -->
+    <div id="viewSupportContact" class="hidden" style="padding:6px 0;">
+      <div class="contact-channel-card">
+        <div class="contact-channel-info">
+          <div class="contact-channel-title"><i data-lucide="message-circle" class="tab-icon-lucide" style="color:#16a34a"></i> WhatsApp Cinema Hotline</div>
+          <div class="contact-channel-desc">Instant replies for operational counter emergencies:</div>
+          <div class="contact-channel-value" style="color:#16a34a;">+91 98250 88990 (WhatsApp Live)</div>
+        </div>
+        <a href="https://wa.me/919825088990?text=Hello%20Royal%20Cinema%20Support%2C%20I%20need%20urgent%20assistance%20at%20our%20counter" target="_blank" class="contact-channel-action" style="background:#22c55e;color:#ffffff;">Open WhatsApp &rarr;</a>
+      </div>
+
+      <div class="contact-channel-card">
+        <div class="contact-channel-info">
+          <div class="contact-channel-title"><i data-lucide="phone-call" class="tab-icon-lucide" style="color:#0284c7"></i> Priority Cinema Tech Desk</div>
+          <div class="contact-channel-desc">Toll-free priority voice line for subscribed branches:</div>
+          <div class="contact-channel-value" style="color:#ea580c;">1800 200 4880 / +91 79 4000 8900</div>
+        </div>
+        <a href="tel:18002004880" class="contact-channel-action" style="background:#ea580c;color:#ffffff;">Call Now &rarr;</a>
+      </div>
+
+      <div class="contact-channel-card">
+        <div class="contact-channel-info">
+          <div class="contact-channel-title"><i data-lucide="mail" class="tab-icon-lucide" style="color:#ea580c"></i> Official Support Email</div>
+          <div class="contact-channel-desc">Direct ticketing, SLA tracking and billing enquiries:</div>
+          <div class="contact-channel-value" style="color:#0284c7;">support@royalcinema.in</div>
+        </div>
+        <a href="mailto:support@royalcinema.in?subject=Cinema%20Support%20Request" class="contact-channel-action" style="background:#0284c7;color:#ffffff;">Email Us &rarr;</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- FORGOT PASSWORD MODAL -->
+<div id="forgotPassModal" class="modal-overlay hidden">
+  <div class="modal-card" style="max-width:440px;">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+      <div>
+        <h2 style="font-size:18px;"><i data-lucide="key" class="tab-icon-lucide"></i> Reset Password</h2>
+        <p class="modal-sub" style="margin-bottom:0">Enter your registered email or username</p>
+      </div>
+      <button onclick="closeForgotPassModal()" style="background:none;border:none;cursor:pointer;color:#64748b;display:inline-flex;align-items:center;" aria-label="Close"><i data-lucide="x" class="modal-close-lucide"></i></button>
+    </div>
+    <form onsubmit="handleForgotPassSubmit(event)" style="margin-top:14px;">
+      <div class="field">
+        <label>Cinema Email or Username *</label>
+        <input id="fpIdentifier" placeholder="admin@royalcinema.in" required>
+      </div>
+      <div id="fpResultMsg" style="font-size:12.5px;font-weight:700;margin-bottom:10px;"></div>
+      <div class="modal-actions">
+        <button type="button" class="modal-cancel" onclick="closeForgotPassModal()">Cancel</button>
+        <button type="submit" class="add-btn" style="background:#0e2942;color:#ffffff;border:none;border-radius:10px;padding:0 20px;height:42px;font-weight:700;cursor:pointer;">Send Reset Link &rarr;</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- BOOK A DEMO MODAL -->
+<div id="demoModal" class="modal-overlay hidden">
+  <div class="modal-card" style="max-width:480px;">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+      <div>
+        <h2 style="font-size:18px;"><i data-lucide="clapperboard" class="tab-icon-lucide"></i> Schedule a Live Cinema Demo</h2>
+        <p class="modal-sub" style="margin-bottom:0">See Box Office, Ticketing &amp; F&amp;B in action</p>
+      </div>
+      <button onclick="closeDemoModal()" style="background:none;border:none;cursor:pointer;color:#64748b;display:inline-flex;align-items:center;" aria-label="Close"><i data-lucide="x" class="modal-close-lucide"></i></button>
+    </div>
+    <form onsubmit="handleDemoSubmit(event)" style="margin-top:14px;">
+      <div class="field">
+        <label>Cinema / Multiplex Name *</label>
+        <input id="dmCinema" placeholder="e.g. Royal Talkies" required>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label>Contact Name *</label>
+          <input id="dmName" placeholder="Manager Name" required>
+        </div>
+        <div class="field">
+          <label>Phone / WhatsApp *</label>
+          <input id="dmPhone" type="tel" placeholder="+91 98765 43210" required>
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label>City *</label>
+          <input id="dmCity" placeholder="e.g. Mumbai / Ahmedabad" required>
+        </div>
+        <div class="field">
+          <label>Number of Screens</label>
+          <select id="dmScreens">
+            <option value="Single Screen">Single Screen</option>
+            <option value="2-4 Screens">2-4 Screens Multiplex</option>
+            <option value="5+ Screens">5+ Screens Megaplex</option>
+          </select>
+        </div>
+      </div>
+      <div id="dmResultMsg" style="font-size:12.5px;font-weight:700;margin-bottom:10px;"></div>
+      <div class="modal-actions">
+        <button type="button" class="modal-cancel" onclick="closeDemoModal()">Cancel</button>
+        <button type="submit" class="add-btn" style="background:#0e2942;color:#ffffff;border:none;border-radius:10px;padding:0 20px;height:42px;font-weight:700;cursor:pointer;">Book 15-Min Live Demo &rarr;</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- TOAST NOTIFICATION CONTAINER -->
+<div id="toastNotification" style="position:fixed;bottom:28px;right:28px;z-index:9999;background:#0e2942;color:#ffffff;padding:12px 20px;border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,0.25);font-size:13px;font-weight:700;display:none;align-items:center;gap:10px;border:1px solid rgba(255,255,255,0.15);transition:opacity 0.2s;"></div>
+
+</body>
+</html>
