@@ -49,6 +49,7 @@ legacy-desktop/**/.env
 # Temporary test scripts, scratch & migration quarantine
 scratch/
 tools/migration/
+enterprise-production/
 
 # Editor directories
 .vscode/

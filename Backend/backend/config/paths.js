@@ -3,12 +3,16 @@ const fs = require('node:fs');
 const { ROOT_DIR, FRONTEND_DIR } = require('./env');
 
 function getDataDir() {
-  const base = process.env.APPDATA
-    ? path.join(process.env.APPDATA, 'royal-cinema-erp-desktop')
-    : ROOT_DIR;
+  const base = (process.env.VERCEL || process.env.AWS_LAMBDA_FUNCTION_NAME || process.env.NOW_REGION)
+    ? '/tmp'
+    : (process.env.APPDATA ? path.join(process.env.APPDATA, 'royal-cinema-erp-desktop') : ROOT_DIR);
   const d = path.join(base, 'royal-erp-data');
   if (!fs.existsSync(d)) {
-    fs.mkdirSync(d, { recursive: true });
+    try {
+      fs.mkdirSync(d, { recursive: true });
+    } catch (e) {
+      console.warn('[DB] getDataDir mkdir warning:', e.message);
+    }
   }
   return d;
 }

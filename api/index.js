@@ -1,4 +1,3 @@
-const path = require('path');
 const backend = require('../Backend/backend');
 
 // Ensure seed default data is populated if running on cold start
@@ -9,8 +8,8 @@ try {
 }
 
 module.exports = async (req, res) => {
-  // Handle CORS Preflight if any
-  const origin = req.headers.origin || 'https://royalcinema.in';
+  // Always ensure JSON content type by default for API responses
+  const origin = req.headers.origin || '*';
   res.setHeader('Access-Control-Allow-Origin', origin);
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With');
@@ -23,11 +22,18 @@ module.exports = async (req, res) => {
   }
 
   try {
-    await backend.router.handleApiRequest(req, res);
+    const handled = await backend.router.handleApiRequest(req, res);
+    if (!handled && !res.writableEnded) {
+      res.statusCode = 404;
+      res.setHeader('Content-Type', 'application/json');
+      res.end(JSON.stringify({ ok: false, error: 'Endpoint not found: ' + req.url }));
+    }
   } catch (err) {
     console.error('[Vercel Serverless Handler Error]:', err);
-    res.statusCode = 500;
-    res.setHeader('Content-Type', 'application/json');
-    res.end(JSON.stringify({ ok: false, error: 'Internal Server Error' }));
+    if (!res.writableEnded) {
+      res.statusCode = 500;
+      res.setHeader('Content-Type', 'application/json');
+      res.end(JSON.stringify({ ok: false, error: 'Internal Server Error: ' + err.message }));
+    }
   }
 };
