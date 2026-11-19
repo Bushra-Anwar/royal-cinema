@@ -1,27 +1,11 @@
 {
-  "name": "royal-cinema-monorepo",
+  "name": "royal-cinema-erp",
   "version": "1.0.0",
   "private": true,
-  "description": "Royal Cinema ERP & Multi-Tenant SaaS Platform Monorepo",
-  "workspaces": [
-    "enterprise-production/apps/*",
-    "enterprise-production/packages/*"
-  ],
+  "description": "Royal Cinema ERP & Multi-Tenant SaaS Platform",
+  "main": "Backend/server.cjs",
   "scripts": {
     "start": "node Backend/server.cjs",
-    "start:backend": "node Backend/server.cjs",
-    "dev:backend": "node Backend/server.cjs",
-    "dev:website": "npm run dev --workspace=royal-cinema-public-website",
-    "dev:portal": "npm run dev --workspace=royal-cinema-client-portal",
-    "dev:admin": "npm run dev --workspace=royal-cinema-super-admin",
-    "dev:api": "npm run start:dev --workspace=royal-cinema-backend-nestjs",
-    "dev:desktop": "node legacy-desktop/electron-app/resources/app/server.cjs",
-    "build:packages": "npm run build --workspace=@royal-cinema/shared-types --workspace=@royal-cinema/validation --workspace=@royal-cinema/api-client --workspace=@royal-cinema/shared-ui --if-present",
-    "build:apps": "npm run build --workspace=royal-cinema-backend-nestjs --workspace=royal-cinema-public-website --workspace=royal-cinema-client-portal --workspace=royal-cinema-super-admin --if-present",
-    "build": "npm run build --workspaces --if-present",
-    "lint": "npm run lint --workspaces --if-present"
-  },
-  "devDependencies": {
-    "typescript": "^5.4.5"
+    "dev": "node Backend/server.cjs"
   }
 }
