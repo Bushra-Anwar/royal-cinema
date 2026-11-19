@@ -1,8 +1,0 @@
-{
-  "name": "@royal-cinema/validation",
-  "version": "1.0.0",
-  "description": "Common DTO validation rules for Royal Cinema ERP",
-  "main": "src/index.ts",
-  "types": "src/index.ts",
-  "private": true
-}
