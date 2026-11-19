@@ -58,3 +58,4 @@ enterprise-production/
 *.swo
 
 .vercel
+.env*
