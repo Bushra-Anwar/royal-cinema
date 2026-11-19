@@ -1,4 +1,15 @@
-const backend = require('../Backend/backend');
+const path = require('path');
+const fs = require('fs');
+
+let backendPath = path.resolve(__dirname, '..', 'Backend', 'backend');
+if (!fs.existsSync(backendPath)) {
+  backendPath = path.resolve(__dirname, 'Backend', 'backend');
+}
+if (!fs.existsSync(backendPath)) {
+  backendPath = path.resolve(__dirname, '..', '..', 'Backend', 'backend');
+}
+
+const backend = require(backendPath);
 
 // Ensure seed default data is populated if running on cold start
 try {

@@ -1,0 +1,26 @@
+{
+  "version": 2,
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "rewrites": [
+    { "source": "/api/(.*)", "destination": "/api/[...all].js" },
+    { "source": "/api", "destination": "/api/index.js" },
+    { "source": "/booking", "destination": "/workspaces/customer-ticket-booking.html" },
+    { "source": "/movies", "destination": "/workspaces/customer-ticket-booking.html" },
+    { "source": "/shows", "destination": "/workspaces/customer-ticket-booking.html" },
+    { "source": "/saas", "destination": "/saas-website.html" },
+    { "source": "/saas-website", "destination": "/saas-website.html" },
+    { "source": "/website", "destination": "/saas-website.html" },
+    { "source": "/portal", "destination": "/client-portal.html" },
+    { "source": "/client-portal", "destination": "/client-portal.html" },
+    { "source": "/admin", "destination": "/super-admin-portal.html" },
+    { "source": "/super-admin", "destination": "/super-admin-portal.html" },
+    { "source": "/checkout", "destination": "/checkout.html" },
+    { "source": "/login", "destination": "/index.html" },
+    { "source": "/signin", "destination": "/index.html" },
+    { "source": "/erp", "destination": "/index.html" },
+    { "source": "/manager", "destination": "/workspaces/city_lite_cinema_erp_command_center_role_login.html" },
+    { "source": "/counter", "destination": "/workspaces/city_lite_cinema_erp_multi_counter_role_login.html" },
+    { "source": "/food", "destination": "/workspaces/city_lite_f_b_counter_pos_role_login.html" }
+  ]
+}

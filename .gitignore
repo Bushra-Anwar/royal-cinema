@@ -56,3 +56,5 @@ enterprise-production/
 .idea/
 *.swp
 *.swo
+
+.vercel

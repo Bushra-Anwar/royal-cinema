@@ -1,0 +1,20 @@
+User-agent: *
+Allow: /
+Allow: /booking
+Allow: /movies
+Allow: /website
+Allow: /saas
+
+# Protect internal ERP, staff counters and admin portals from indexing
+Disallow: /admin
+Disallow: /super-admin
+Disallow: /portal
+Disallow: /client-portal
+Disallow: /staff
+Disallow: /counter
+Disallow: /food
+Disallow: /manager
+Disallow: /api/
+Disallow: /workspaces/
+
+Sitemap: https://royalcinema.in/sitemap.xml
