@@ -942,15 +942,15 @@
             </div>
 
             <div class="hero-center">
-                <!-- 3D Model Viewer for Drink items -->
-                <model-viewer id="product-model" src="https://api.getlayers.ai/storage/v1/object/public/public/assets/soda-14ff8a788d/deit_soda2.glb" alt="Royal Cinema Beverage 3D Model" camera-controls
-                    disable-zoom shadow-intensity="0" environment-image="neutral" exposure="1.5"
-                    interaction-prompt="none" camera-orbit="0deg 90deg 380%" field-of-view="30deg"
-                    class="main-product-3d">
+                <!-- 3D 360° Model Viewer for ALL 15 Food & Drink Products -->
+                <model-viewer id="product-model" src="/assets/food-3d/p1-combo.glb" alt="Royal Cinema 3D Product" camera-controls
+                    disable-zoom shadow-intensity="0" environment-image="neutral" exposure="1.35"
+                    interaction-prompt="none" camera-orbit="0deg 78deg 380%" field-of-view="30deg"
+                    class="main-product-3d active-3d">
                 </model-viewer>
 
-                <!-- Photorealistic 3D Layered Stage for Popcorn, Nachos, Combos, Puffs & Offers -->
-                <div class="food-stage-3d" id="foodStage3d">
+                <!-- Photorealistic 3D Layered Stage (fallback only) -->
+                <div class="food-stage-3d hidden-3d" id="foodStage3d">
                     <div class="food-halo"></div>
                     <div class="photo-layer-wrap" id="photoLayerWrap">
                         <img id="foodMainImg" class="photo-main-card" src="https://images.unsplash.com/photo-1585647347483-22b66260dfff?auto=format&fit=crop&w=600&q=80" alt="Blockbuster Combo 1">
@@ -961,7 +961,7 @@
                     </div>
                 </div>
             </div>
-            <div class="drag-360-hint">↻ Drag Center Product to Rotate in 3D</div>
+            <div class="drag-360-hint">↻ Drag Any Product to Rotate 360° in 3D</div>
 
             <div class="berries-container">
                 <div class="berry b1"><img class="float-sprite" src="/assets/food-floats/popcorn.png" alt=""><model-viewer class="float-glb" src="https://api.getlayers.ai/storage/v1/object/public/public/assets/soda-14ff8a788d/cherry.glb" environment-image="neutral" exposure="1.2" interaction-prompt="none" camera-orbit="45deg 120deg 105%"></model-viewer></div>
@@ -1031,6 +1031,7 @@
                 statusNote: '48 in stock',
                 offerTag: 'SAVE ₹60 • MOVIE COMBO',
                 image: 'https://images.unsplash.com/photo-1585647347483-22b66260dfff?auto=format&fit=crop&w=600&q=80',
+                glbSrc: '/assets/food-3d/p1-combo.glb',
                 theme: { inner: '#8a4b0b', mid: '#4e2604', outer: '#140901' },
                 berryMode: 'cherry',
                 use3DCan: false
@@ -1045,6 +1046,7 @@
                 statusNote: '18 left [Fresh Batch]',
                 offerTag: 'REGIONAL HIT • 15% OFF',
                 image: 'https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=600&q=80',
+                glbSrc: '/assets/food-3d/p2-gujarati.glb',
                 theme: { inner: '#9a3412', mid: '#4c1808', outer: '#140602' },
                 berryMode: 'cherry',
                 use3DCan: false
@@ -1059,6 +1061,7 @@
                 statusNote: 'Continuous Kettle',
                 offerTag: 'THEATER CLASSIC',
                 image: 'https://images.unsplash.com/photo-1578849278619-e73505e9610f?auto=format&fit=crop&w=600&q=80',
+                glbSrc: '/assets/food-3d/p3-popcorn.glb',
                 theme: { inner: '#a16207', mid: '#523003', outer: '#170d01' },
                 berryMode: 'cherry',
                 use3DCan: false
@@ -1073,6 +1076,7 @@
                 statusNote: '45 in stock',
                 offerTag: 'HOT SALSA & QUESO',
                 image: 'https://images.unsplash.com/photo-1513456852971-30c0b8199d4d?auto=format&fit=crop&w=600&q=80',
+                glbSrc: '/assets/food-3d/p4-nachos.glb',
                 theme: { inner: '#991b1b', mid: '#4c0d0d', outer: '#170303' },
                 berryMode: 'cherry',
                 use3DCan: false
@@ -1087,6 +1091,7 @@
                 statusNote: 'Kettle #02 Ready',
                 offerTag: 'DOUBLE CHEDDAR',
                 image: 'https://images.unsplash.com/photo-1505686994434-e3cc5abf1330?auto=format&fit=crop&w=600&q=80',
+                glbSrc: '/assets/food-3d/p5-cheese-popcorn.glb',
                 theme: { inner: '#b45309', mid: '#5c2804', outer: '#1a0a01' },
                 berryMode: 'cherry',
                 use3DCan: false
@@ -1101,6 +1106,7 @@
                 statusNote: '22 in warmer',
                 offerTag: 'OVEN FRESH',
                 image: 'https://images.unsplash.com/photo-1509722747041-616f39b57569?auto=format&fit=crop&w=600&q=80',
+                glbSrc: '/assets/food-3d/p6-puff.glb',
                 theme: { inner: '#7c2d12', mid: '#3f1608', outer: '#140602' },
                 berryMode: 'blueberry',
                 use3DCan: false
@@ -1175,6 +1181,7 @@
                 statusNote: 'Fresh Barista Brew',
                 offerTag: 'CINEMA CAFE SIGNATURE',
                 image: 'https://images.unsplash.com/photo-1461023058943-07fcbe16d735?auto=format&fit=crop&w=600&q=80',
+                glbSrc: '/assets/food-3d/p15-coffee.glb',
                 theme: { inner: '#5c3317', mid: '#2f1809', outer: '#0e0702' },
                 berryMode: 'blueberry',
                 use3DCan: false
@@ -1189,6 +1196,7 @@
                 statusNote: 'Warmer #01 Active',
                 offerTag: 'HOT & CRISPY',
                 image: 'https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=600&q=80',
+                glbSrc: '/assets/food-3d/p8-samosa.glb',
                 theme: { inner: '#854d0e', mid: '#442606', outer: '#140b01' },
                 berryMode: 'cherry',
                 use3DCan: false
@@ -1203,6 +1211,7 @@
                 statusNote: '3 units left',
                 offerTag: 'BELGIAN FUDGE',
                 image: 'https://images.unsplash.com/photo-1606313564200-e75d5e30476c?auto=format&fit=crop&w=600&q=80',
+                glbSrc: '/assets/food-3d/p9-brownie.glb',
                 theme: { inner: '#581c87', mid: '#2d0c46', outer: '#0d0316' },
                 berryMode: 'blueberry',
                 use3DCan: false
@@ -1217,6 +1226,7 @@
                 statusNote: '2 left [Limited]',
                 offerTag: 'STREE 2 MOVIE + FOOD (20% OFF)',
                 image: 'https://images.unsplash.com/photo-1585647347483-22b66260dfff?auto=format&fit=crop&w=600&q=80',
+                glbSrc: '/assets/food-3d/p10-feast.glb',
                 theme: { inner: '#831843', mid: '#450b22', outer: '#14020a' },
                 berryMode: 'blueberry',
                 use3DCan: false
@@ -1231,6 +1241,7 @@
                 statusNote: '14 in stock',
                 offerTag: 'MARVEL VIP OFFER (15% OFF)',
                 image: 'https://images.unsplash.com/photo-1513456852971-30c0b8199d4d?auto=format&fit=crop&w=600&q=80',
+                glbSrc: '/assets/food-3d/p11-nacho-deal.glb',
                 theme: { inner: '#0b4f8a', mid: '#04294e', outer: '#010c14' },
                 berryMode: 'blueberry',
                 use3DCan: false
@@ -1351,14 +1362,19 @@
                 },
                 onComplete: () => {
                     updateHeroText(item);
+                    foodStage3d.classList.add('hidden-3d');
+                    modelViewer.classList.add('active-3d');
+                    const drinkGlb = 'https://api.getlayers.ai/storage/v1/object/public/public/assets/soda-14ff8a788d/deit_soda2.glb';
+                    const nextSrc = item.use3DCan ? drinkGlb : item.glbSrc;
+                    if (nextSrc && modelViewer.getAttribute('src') !== nextSrc) {
+                        modelViewer.src = nextSrc;
+                    }
                     if (item.use3DCan) {
-                        foodStage3d.classList.add('hidden-3d');
-                        modelViewer.classList.add('active-3d');
                         applyCanTexture(item);
-                    } else {
-                        modelViewer.classList.remove('active-3d');
-                        foodStage3d.classList.remove('hidden-3d');
-                        renderPhotoStage(item);
+                    }
+                    // Show water bubbles ONLY on Drinks
+                    if (bubblesContainer) {
+                        bubblesContainer.style.opacity = item.category === 'DRINKS' ? '1' : '0';
                     }
 
                     gsap.to(spinObj, {
@@ -1726,14 +1742,14 @@
 
         function getFloatSpritesForItem(item) {
             const id = item.id;
-            if (id === 'p1') return ['/assets/food-floats/popcorn.png', '/assets/food-floats/ice-cube.png', '/assets/food-floats/water-splash.png'];
+            if (id === 'p1') return ['/assets/food-floats/popcorn.png', '/assets/food-floats/ice-cube.png'];
             if (id === 'p2') return ['/assets/food-floats/samosa.png'];
             if (id === 'p3' || id === 'p5') return ['/assets/food-floats/popcorn.png'];
             if (id === 'p4') return ['/assets/food-floats/nacho.png'];
             if (id === 'p6' || id === 'p8') return ['/assets/food-floats/samosa.png'];
             if (id === 'p7') return ['__GLB__', '/assets/food-floats/water-splash.png', '/assets/food-floats/ice-cube.png'];
             if (id === 'p9') return ['/assets/food-floats/brownie.png'];
-            if (id === 'p10') return ['/assets/food-floats/popcorn.png', '/assets/food-floats/nacho.png', '/assets/food-floats/water-splash.png'];
+            if (id === 'p10') return ['/assets/food-floats/popcorn.png', '/assets/food-floats/nacho.png'];
             if (id === 'p11') return ['/assets/food-floats/nacho.png', '/assets/food-floats/brownie.png'];
             if (id === 'p12') return ['/assets/food-floats/water-splash.png', '/assets/food-floats/ice-cube.png', '__GLB__'];
             if (id === 'p13') return ['/assets/food-floats/lime-slice.png', '/assets/food-floats/water-splash.png', '/assets/food-floats/ice-cube.png'];
@@ -1756,6 +1772,7 @@
         }
 
         // Boot
+        if (bubblesContainer) bubblesContainer.style.opacity = activeItem.category === 'DRINKS' ? '1' : '0';
         const initPool = getFloatSpritesForItem(activeItem);
         allBerries.forEach((berry, idx) => applyFloatVisual(berry, activeItem, idx, initPool, 'https://api.getlayers.ai/storage/v1/object/public/public/assets/soda-14ff8a788d/cherry.glb'));
         renderCarousel();
