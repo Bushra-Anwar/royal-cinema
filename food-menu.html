@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Royal Cinema | 3D Food & Beverage Showcase</title>
-    <meta name="description" content="Experience the crisp, clean taste of Royal Cinema Beverages. Zero sugar, ice-cold refreshment delivered to your seat.">
+    <title>Royal Cinema | 3D Food &amp; Beverage Menu</title>
+    <meta name="description" content="Explore Royal Cinema's full 3D interactive Concessions Menu — Popcorn, Nachos, Combos, Puffs, Brownies &amp; Chilled Drinks delivered to your seat.">
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -17,16 +17,17 @@
             --bg-color: #0a0a0a;
             --text-color: #ffffff;
             --accent-color: #ffffff;
-            --muted-color: rgba(255, 255, 255, 0.7);
-            --glass-bg: rgba(255, 255, 255, 0.05);
-            --glass-border: rgba(255, 255, 255, 0.1);
+            --muted-color: rgba(255, 255, 255, 0.72);
+            --glass-bg: rgba(255, 255, 255, 0.06);
+            --glass-border: rgba(255, 255, 255, 0.14);
+            --pink-accent: #fbcfe8;
             --font-main: 'Inter', sans-serif;
             --font-heading: 'Galada', cursive;
 
             /* Dynamic Background Variables */
-            --bg-inner: #0b8a78;
-            --bg-mid: #044e3b;
-            --bg-outer: #011411;
+            --bg-inner: #8a4b0b;
+            --bg-mid: #4e2604;
+            --bg-outer: #140901;
         }
 
         * {
@@ -39,24 +40,15 @@
             background: radial-gradient(circle at center, var(--bg-inner) 0%, var(--bg-mid) 50%, var(--bg-outer) 100%);
             color: var(--text-color);
             font-family: var(--font-main);
-            overflow: hidden; /* Remove scroll */
+            overflow: hidden;
             height: 100vh;
             transition: background 1.2s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        body.blue-theme {
-            --bg-inner: #0b4f8a;
-            --bg-mid: #04294e;
-            --bg-outer: #010c14;
-        }
-
-        /* 1. Bubbles container */
+        /* Bubbles container */
         #bubbles-container {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            inset: 0;
             pointer-events: none;
             z-index: 0;
             overflow: hidden;
@@ -68,36 +60,30 @@
         }
 
         @keyframes floatUpImg {
-            0% {
-                transform: translateY(0) translateX(0) rotate(0deg);
-                opacity: 0;
-            }
+            0% { transform: translateY(0) translateX(0) rotate(0deg); opacity: 0; }
             10% { opacity: 0.4; }
             90% { opacity: 0.4; }
-            100% {
-                transform: translateY(-110vh) translateX(30px) rotate(360deg);
-                opacity: 0;
-            }
+            100% { transform: translateY(-110vh) translateX(30px) rotate(360deg); opacity: 0; }
         }
 
-        /* 2. Header (glass nav) */
+        /* Header */
         .header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 2rem 4%;
+            padding: 1.5rem 4%;
             position: fixed;
             top: 0;
             width: 100%;
-            z-index: 100;
+            z-index: 120;
         }
 
         .logo {
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.55rem;
             font-weight: 700;
-            font-size: 1.2rem;
+            font-size: 1.35rem;
             font-family: var(--font-heading);
             color: #ffffff;
             text-decoration: none;
@@ -105,18 +91,18 @@
 
         .nav {
             display: flex;
-            gap: 0.5rem;
+            gap: 0.35rem;
             background: var(--glass-bg);
-            padding: 0.4rem;
+            padding: 0.35rem;
             border-radius: 100px;
             border: 1px solid var(--glass-border);
+            flex-wrap: wrap;
         }
 
         .nav.glass {
-            position: relative;
             background: rgba(255, 255, 255, 0.08);
             border: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1), inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15), inset 0 0 0 1px rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
         }
@@ -125,10 +111,13 @@
             font-family: 'Manrope', sans-serif;
             color: var(--muted-color);
             text-decoration: none;
-            font-size: 0.85rem;
-            font-weight: 500;
-            padding: 0.5rem 1.2rem;
+            font-size: 0.78rem;
+            font-weight: 600;
+            padding: 0.45rem 0.95rem;
             border-radius: 100px;
+            border: none;
+            background: transparent;
+            cursor: pointer;
             transition: all 0.3s ease;
         }
 
@@ -139,33 +128,43 @@
         }
 
         .contact-btn {
-            background: rgba(0, 0, 0, 0.5);
+            background: rgba(0, 0, 0, 0.55);
             color: white;
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            padding: 0.9rem 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.16);
+            padding: 0.8rem 1.5rem;
             border-radius: 100px;
             font-weight: 600;
-            font-size: 0.85rem;
+            font-size: 0.82rem;
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: none;
             backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
         .contact-btn:hover {
-            background: rgba(0, 0, 0, 0.7);
+            background: rgba(0, 0, 0, 0.78);
             transform: translateY(-2px);
-            box-shadow: none;
         }
 
-        /* 3. Hero */
+        .cart-badge {
+            background: #fbcfe8;
+            color: #011d17;
+            border-radius: 999px;
+            padding: 0.1rem 0.45rem;
+            font-size: 0.72rem;
+            font-weight: 800;
+        }
+
+        /* Hero */
         .hero {
             height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
             padding: 0 4%;
-            padding-top: 5rem;
+            padding-top: 4.5rem;
         }
 
         .hero-content {
@@ -173,8 +172,6 @@
             justify-content: space-between;
             align-items: stretch;
             width: 100%;
-            max-width: 100%;
-            padding: 0;
             height: 100%;
             position: relative;
         }
@@ -182,26 +179,23 @@
         .main-title,
         .side-title {
             font-family: var(--font-heading);
-            font-size: clamp(5rem, 10vw, 12rem);
-            line-height: 0.8;
+            font-size: clamp(3.6rem, 6.8vw, 7.8rem);
+            line-height: 0.9;
             font-weight: 400;
-            text-transform: none;
-            white-space: nowrap;
             color: white;
-            letter-spacing: normal;
         }
 
-        .outline {
-            color: var(--text-color);
+        .side-title {
+            font-size: clamp(3rem, 5vw, 5.8rem);
+            align-self: flex-end;
+            text-align: right;
+            white-space: nowrap;
         }
 
-        /* 3a. Floating leaves */
+        /* Leaves */
         .leaves-container {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            inset: 0;
             pointer-events: none;
             z-index: -1;
             transition: transform 0.1s ease-out;
@@ -221,47 +215,77 @@
         .l3 { top: 70%; left: 75%; width: 80px; height: 80px; }
         .l4 { top: 85%; left: 20%; width: 120px; height: 120px; opacity: 0.3; }
 
-        /* 3b. Left column */
+        /* Left Column */
         .hero-left {
             display: flex;
             flex-direction: column;
             height: 100%;
-            padding: 6rem 0;
-            gap: 2rem;
+            padding: 4.5rem 0 3.5rem 0;
+            gap: 1.25rem;
             z-index: 100;
+            max-width: 440px;
         }
 
-        @keyframes fadeInEntry {
-            to { opacity: 1; transform: none; }
+        .offer-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+            width: fit-content;
+            padding: 0.35rem 0.9rem;
+            border-radius: 999px;
+            background: rgba(251, 207, 232, 0.16);
+            border: 1px solid rgba(251, 207, 232, 0.45);
+            color: #fbcfe8;
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
         }
 
         .description {
             color: var(--muted-color);
-            font-size: 1.1rem;
-            line-height: 1.6;
-            max-width: 400px;
+            font-size: 1.02rem;
+            line-height: 1.55;
+            max-width: 390px;
+        }
+
+        .price-meta {
+            display: flex;
+            align-items: baseline;
+            gap: 0.85rem;
+        }
+
+        .price-tag {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2.2rem;
+            font-weight: 900;
+            color: #fbcfe8;
+        }
+
+        .stock-note {
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.65);
         }
 
         .primary-btn {
             display: flex;
             align-items: center;
-            gap: 1.5rem;
-            background: rgba(0, 0, 0, 0.5);
+            gap: 1.4rem;
+            background: rgba(0, 0, 0, 0.55);
             color: white;
-            border: none;
-            padding: 0.4rem 0.4rem 0.4rem 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            padding: 0.4rem 0.4rem 0.4rem 1.4rem;
             border-radius: 100px;
             font-weight: 700;
             cursor: pointer;
             width: fit-content;
             transition: all 0.3s ease;
-            box-shadow: none;
+            backdrop-filter: blur(10px);
         }
 
         .primary-btn:hover {
-            background: rgba(0, 0, 0, 0.7);
+            background: rgba(0, 0, 0, 0.78);
             transform: translateY(-3px);
-            box-shadow: none;
         }
 
         .plus-icon {
@@ -277,7 +301,6 @@
             font-weight: 900;
             line-height: 1;
             padding-bottom: 2px;
-            border: none;
         }
 
         .award-badge {
@@ -288,8 +311,8 @@
         }
 
         .award-icon {
-            width: 48px;
-            height: 48px;
+            width: 46px;
+            height: 46px;
             background: var(--glass-bg);
             border: 1px solid var(--glass-border);
             border-radius: 12px;
@@ -299,36 +322,33 @@
         }
 
         .award-text { display: flex; flex-direction: column; }
-        .award-title { font-size: 0.7rem; letter-spacing: 0.1em; color: var(--muted-color); }
-        .award-subtitle { font-size: 0.85rem; font-weight: 600; }
+        .award-title { font-size: 0.68rem; letter-spacing: 0.1em; color: var(--muted-color); }
+        .award-subtitle { font-size: 0.82rem; font-weight: 600; }
 
-        /* 3d. Center product */
+        /* Center Product Stage */
         .hero-center {
             display: flex;
             justify-content: center;
             align-items: center;
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            inset: 0;
             z-index: 1;
             opacity: 0;
-            animation: fadeIn 1.5s ease-out 0.3s forwards, float 6s ease-in-out infinite;
+            animation: fadeIn 1.5s ease-out 0.2s forwards, float 6s ease-in-out infinite;
             pointer-events: none;
-            background: radial-gradient(circle at center, rgba(16, 185, 129, 0.1) 0%, transparent 70%);
+            perspective: 1200px;
         }
 
         @keyframes fadeIn { to { opacity: 1; } }
 
         @keyframes float {
             0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-20px); }
+            50% { transform: translateY(-18px); }
         }
 
         .main-product-3d {
-            width: 80vw;
-            height: 80vh;
+            width: 75vw;
+            height: 75vh;
             outline: none;
             --progress-bar-color: transparent;
             --poster-color: transparent;
@@ -336,19 +356,68 @@
             position: fixed;
             top: 50%;
             left: 50%;
-            transform: translate(-50%, -50%) rotate(25deg);
+            transform: translate(-50%, -50%) rotate(20deg);
+            pointer-events: none;
+            display: none;
+        }
+
+        .main-product-3d.active-3d {
+            display: block;
+        }
+
+        /* 3D Interactive Food Showcase Plate for all Popcorn / Nachos / Combos / Puffs */
+        .food-stage-3d {
+            position: relative;
+            width: clamp(270px, 31vw, 430px);
+            height: clamp(270px, 31vw, 430px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transform-style: preserve-3d;
+            will-change: transform, filter;
+        }
+
+        .food-stage-3d.hidden-3d {
+            display: none;
+        }
+
+        .food-halo {
+            position: absolute;
+            inset: -14%;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(251, 207, 232, 0.26) 0%, rgba(255, 255, 255, 0.06) 45%, transparent 72%);
+            filter: blur(18px);
             pointer-events: none;
         }
 
-        .main-product-3d[camera-controls] { pointer-events: auto; }
+        .food-ring {
+            position: absolute;
+            inset: 4%;
+            border-radius: 50%;
+            border: 1px dashed rgba(255, 255, 255, 0.24);
+            animation: spinSlow 24s linear infinite;
+            pointer-events: none;
+        }
 
-        /* 3c & 3e. Berries */
+        @keyframes spinSlow {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .food-showcase-img {
+            width: 82%;
+            height: 82%;
+            object-fit: cover;
+            border-radius: 36% 64% 58% 42% / 44% 38% 62% 56%;
+            border: 3px solid rgba(255, 255, 255, 0.25);
+            box-shadow: 0 35px 80px rgba(0, 0, 0, 0.65), 0 0 40px rgba(251, 207, 232, 0.18);
+            transform: translateZ(40px);
+        }
+
+        /* Berries */
         .berries-container {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            inset: 0;
             pointer-events: none;
             z-index: 110;
             transition: transform 0.1s ease-out;
@@ -356,10 +425,7 @@
 
         .berries-container-bg {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            inset: 0;
             pointer-events: none;
             z-index: 0;
             transition: transform 0.1s ease-out;
@@ -371,23 +437,21 @@
             height: 120px;
             outline: none;
             --progress-bar-color: transparent;
-            filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.3));
+            filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.35));
             transition: transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
         }
 
-        .berry.no-animation { animation: none !important; }
-
-        .b1 { top: 25%; left: 30%; width: 220px; height: 220px; }
-        .b2 { top: 60%; left: 42%; width: 100px; height: 100px; }
-        .b3 { top: 30%; left: 62%; width: 250px; height: 250px; }
-        .b4 { top: 15%; left: 48%; width: 140px; height: 140px; }
-        .b5 { top: 75%; left: 20%; width: 120px; height: 120px; }
-        .b6 { top: 45%; left: 75%; width: 180px; height: 180px; }
+        .b1 { top: 22%; left: 30%; width: 190px; height: 190px; }
+        .b2 { top: 62%; left: 40%; width: 95px; height: 95px; }
+        .b3 { top: 28%; left: 60%; width: 210px; height: 210px; }
+        .b4 { top: 14%; left: 48%; width: 130px; height: 130px; }
+        .b5 { top: 75%; left: 22%; width: 115px; height: 115px; }
+        .b6 { top: 46%; left: 72%; width: 165px; height: 165px; }
         .b7 { top: 15%; left: 40%; width: 80px; height: 80px; opacity: 0.7; }
         .b8 { top: 50%; left: 55%; width: 70px; height: 70px; opacity: 0.6; }
         .b9 { top: 80%; left: 35%; width: 75px; height: 75px; opacity: 0.7; }
 
-        /* 3f. Right column */
+        /* Right Column & Carousel */
         .hero-right {
             display: flex;
             flex-direction: column;
@@ -395,83 +459,120 @@
             align-items: flex-end;
             text-align: right;
             height: 100%;
-            padding: 6rem 0;
+            padding: 4.5rem 0 3.5rem 0;
             z-index: 100;
-            width: 450px;
+            width: 470px;
             pointer-events: none;
-        }
-
-        @keyframes fadeInLeft {
-            to { opacity: 1; transform: translateX(0); }
         }
 
         .product-carousel {
             display: flex;
             flex-direction: column;
-            gap: 1.5rem;
+            gap: 1rem;
             align-items: flex-end;
             pointer-events: auto;
+            width: 100%;
         }
 
-        .carousel-cards { display: flex; gap: 1rem; }
+        .carousel-viewport {
+            width: 100%;
+            overflow-x: auto;
+            padding: 3.4rem 0.25rem 0.6rem 0.25rem;
+            scrollbar-width: none;
+        }
+
+        .carousel-viewport::-webkit-scrollbar {
+            display: none;
+        }
+
+        .carousel-cards {
+            display: flex;
+            gap: 0.9rem;
+            width: max-content;
+        }
 
         .card {
             background: var(--glass-bg);
             border: 1px solid var(--glass-border);
-            padding: 1rem;
-            padding-top: 5rem;
-            border-radius: 28px;
+            padding: 0.85rem;
+            padding-top: 3.4rem;
+            border-radius: 24px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 1.5rem;
+            gap: 0.7rem;
             cursor: pointer;
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            width: 135px;
+            width: 128px;
             position: relative;
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(12px);
             text-align: center;
+            flex-shrink: 0;
         }
 
         .card:hover {
-            background: rgba(255, 255, 255, 0.12);
-            border-color: rgba(255, 255, 255, 0.4);
+            background: rgba(255, 255, 255, 0.13);
+            border-color: rgba(255, 255, 255, 0.45);
         }
 
         .card.active {
             border-color: #fbcfe8;
-            border-width: 1px;
-            background: var(--glass-bg);
-            box-shadow: none;
+            background: rgba(251, 207, 232, 0.12);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
         }
 
         .card img {
-            width: 140px;
-            height: auto;
-            margin-top: -8rem;
-            filter: drop-shadow(0 20px 35px rgba(0, 0, 0, 0.5));
+            width: 84px;
+            height: 84px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            margin-top: -5.4rem;
+            filter: drop-shadow(0 14px 24px rgba(0, 0, 0, 0.5));
             transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
             display: block;
-            will-change: transform;
             pointer-events: none;
         }
 
         .card:hover img {
-            transform: translateY(-30px) rotate(-12deg) scale(1.15) !important;
+            transform: translateY(-16px) rotate(-10deg) scale(1.14) !important;
         }
 
         .card-info {
             display: flex;
             flex-direction: column;
-            font-size: 0.7rem;
+            gap: 0.2rem;
+            font-size: 0.72rem;
             width: 100%;
-            word-wrap: break-word;
         }
 
-        .card-info span:first-child { font-weight: 600; }
-        .card-info span:last-child { color: var(--muted-color); }
+        .card-info span:first-child {
+            font-weight: 700;
+            line-height: 1.2;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
 
-        .carousel-nav { display: flex; gap: 1rem; }
+        .card-info span:last-child {
+            color: #fbcfe8;
+            font-weight: 700;
+        }
+
+        .carousel-controls {
+            display: flex;
+            align-items: center;
+            gap: 0.9rem;
+        }
+
+        .carousel-counter {
+            font-size: 0.78rem;
+            color: var(--muted-color);
+            font-weight: 600;
+        }
+
+        .carousel-nav { display: flex; gap: 0.6rem; }
 
         .nav-arrow {
             background: var(--glass-bg);
@@ -487,22 +588,15 @@
             transition: background 0.3s;
         }
 
-        .nav-arrow:hover { background: rgba(255, 255, 255, 0.1); }
-
-        .side-title { align-self: flex-end; text-align: right; }
-
-        @keyframes shine {
-            from { transform: translateX(-100%) rotate(45deg); }
-            to { transform: translateX(200%) rotate(45deg); }
-        }
+        .nav-arrow:hover { background: rgba(255, 255, 255, 0.16); }
 
         /* Seat Order Modal */
         .order-modal-backdrop {
             position: fixed;
             inset: 0;
-            background: rgba(1, 14, 12, 0.72);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
+            background: rgba(1, 14, 12, 0.76);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
             display: none;
             align-items: center;
             justify-content: center;
@@ -510,26 +604,26 @@
             padding: 1.5rem;
         }
 
-        .order-modal-backdrop.open {
-            display: flex;
-        }
+        .order-modal-backdrop.open { display: flex; }
 
         .order-modal {
             width: 100%;
-            max-width: 420px;
-            background: rgba(255, 255, 255, 0.08);
+            max-width: 440px;
+            background: rgba(18, 18, 22, 0.88);
             border: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: 28px;
-            padding: 2rem;
+            padding: 1.8rem;
             color: #ffffff;
-            box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+            box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
+            max-height: 90vh;
+            overflow-y: auto;
         }
 
         .order-modal-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 1.25rem;
+            margin-bottom: 1.1rem;
         }
 
         .order-modal-title {
@@ -547,25 +641,58 @@
             height: 34px;
             border-radius: 50%;
             cursor: pointer;
-            font-size: 1rem;
+        }
+
+        .cart-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+            margin-bottom: 1rem;
+            max-height: 180px;
+            overflow-y: auto;
+        }
+
+        .cart-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 0.6rem 0.8rem;
+            font-size: 0.85rem;
+        }
+
+        .cart-qty-btns {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .qty-btn {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            cursor: pointer;
         }
 
         .order-field {
             display: flex;
             flex-direction: column;
-            gap: 0.4rem;
-            margin-bottom: 1rem;
+            gap: 0.35rem;
+            margin-bottom: 0.9rem;
         }
 
         .order-field label {
             font-size: 0.78rem;
             color: rgba(255, 255, 255, 0.75);
-            font-weight: 500;
         }
 
-        .order-field input,
-        .order-field select {
-            background: rgba(0, 0, 0, 0.35);
+        .order-field input {
+            background: rgba(0, 0, 0, 0.4);
             border: 1px solid rgba(255, 255, 255, 0.18);
             border-radius: 12px;
             padding: 0.75rem 0.9rem;
@@ -577,7 +704,7 @@
 
         .order-submit-btn {
             width: 100%;
-            margin-top: 0.5rem;
+            margin-top: 0.4rem;
             background: #fbcfe8;
             color: #011d17;
             border: none;
@@ -586,40 +713,26 @@
             font-weight: 700;
             font-size: 0.92rem;
             cursor: pointer;
-            transition: transform 0.2s ease;
-        }
-
-        .order-submit-btn:hover {
-            transform: translateY(-2px);
         }
 
         .order-status {
-            margin-top: 0.9rem;
+            margin-top: 0.85rem;
             font-size: 0.85rem;
             color: #fbcfe8;
             text-align: center;
             min-height: 1.2em;
         }
 
-        /* Responsive */
         @media (max-width: 1200px) {
-            .main-product-3d { width: 100vw; height: 60vh; top: 40%; }
-            .hero-content {
-                display: grid;
-                grid-template-columns: 1fr;
-                padding-top: 5rem;
-            }
-            .hero-center { order: -1; }
-            .main-title, .side-title { font-size: 4.5rem; }
-            .hero-right {
-                align-items: center;
-                text-align: center;
-                width: 100%;
-                padding: 1rem 0;
-            }
-            .product-carousel { align-items: center; }
-            .side-title { align-self: center; text-align: center; }
-            .hero-left { padding: 1rem 0; gap: 1rem; }
+            body { overflow-y: auto; height: auto; min-height: 100vh; }
+            .hero { height: auto; min-height: 100vh; padding-top: 5.5rem; padding-bottom: 2rem; }
+            .hero-content { flex-direction: column; align-items: center; text-align: center; gap: 1.5rem; }
+            .hero-center { position: relative; height: 320px; order: -1; }
+            .main-product-3d { position: relative; top: auto; left: auto; transform: rotate(15deg); width: 280px; height: 280px; }
+            .hero-left { align-items: center; padding: 0; max-width: 100%; }
+            .award-badge { margin-top: 0.5rem; }
+            .hero-right { width: 100%; align-items: center; padding: 0; text-align: center; }
+            .side-title { align-self: center; text-align: center; margin-top: 1rem; }
             .nav { display: none; }
         }
     </style>
@@ -629,20 +742,26 @@
 
     <header class="header">
         <a href="/booking" class="logo">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg width="30" height="30" viewBox="0 0 24 24" fill="none">
                 <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" />
                 <path d="M12 8V16M8 12H16" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
             </svg>
-            <span>Royal Soda</span>
+            <span>Royal Concessions</span>
         </a>
-        <nav class="nav glass">
-            <a href="#" class="nav-item active">Home</a>
-            <a href="#flavors" class="nav-item" onclick="document.querySelector('[data-flavor=blue]').click(); return false;">Flavors</a>
-            <a href="/booking" class="nav-item">Movies</a>
-            <a href="/food" class="nav-item">Counter POS</a>
-            <a href="/saas" class="nav-item">About</a>
+
+        <nav class="nav glass" id="categoryNav">
+            <button class="nav-item active" data-cat="ALL">All (11)</button>
+            <button class="nav-item" data-cat="COMBOS">Combos</button>
+            <button class="nav-item" data-cat="POPCORN">Popcorn</button>
+            <button class="nav-item" data-cat="NACHOS">Nachos</button>
+            <button class="nav-item" data-cat="PUFFS">Puffs &amp; Sweet</button>
+            <button class="nav-item" data-cat="DRINKS">Drinks</button>
+            <button class="nav-item" data-cat="OFFERS">Offers</button>
         </nav>
-        <button class="contact-btn" id="openOrderModalTop">Order at Seat</button>
+
+        <button class="contact-btn" id="openOrderModalTop">
+            Seat Cart <span class="cart-badge" id="cartCountBadge">0</span>
+        </button>
     </header>
 
     <main class="hero">
@@ -655,31 +774,31 @@
             </div>
 
             <div class="hero-left">
-                <h1 class="main-title large-animation-1">
-                    <span class="outline">Pure</span><br>
-                    Zero
-                </h1>
-                <p class="description">
-                    Unleash the crisp taste of zero sugar. <br>
-                    Refreshment redefined in every bubble — <br>
-                    chilled &amp; delivered straight to your cinema seat.
+                <span class="offer-pill" id="heroBadge">SAVE ₹60 • MOVIE COMBO</span>
+                <h1 class="main-title" id="heroTitle">Blockbuster<br>Combo 1</h1>
+                <p class="description" id="heroDesc">
+                    Jumbo Popcorn + 600ml Coke — freshly popped &amp; chilled, delivered straight to your cinema seat.
                 </p>
+                <div class="price-meta">
+                    <span class="price-tag" id="heroPrice">₹380</span>
+                    <span class="stock-note" id="heroStock">48 in stock</span>
+                </div>
                 <div class="cta-group">
-                    <button class="primary-btn" id="openOrderModalHero">
-                        Order Now
+                    <button class="primary-btn" id="addToCartHeroBtn">
+                        Add to Seat Order
                         <span class="plus-icon">+</span>
                     </button>
                 </div>
                 <div class="award-badge">
                     <div class="award-icon">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
                             <path d="M12 15L15 18L19 14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                             <path d="M7 10L12 15L17 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                         </svg>
                     </div>
                     <div class="award-text">
-                        <span class="award-title">ROYAL CONCESSIONS</span>
-                        <span class="award-subtitle">PREMIUM BEVERAGE 2026</span>
+                        <span class="award-title">ROYAL CINEMA F&amp;B</span>
+                        <span class="award-subtitle">QR SEAT DELIVERY · 2026</span>
                     </div>
                 </div>
             </div>
@@ -691,11 +810,19 @@
             </div>
 
             <div class="hero-center">
-                <model-viewer id="product-model" src="https://api.getlayers.ai/storage/v1/object/public/public/assets/soda-14ff8a788d/deit_soda2.glb" alt="Diet Soda 3D Model" camera-controls
+                <!-- 3D Model Viewer for Drink items -->
+                <model-viewer id="product-model" src="https://api.getlayers.ai/storage/v1/object/public/public/assets/soda-14ff8a788d/deit_soda2.glb" alt="Royal Cinema Beverage 3D Model" camera-controls
                     disable-zoom shadow-intensity="0" environment-image="neutral" exposure="1.5"
                     interaction-prompt="none" camera-orbit="0deg 90deg 380%" field-of-view="30deg"
                     class="main-product-3d">
                 </model-viewer>
+
+                <!-- 3D Interactive Showcase Stage for Popcorn, Nachos, Combos, Puffs & Offers -->
+                <div class="food-stage-3d" id="foodStage3d">
+                    <div class="food-halo"></div>
+                    <div class="food-ring"></div>
+                    <img id="foodStageImg" class="food-showcase-img" src="https://images.unsplash.com/photo-1585647347483-22b66260dfff?auto=format&fit=crop&w=600&q=80" alt="Blockbuster Combo 1">
+                </div>
             </div>
 
             <div class="berries-container">
@@ -709,31 +836,18 @@
 
             <div class="hero-right">
                 <div class="product-carousel">
-                    <div class="carousel-cards">
-                        <div class="card active" data-flavor="classic">
-                            <img src="https://api.getlayers.ai/storage/v1/object/public/public/assets/soda-14ff8a788d/Green%20Soda.png" alt="Diet Classic">
-                            <div class="card-info">
-                                <span>Diet Classic</span>
-                                <span>₹149</span>
-                            </div>
-                        </div>
-                        <div class="card" data-flavor="blue">
-                            <img src="https://api.getlayers.ai/storage/v1/object/public/public/assets/soda-14ff8a788d/Blue%20Soda.png" alt="Zero Lime" style="filter: brightness(0.7);">
-                            <div class="card-info">
-                                <span>Zero Lime</span>
-                                <span>₹149</span>
-                            </div>
-                        </div>
+                    <div class="carousel-viewport" id="carouselViewport">
+                        <div class="carousel-cards" id="carouselCards"></div>
                     </div>
-                    <div class="carousel-nav">
-                        <button class="nav-arrow" id="prevFlavorBtn" aria-label="Previous flavor">←</button>
-                        <button class="nav-arrow" id="nextFlavorBtn" aria-label="Next flavor">→</button>
+                    <div class="carousel-controls">
+                        <span class="carousel-counter" id="carouselCounter">1 / 11</span>
+                        <div class="carousel-nav">
+                            <button class="nav-arrow" id="prevFoodBtn" aria-label="Previous item">←</button>
+                            <button class="nav-arrow" id="nextFoodBtn" aria-label="Next item">→</button>
+                        </div>
                     </div>
                 </div>
-                <h2 class="side-title large-animation-1">
-                    <span class="outline">Refreshingly</span><br>
-                    Clean
-                </h2>
+                <h2 class="side-title" id="sideTitle">Cinema<br>Cravings</h2>
             </div>
         </div>
     </main>
@@ -745,170 +859,301 @@
                 <h3 class="order-modal-title">Seat Delivery</h3>
                 <button class="close-modal-btn" id="closeOrderModal" aria-label="Close">✕</button>
             </div>
+            <div class="cart-list" id="cartList"></div>
             <form id="seatOrderForm">
-                <div class="order-field">
-                    <label for="orderFlavor">Selected Drink</label>
-                    <select id="orderFlavor">
-                        <option value="Diet Classic (₹149)">Diet Classic — ₹149</option>
-                        <option value="Zero Lime (₹149)">Zero Lime — ₹149</option>
-                        <option value="Classic Popcorn + Soda Combo (₹349)">Classic Popcorn + Soda Combo — ₹349</option>
-                    </select>
-                </div>
-                <div class="order-field">
-                    <label for="orderQty">Quantity</label>
-                    <input type="number" id="orderQty" min="1" max="10" value="1" required>
-                </div>
                 <div class="order-field">
                     <label for="orderSeat">Audi &amp; Seat Number (e.g. Audi 1 - G12)</label>
                     <input type="text" id="orderSeat" placeholder="Audi 1 - G12" required>
                 </div>
-                <button type="submit" class="order-submit-btn">Send Order to Counter</button>
+                <button type="submit" class="order-submit-btn" id="submitOrderBtn">Place Seat Order (₹0)</button>
                 <div class="order-status" id="orderStatus"></div>
             </form>
         </div>
     </div>
 
-    <svg style="position: absolute; width: 0; height: 0; opacity: 0; pointer-events: none;">
-        <filter id="frosted">
-            <feTurbulence type="fractalNoise" baseFrequency="0.0125" numOctaves="3" result="noise" />
-            <feDisplacementMap in="SourceGraphic" in2="noise" scale="80" xChannelSelector="R" yChannelSelector="G" />
-        </filter>
-    </svg>
     <div style="display: none;">
-        <!-- Preload berry models to avoid lag during switch -->
         <model-viewer src="https://api.getlayers.ai/storage/v1/object/public/public/assets/soda-14ff8a788d/blueberry.glb"></model-viewer>
         <model-viewer src="https://api.getlayers.ai/storage/v1/object/public/public/assets/soda-14ff8a788d/cherry.glb"></model-viewer>
     </div>
 
     <script>
+        // Complete 11 Cinema Food & Beverage Items (Synced with F&B Counter POS)
+        const FOOD_CATALOG = [
+            {
+                id: 'p1',
+                name: 'Blockbuster Combo 1',
+                titleLines: ['Blockbuster', 'Combo 1'],
+                subtitle: 'Jumbo Popcorn + 600ml Coke',
+                category: 'COMBOS',
+                price: 380,
+                statusNote: '48 in stock',
+                offerTag: 'SAVE ₹60 • MOVIE COMBO',
+                image: 'https://images.unsplash.com/photo-1585647347483-22b66260dfff?auto=format&fit=crop&w=600&q=80',
+                theme: { inner: '#8a4b0b', mid: '#4e2604', outer: '#140901' },
+                berryMode: 'cherry',
+                use3DCan: false
+            },
+            {
+                id: 'p2',
+                name: 'Gujarati Special Combo',
+                titleLines: ['Gujarati', 'Combo'],
+                subtitle: '2 Samosas + Masala Chai / Puff',
+                category: 'COMBOS',
+                price: 260,
+                statusNote: '18 left [Fresh Batch]',
+                offerTag: 'REGIONAL HIT • 15% OFF',
+                image: 'https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=600&q=80',
+                theme: { inner: '#9a3412', mid: '#4c1808', outer: '#140602' },
+                berryMode: 'cherry',
+                use3DCan: false
+            },
+            {
+                id: 'p3',
+                name: 'Tub Butter Popcorn',
+                titleLines: ['Butter', 'Popcorn'],
+                subtitle: 'Warm Theater Fresh Batch',
+                category: 'POPCORN',
+                price: 220,
+                statusNote: 'Continuous Kettle',
+                offerTag: 'THEATER CLASSIC',
+                image: 'https://images.unsplash.com/photo-1578849278619-e73505e9610f?auto=format&fit=crop&w=600&q=80',
+                theme: { inner: '#a16207', mid: '#523003', outer: '#170d01' },
+                berryMode: 'cherry',
+                use3DCan: false
+            },
+            {
+                id: 'p4',
+                name: 'Loaded Mexican Nachos',
+                titleLines: ['Mexican', 'Nachos'],
+                subtitle: 'Warm Queso & Jalapeño',
+                category: 'NACHOS',
+                price: 180,
+                statusNote: '45 in stock',
+                offerTag: 'HOT SALSA & QUESO',
+                image: 'https://images.unsplash.com/photo-1513456852971-30c0b8199d4d?auto=format&fit=crop&w=600&q=80',
+                theme: { inner: '#991b1b', mid: '#4c0d0d', outer: '#170303' },
+                berryMode: 'cherry',
+                use3DCan: false
+            },
+            {
+                id: 'p5',
+                name: 'Cheese Burst Popcorn',
+                titleLines: ['Cheese', 'Popcorn'],
+                subtitle: 'Double Cheddar Dust',
+                category: 'POPCORN',
+                price: 170,
+                statusNote: 'Kettle #02 Ready',
+                offerTag: 'DOUBLE CHEDDAR',
+                image: 'https://images.unsplash.com/photo-1505686994434-e3cc5abf1330?auto=format&fit=crop&w=600&q=80',
+                theme: { inner: '#b45309', mid: '#5c2804', outer: '#1a0a01' },
+                berryMode: 'cherry',
+                use3DCan: false
+            },
+            {
+                id: 'p6',
+                name: 'Paneer Tikka Puff',
+                titleLines: ['Paneer', 'Tikka Puff'],
+                subtitle: 'Flaky Oven Baked',
+                category: 'PUFFS',
+                price: 120,
+                statusNote: '22 in warmer',
+                offerTag: 'OVEN FRESH',
+                image: 'https://images.unsplash.com/photo-1509722747041-616f39b57569?auto=format&fit=crop&w=600&q=80',
+                theme: { inner: '#7c2d12', mid: '#3f1608', outer: '#140602' },
+                berryMode: 'blueberry',
+                use3DCan: false
+            },
+            {
+                id: 'p7',
+                name: 'Fountain Coca-Cola',
+                titleLines: ['Fountain', 'Coca-Cola'],
+                subtitle: 'Chilled 500ml Dispenser',
+                category: 'DRINKS',
+                price: 100,
+                statusNote: 'CO2 Pressure OK',
+                offerTag: 'ICE COLD REFRESHMENT',
+                image: 'https://images.unsplash.com/photo-1622483767028-3f66f32aef97?auto=format&fit=crop&w=600&q=80',
+                theme: { inner: '#0b8a78', mid: '#044e3b', outer: '#011411' },
+                berryMode: 'cherry',
+                use3DCan: true
+            },
+            {
+                id: 'p8',
+                name: 'Crispy Cinema Samosa',
+                titleLines: ['Crispy', 'Samosa'],
+                subtitle: 'Spiced Aloo / 2 Pcs',
+                category: 'PUFFS',
+                price: 90,
+                statusNote: 'Warmer #01 Active',
+                offerTag: 'HOT & CRISPY',
+                image: 'https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=600&q=80',
+                theme: { inner: '#854d0e', mid: '#442606', outer: '#140b01' },
+                berryMode: 'cherry',
+                use3DCan: false
+            },
+            {
+                id: 'p9',
+                name: 'Warm Choco Brownie',
+                titleLines: ['Choco', 'Brownie'],
+                subtitle: 'Fudge Drizzled · 120g',
+                category: 'PUFFS',
+                price: 140,
+                statusNote: '3 units left',
+                offerTag: 'BELGIAN FUDGE',
+                image: 'https://images.unsplash.com/photo-1606313564200-e75d5e30476c?auto=format&fit=crop&w=600&q=80',
+                theme: { inner: '#581c87', mid: '#2d0c46', outer: '#0d0316' },
+                berryMode: 'blueberry',
+                use3DCan: false
+            },
+            {
+                id: 'p10',
+                name: 'Stree 2 Couple Feast + 2 VIP Cokes',
+                titleLines: ['Couple', 'Feast VIP'],
+                subtitle: 'Movie Tie-In • XL Caramel Tub + Nachos + 2 Coke',
+                category: 'OFFERS',
+                price: 490,
+                statusNote: '2 left [Limited]',
+                offerTag: 'STREE 2 MOVIE + FOOD (20% OFF)',
+                image: 'https://images.unsplash.com/photo-1585647347483-22b66260dfff?auto=format&fit=crop&w=600&q=80',
+                theme: { inner: '#831843', mid: '#450b22', outer: '#14020a' },
+                berryMode: 'blueberry',
+                use3DCan: false
+            },
+            {
+                id: 'p11',
+                name: 'Deadpool Wolverine Nacho Bucket Deal',
+                titleLines: ['Nacho', 'Bucket Deal'],
+                subtitle: '2x Double Cheese Nachos + Choco Brownie',
+                category: 'OFFERS',
+                price: 399,
+                statusNote: '14 in stock',
+                offerTag: 'MARVEL VIP OFFER (15% OFF)',
+                image: 'https://images.unsplash.com/photo-1513456852971-30c0b8199d4d?auto=format&fit=crop&w=600&q=80',
+                theme: { inner: '#0b4f8a', mid: '#04294e', outer: '#010c14' },
+                berryMode: 'blueberry',
+                use3DCan: false
+            }
+        ];
+
         const modelViewer = document.querySelector('#product-model');
+        const foodStage3d = document.getElementById('foodStage3d');
+        const foodStageImg = document.getElementById('foodStageImg');
         const berriesFG = document.querySelector('.berries-container');
         const berriesBG = document.querySelector('.berries-container-bg');
         const leavesBG = document.querySelector('.leaves-container');
         const allBerries = document.querySelectorAll('.berry');
-        const cards = document.querySelectorAll('.card');
+        const carouselCardsEl = document.getElementById('carouselCards');
+        const carouselCounterEl = document.getElementById('carouselCounter');
+
+        let filteredItems = [...FOOD_CATALOG];
+        let activeItem = FOOD_CATALOG[0];
         let isSwitching = false;
         let switchSpin = 0;
-        let blueTexture = null;
-        let greenTexture = null;
+        let cart = [];
 
-        // Preload textures & Warm up shaders
-        modelViewer.addEventListener('load', async () => {
-            try {
-                blueTexture = await modelViewer.createTexture('https://api.getlayers.ai/storage/v1/object/public/public/assets/soda-14ff8a788d/blue%20base%20color.jpg');
-                greenTexture = await modelViewer.createTexture('https://api.getlayers.ai/storage/v1/object/public/public/assets/soda-14ff8a788d/green%20base%20color.jpg');
-
-                // Shader Warm-up: Briefly apply textures to compile shaders
-                if (modelViewer.model) {
-                    const material = modelViewer.model.materials[0];
-                    if (material && material.pbrMetallicRoughness.baseColorTexture) {
-                        material.pbrMetallicRoughness.baseColorTexture.setTexture(blueTexture);
-                        await new Promise(r => requestAnimationFrame(r));
-                        material.pbrMetallicRoughness.baseColorTexture.setTexture(greenTexture);
-                    }
-                }
-            } catch (e) { console.error("Texture preload failed", e); }
-        });
-
-        cards.forEach(card => {
-            card.addEventListener('click', () => {
-                if (isSwitching) return;
-                cards.forEach(c => c.classList.remove('active'));
-                card.classList.add('active');
-                const flavor = card.dataset.flavor;
-                const selectEl = document.getElementById('orderFlavor');
-                if (selectEl) {
-                    selectEl.value = flavor === 'blue' ? 'Zero Lime (₹149)' : 'Diet Classic (₹149)';
-                }
-                switchFlavor(flavor);
+        function renderCarousel() {
+            carouselCardsEl.innerHTML = '';
+            filteredItems.forEach((item, idx) => {
+                const card = document.createElement('div');
+                card.className = 'card' + (item.id === activeItem.id ? ' active' : '');
+                card.dataset.id = item.id;
+                card.innerHTML = `
+                    <img src="${item.image}" alt="${item.name}">
+                    <div class="card-info">
+                        <span>${item.name}</span>
+                        <span>₹${item.price}</span>
+                    </div>
+                `;
+                card.addEventListener('click', () => selectItem(item));
+                carouselCardsEl.appendChild(card);
             });
-        });
-
-        // Carousel arrow buttons
-        const prevBtn = document.getElementById('prevFlavorBtn');
-        const nextBtn = document.getElementById('nextFlavorBtn');
-        function cycleFlavor() {
-            if (isSwitching) return;
-            const currentIdx = Array.from(cards).findIndex(c => c.classList.contains('active'));
-            const nextIdx = (currentIdx + 1) % cards.length;
-            cards[nextIdx].click();
+            const activeIndex = Math.max(0, filteredItems.findIndex(i => i.id === activeItem.id));
+            carouselCounterEl.textContent = `${activeIndex + 1} / ${filteredItems.length}`;
         }
-        if (prevBtn) prevBtn.addEventListener('click', cycleFlavor);
-        if (nextBtn) nextBtn.addEventListener('click', cycleFlavor);
 
-        async function switchFlavor(flavor) {
-            if (isSwitching) return;
+        function updateHeroText(item) {
+            document.getElementById('heroBadge').textContent = item.offerTag || item.category;
+            document.getElementById('heroTitle').innerHTML = `${item.titleLines[0]}<br>${item.titleLines[1]}`;
+            document.getElementById('heroDesc').textContent = `${item.subtitle} — freshly prepared and delivered directly to your cinema seat.`;
+            document.getElementById('heroPrice').textContent = `₹${item.price}`;
+            document.getElementById('heroStock').textContent = item.statusNote;
+        }
+
+        function selectItem(item) {
+            if (isSwitching || item.id === activeItem.id) return;
             isSwitching = true;
-            const body = document.body;
-            const berries = document.querySelectorAll('.berry');
-            const heroCenter = document.querySelector('.hero-center');
+            activeItem = item;
 
-            // 1. Background Animation
-            const targetColors = flavor === 'blue' ?
-                { inner: '#0b4f8a', mid: '#04294e', outer: '#010c14' } :
-                { inner: '#0b8a78', mid: '#044e3b', outer: '#011411' };
+            document.querySelectorAll('.card').forEach(c => {
+                c.classList.toggle('active', c.dataset.id === item.id);
+            });
+            const activeCard = document.querySelector(`.card[data-id="${item.id}"]`);
+            if (activeCard) {
+                activeCard.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+            }
+            const activeIndex = Math.max(0, filteredItems.findIndex(i => i.id === item.id));
+            carouselCounterEl.textContent = `${activeIndex + 1} / ${filteredItems.length}`;
 
-            gsap.to(body, {
-                '--bg-inner': targetColors.inner,
-                '--bg-mid': targetColors.mid,
-                '--bg-outer': targetColors.outer,
-                duration: 1.5,
+            // 1. Background gradient morph
+            gsap.to(document.body, {
+                '--bg-inner': item.theme.inner,
+                '--bg-mid': item.theme.mid,
+                '--bg-outer': item.theme.outer,
+                duration: 1.4,
                 ease: 'power2.inOut'
             });
 
-            // 2. Can Spin Animation (Simple 360 spin + blur with back settle)
+            // 2. Center stage 720° spin + blur + swap at peak
+            const targetStage = item.use3DCan ? modelViewer : foodStage3d;
             const spinObj = { val: 0, blur: 0 };
             gsap.to(spinObj, {
                 val: 360,
                 blur: 15,
-                duration: 0.6,
-                ease: "power2.in",
+                duration: 0.55,
+                ease: 'power2.in',
                 onUpdate: () => {
                     switchSpin = spinObj.val;
+                    foodStage3d.style.filter = `blur(${spinObj.blur}px)`;
                     modelViewer.style.filter = `blur(${spinObj.blur}px)`;
                 },
-                onComplete: async () => {
-                    // SWAP at peak
-                    if (flavor === 'blue') {
-                        body.classList.add('blue-theme');
-                        if (modelViewer.model && blueTexture) {
-                            modelViewer.model.materials.forEach(material => {
-                                if (material.pbrMetallicRoughness.baseColorTexture) {
-                                    material.pbrMetallicRoughness.baseColorTexture.setTexture(blueTexture);
-                                }
-                            });
-                        }
+                onComplete: () => {
+                    updateHeroText(item);
+                    if (item.use3DCan) {
+                        foodStage3d.classList.add('hidden-3d');
+                        modelViewer.classList.add('active-3d');
                     } else {
-                        body.classList.remove('blue-theme');
-                        if (modelViewer.model && greenTexture) {
-                            modelViewer.model.materials.forEach(material => {
-                                if (material.pbrMetallicRoughness.baseColorTexture) {
-                                    material.pbrMetallicRoughness.baseColorTexture.setTexture(greenTexture);
-                                }
-                            });
-                        }
+                        modelViewer.classList.remove('active-3d');
+                        foodStage3d.classList.remove('hidden-3d');
+                        foodStageImg.src = item.image;
+                        foodStageImg.alt = item.name;
                     }
 
                     gsap.to(spinObj, {
                         val: 720,
                         blur: 0,
-                        duration: 1.5,
-                        ease: "back.out(0.7)",
+                        duration: 1.35,
+                        ease: 'back.out(0.7)',
                         onUpdate: () => {
                             switchSpin = spinObj.val;
+                            foodStage3d.style.filter = `blur(${spinObj.blur}px)`;
                             modelViewer.style.filter = `blur(${spinObj.blur}px)`;
                         },
                         onComplete: () => {
                             switchSpin = 0;
+                            foodStage3d.style.filter = 'none';
                             modelViewer.style.filter = 'none';
                         }
                     });
                 }
             });
 
-            // 3. Berries "Hide & Reveal" with Dynamic Positioning
+            // 3. Berries Implode -> Swap -> Explode
             let completedBerries = 0;
-            berries.forEach((berry, i) => {
+            const targetGlb = item.berryMode === 'blueberry'
+                ? 'https://api.getlayers.ai/storage/v1/object/public/public/assets/soda-14ff8a788d/blueberry.glb'
+                : 'https://api.getlayers.ai/storage/v1/object/public/public/assets/soda-14ff8a788d/cherry.glb';
+
+            allBerries.forEach((berry) => {
                 const bW = berry.offsetWidth / 2;
                 const bH = berry.offsetHeight / 2;
                 const centerX = (window.innerWidth / 2 - berry.offsetLeft - bW);
@@ -917,68 +1162,79 @@
                 const startAngle = parseFloat(berry.dataset.angle) || 0;
                 const currentBaseX = parseFloat(berry.dataset.baseX) || 0;
                 const currentBaseY = parseFloat(berry.dataset.baseY) || 0;
+                const nextBaseX = (Math.random() - 0.5) * 180;
+                const nextBaseY = (Math.random() - 0.5) * 180;
 
-                const nextBaseX = (Math.random() - 0.5) * 200;
-                const nextBaseY = (Math.random() - 0.5) * 200;
+                gsap.set(berry, { rotation: startAngle, x: currentBaseX, y: currentBaseY });
 
-                gsap.set(berry, {
-                    rotation: startAngle,
-                    x: currentBaseX,
-                    y: currentBaseY
-                });
-
-                const berryTl = gsap.timeline();
-
-                berryTl.to(berry, {
-                    x: centerX,
-                    y: centerY,
-                    rotation: startAngle + 45,
-                    scale: 0.1,
-                    opacity: 0,
-                    duration: 0.5,
-                    ease: "power2.in",
-                    onComplete: () => {
-                        berry.src = flavor === 'blue'
-                            ? 'https://api.getlayers.ai/storage/v1/object/public/public/assets/soda-14ff8a788d/blueberry.glb'
-                            : 'https://api.getlayers.ai/storage/v1/object/public/public/assets/soda-14ff8a788d/cherry.glb';
-                        heroCenter.style.zIndex = 50;
-                    }
-                })
-                .to(berry, {
-                    duration: 0.3
-                })
-                .to(berry, {
-                    onStart: () => {
-                        heroCenter.style.zIndex = 1;
-                    },
-                    x: nextBaseX,
-                    y: nextBaseY,
-                    rotation: startAngle + 90,
-                    scale: 1,
-                    opacity: 1,
-                    duration: 0.9,
-                    ease: "back.out(1.5)",
-                    onComplete: () => {
-                        berry.dataset.angle = startAngle + 90;
-                        berry.dataset.baseX = nextBaseX;
-                        berry.dataset.baseY = nextBaseY;
-                        berry.dataset.rx = 0;
-                        berry.dataset.ry = 0;
-
-                        completedBerries++;
-                        if (completedBerries === berries.length) {
-                            isSwitching = false;
+                gsap.timeline()
+                    .to(berry, {
+                        x: centerX,
+                        y: centerY,
+                        rotation: startAngle + 45,
+                        scale: 0.1,
+                        opacity: 0,
+                        duration: 0.48,
+                        ease: 'power2.in',
+                        onComplete: () => {
+                            berry.src = targetGlb;
                         }
-                    }
-                });
+                    })
+                    .to(berry, { duration: 0.25 })
+                    .to(berry, {
+                        x: nextBaseX,
+                        y: nextBaseY,
+                        rotation: startAngle + 90,
+                        scale: 1,
+                        opacity: 1,
+                        duration: 0.85,
+                        ease: 'back.out(1.5)',
+                        onComplete: () => {
+                            berry.dataset.angle = startAngle + 90;
+                            berry.dataset.baseX = nextBaseX;
+                            berry.dataset.baseY = nextBaseY;
+                            berry.dataset.rx = 0;
+                            berry.dataset.ry = 0;
+                            completedBerries++;
+                            if (completedBerries === allBerries.length) {
+                                isSwitching = false;
+                            }
+                        }
+                    });
             });
         }
 
-        // Track berry states for smoothing
+        // Category Filter Navigation
+        document.querySelectorAll('#categoryNav .nav-item').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('#categoryNav .nav-item').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                const cat = btn.dataset.cat;
+                filteredItems = cat === 'ALL' ? [...FOOD_CATALOG] : FOOD_CATALOG.filter(i => i.category === cat);
+                renderCarousel();
+                if (filteredItems.length > 0 && !filteredItems.some(i => i.id === activeItem.id)) {
+                    selectItem(filteredItems[0]);
+                }
+            });
+        });
+
+        // Carousel Prev / Next Arrows
+        document.getElementById('prevFoodBtn').addEventListener('click', () => {
+            const idx = filteredItems.findIndex(i => i.id === activeItem.id);
+            const prev = (idx - 1 + filteredItems.length) % filteredItems.length;
+            selectItem(filteredItems[prev]);
+        });
+
+        document.getElementById('nextFoodBtn').addEventListener('click', () => {
+            const idx = filteredItems.findIndex(i => i.id === activeItem.id);
+            const next = (idx + 1) % filteredItems.length;
+            selectItem(filteredItems[next]);
+        });
+
+        // Init berry tracking
         allBerries.forEach(b => {
             b.dataset.rx = 0; b.dataset.ry = 0; b.dataset.angle = Math.random() * 360;
             b.dataset.baseX = 0; b.dataset.baseY = 0;
-            b.dataset.targetRx = 0; b.dataset.targetRy = 0;
         });
 
         let mouse = { x: 0, y: 0, px: 0, py: 0 };
@@ -996,7 +1252,9 @@
             currentMouse.x += (mouse.x - currentMouse.x) * 0.05;
             currentMouse.y += (mouse.y - currentMouse.y) * 0.05;
 
+            // Real-time 3D cursor tilt for both <model-viewer> and Food Showcase Stage
             modelViewer.cameraOrbit = `${(currentMouse.x * 40) + switchSpin}deg ${90 + (currentMouse.y * 20)}deg 380%`;
+            foodStage3d.style.transform = `rotateY(${(currentMouse.x * 34) + switchSpin}deg) rotateX(${currentMouse.y * -24}deg)`;
 
             berriesFG.style.transform = `translate(${currentMouse.x * 60}px, ${currentMouse.y * 60}px)`;
             berriesBG.style.transform = `translate(${currentMouse.x * -30}px, ${currentMouse.y * -30}px)`;
@@ -1013,7 +1271,6 @@
                     const distance = Math.sqrt(diffX * diffX + diffY * diffY);
 
                     let targetRx = 0, targetRy = 0, speedMult = 1;
-
                     if (distance < 400 && distance > 0) {
                         const force = (400 - distance) / 400;
                         targetRx = (diffX / distance) * force * -80;
@@ -1056,53 +1313,100 @@
             requestAnimationFrame(animate);
         }
 
-        animate();
-
-        // Bubbles Generator using bubble.png
+        // Bubbles
         const bubblesContainer = document.getElementById('bubbles-container');
         function createBubble() {
             if (!bubblesContainer) return;
             const bubble = document.createElement('img');
             bubble.src = 'https://api.getlayers.ai/storage/v1/object/public/public/assets/soda-14ff8a788d/bubble.png';
             bubble.className = 'bubble-img';
-            const size = Math.random() * 20 + 10 + 'px';
-            bubble.style.width = size;
+            bubble.style.width = (Math.random() * 20 + 10) + 'px';
             bubble.style.height = 'auto';
             bubble.style.left = Math.random() * 100 + '%';
             bubble.style.bottom = '-50px';
             bubble.style.opacity = Math.random() * 0.4 + 0.2;
-
             const duration = Math.random() * 6 + 4;
             bubble.style.animation = `floatUpImg ${duration}s linear forwards`;
-
             bubblesContainer.appendChild(bubble);
             setTimeout(() => bubble.remove(), duration * 1000);
         }
         setInterval(createBubble, 400);
 
-        // Seat Order Modal Logic
+        // Cart & Seat Delivery Modal
         const orderModal = document.getElementById('orderModal');
-        const closeOrderModal = document.getElementById('closeOrderModal');
-        const openBtns = [document.getElementById('openOrderModalTop'), document.getElementById('openOrderModalHero')];
-        openBtns.forEach(btn => {
-            if (btn) btn.addEventListener('click', () => {
-                orderModal.classList.add('open');
-                document.getElementById('orderStatus').textContent = '';
-            });
-        });
-        if (closeOrderModal) {
-            closeOrderModal.addEventListener('click', () => orderModal.classList.remove('open'));
+        const cartListEl = document.getElementById('cartList');
+        const cartCountBadge = document.getElementById('cartCountBadge');
+        const submitOrderBtn = document.getElementById('submitOrderBtn');
+
+        function renderCart() {
+            const totalQty = cart.reduce((sum, c) => sum + c.qty, 0);
+            const totalAmt = cart.reduce((sum, c) => sum + (c.price * c.qty), 0);
+            cartCountBadge.textContent = totalQty;
+            submitOrderBtn.textContent = `Place Seat Order (₹${totalAmt})`;
+
+            if (cart.length === 0) {
+                cartListEl.innerHTML = `<div style="text-align:center;color:rgba(255,255,255,0.6);font-size:0.85rem;padding:0.8rem 0;">Cart is empty. Click "Add to Seat Order" on any item!</div>`;
+                return;
+            }
+            cartListEl.innerHTML = cart.map((c, idx) => `
+                <div class="cart-row">
+                    <div>
+                        <div style="font-weight:700;">${c.name}</div>
+                        <div style="font-size:0.75rem;color:#fbcfe8;">₹${c.price} × ${c.qty} = ₹${c.price * c.qty}</div>
+                    </div>
+                    <div class="cart-qty-btns">
+                        <button type="button" class="qty-btn" onclick="updateCartQty(${idx}, -1)">-</button>
+                        <span>${c.qty}</span>
+                        <button type="button" class="qty-btn" onclick="updateCartQty(${idx}, 1)">+</button>
+                    </div>
+                </div>
+            `).join('');
         }
+
+        window.updateCartQty = function(idx, delta) {
+            cart[idx].qty += delta;
+            if (cart[idx].qty <= 0) cart.splice(idx, 1);
+            renderCart();
+        };
+
+        document.getElementById('addToCartHeroBtn').addEventListener('click', () => {
+            const existing = cart.find(c => c.id === activeItem.id);
+            if (existing) existing.qty += 1;
+            else cart.push({ id: activeItem.id, name: activeItem.name, price: activeItem.price, qty: 1 });
+            renderCart();
+            orderModal.classList.add('open');
+            document.getElementById('orderStatus').textContent = '';
+        });
+
+        document.getElementById('openOrderModalTop').addEventListener('click', () => {
+            renderCart();
+            orderModal.classList.add('open');
+            document.getElementById('orderStatus').textContent = '';
+        });
+
+        document.getElementById('closeOrderModal').addEventListener('click', () => orderModal.classList.remove('open'));
         orderModal.addEventListener('click', (e) => {
             if (e.target === orderModal) orderModal.classList.remove('open');
         });
+
         document.getElementById('seatOrderForm').addEventListener('submit', (e) => {
             e.preventDefault();
-            const item = document.getElementById('orderFlavor').value;
-            const qty = document.getElementById('orderQty').value;
+            if (cart.length === 0) {
+                document.getElementById('orderStatus').textContent = 'Please add at least 1 food item first!';
+                return;
+            }
             const seat = document.getElementById('orderSeat').value.trim();
-            document.getElementById('orderStatus').textContent = `✓ Order confirmed for ${qty}× ${item} at ${seat}!`;
+            const totalAmt = cart.reduce((sum, c) => sum + (c.price * c.qty), 0);
+            document.getElementById('orderStatus').textContent = `✓ Seat Order (₹${totalAmt}) sent to Concessions Counter for ${seat}!`;
+            cart = [];
+            renderCart();
         });
+
+        // Boot
+        renderCarousel();
+        updateHeroText(activeItem);
+        renderCart();
+        animate();
     </script>
 </body>
 </html>
