@@ -414,6 +414,16 @@
             transform: translateZ(40px);
         }
 
+        .food-showcase-img.can-mode {
+            width: 96%;
+            height: 96%;
+            object-fit: contain;
+            border-radius: 0;
+            border: none;
+            box-shadow: none;
+            filter: drop-shadow(0 32px 60px rgba(0, 0, 0, 0.72));
+        }
+
         /* Berries */
         .berries-container {
             position: absolute;
@@ -1000,10 +1010,11 @@
                 price: 100,
                 statusNote: 'CO2 Pressure OK',
                 offerTag: 'ICE COLD COCA-COLA',
-                image: 'https://images.unsplash.com/photo-1622483767028-3f66f32aef97?auto=format&fit=crop&w=600&q=80',
+                image: '/assets/food-cans/coca-cola-can.png',
                 theme: { inner: '#8a0b1e', mid: '#4e0410', outer: '#140104' },
                 berryMode: 'cherry',
-                use3DCan: true
+                use3DCan: false,
+                isCanShowcase: true
             },
             {
                 id: 'p12',
@@ -1014,10 +1025,11 @@
                 price: 110,
                 statusNote: 'Chilled in Cooler',
                 offerTag: 'TASTE THE THUNDER',
-                image: 'https://images.unsplash.com/photo-1554866585-cd94860890b7?auto=format&fit=crop&w=600&q=80',
+                image: '/assets/food-cans/thums-up-can.png',
                 theme: { inner: '#0f2d5e', mid: '#071836', outer: '#010610' },
                 berryMode: 'blueberry',
-                use3DCan: true
+                use3DCan: false,
+                isCanShowcase: true
             },
             {
                 id: 'p13',
@@ -1028,10 +1040,11 @@
                 price: 100,
                 statusNote: 'Chilled Dispenser',
                 offerTag: 'CLEAR LIME CHILL',
-                image: 'https://images.unsplash.com/photo-1625772299848-391b6a87d7b3?auto=format&fit=crop&w=600&q=80',
+                image: '/assets/food-cans/sprite-can.png',
                 theme: { inner: '#0b8a78', mid: '#044e3b', outer: '#011411' },
                 berryMode: 'cherry',
-                use3DCan: true
+                use3DCan: false,
+                isCanShowcase: true
             },
             {
                 id: 'p14',
@@ -1042,10 +1055,11 @@
                 price: 100,
                 statusNote: 'Chilled Dispenser',
                 offerTag: 'TANGY ORANGE POP',
-                image: 'https://images.unsplash.com/photo-1624517452488-04869289c4ca?auto=format&fit=crop&w=600&q=80',
+                image: '/assets/food-cans/fanta-can.png',
                 theme: { inner: '#c2410c', mid: '#641e04', outer: '#1a0701' },
                 berryMode: 'cherry',
-                use3DCan: true
+                use3DCan: false,
+                isCanShowcase: true
             },
             {
                 id: 'p15',
@@ -1210,6 +1224,7 @@
                         foodStage3d.classList.remove('hidden-3d');
                         foodStageImg.src = item.image;
                         foodStageImg.alt = item.name;
+                        foodStageImg.classList.toggle('can-mode', !!item.isCanShowcase);
                     }
 
                     gsap.to(spinObj, {
