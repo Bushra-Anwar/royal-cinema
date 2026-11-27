@@ -10,6 +10,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;900&family=Inter:wght@400;500;600;700&family=Manrope:wght@400;500;700&family=Galada&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
     <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
 
     <style>
@@ -366,16 +368,46 @@
             pointer-events: auto;
         }
 
-        /* 3D Interactive Food Showcase Plate for all Popcorn / Nachos / Combos / Puffs */
+        /* 3D Interactive WebGL Stage for Popcorn, Nachos, Combos, Puffs, Brownie & Iced Coffee */
         .food-stage-3d {
             position: relative;
-            width: clamp(270px, 31vw, 430px);
-            height: clamp(270px, 31vw, 430px);
+            width: clamp(320px, 38vw, 520px);
+            height: clamp(320px, 38vw, 520px);
             display: flex;
             align-items: center;
             justify-content: center;
-            transform-style: preserve-3d;
-            will-change: transform, filter;
+            pointer-events: auto;
+            cursor: grab;
+            will-change: filter;
+        }
+
+        .food-stage-3d:active {
+            cursor: grabbing;
+        }
+
+        #food3dCanvas {
+            width: 100%;
+            height: 100%;
+            display: block;
+            outline: none;
+        }
+
+        .drag-360-hint {
+            position: fixed;
+            bottom: 1.5rem;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.45);
+            border: 1px solid rgba(255, 255, 255, 0.16);
+            backdrop-filter: blur(12px);
+            padding: 0.42rem 1rem;
+            border-radius: 999px;
+            font-size: 0.74rem;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            color: rgba(255, 255, 255, 0.85);
+            z-index: 90;
+            pointer-events: none;
         }
 
         .food-stage-3d.hidden-3d {
@@ -852,13 +884,13 @@
                     class="main-product-3d">
                 </model-viewer>
 
-                <!-- 3D Interactive Showcase Stage for Popcorn, Nachos, Combos, Puffs & Offers -->
+                <!-- 3D Interactive 360° WebGL Stage for Popcorn, Nachos, Combos, Puffs & Offers -->
                 <div class="food-stage-3d" id="foodStage3d">
                     <div class="food-halo"></div>
-                    <div class="food-ring"></div>
-                    <img id="foodStageImg" class="food-showcase-img" src="https://images.unsplash.com/photo-1585647347483-22b66260dfff?auto=format&fit=crop&w=600&q=80" alt="Blockbuster Combo 1">
+                    <canvas id="food3dCanvas"></canvas>
                 </div>
             </div>
+            <div class="drag-360-hint">↻ Drag Center Product to Rotate 360° in 3D</div>
 
             <div class="berries-container">
                 <div class="berry b1"><img class="float-sprite" src="/assets/food-floats/popcorn.png" alt=""><model-viewer class="float-glb" src="https://api.getlayers.ai/storage/v1/object/public/public/assets/soda-14ff8a788d/cherry.glb" environment-image="neutral" exposure="1.2" interaction-prompt="none" camera-orbit="45deg 120deg 105%"></model-viewer></div>
@@ -1243,6 +1275,7 @@
                 ease: 'power2.in',
                 onUpdate: () => {
                     switchSpin = spinObj.val;
+                    if (window.setRoyalFood3DSpin) window.setRoyalFood3DSpin(switchSpin);
                     foodStage3d.style.filter = `blur(${spinObj.blur}px)`;
                     modelViewer.style.filter = `blur(${spinObj.blur}px)`;
                 },
@@ -1255,9 +1288,7 @@
                     } else {
                         modelViewer.classList.remove('active-3d');
                         foodStage3d.classList.remove('hidden-3d');
-                        foodStageImg.src = item.image;
-                        foodStageImg.alt = item.name;
-                        foodStageImg.classList.toggle('can-mode', !!item.isCanShowcase);
+                        if (window.setRoyalFood3DModel) window.setRoyalFood3DModel(item);
                     }
 
                     gsap.to(spinObj, {
@@ -1267,11 +1298,13 @@
                         ease: 'back.out(0.7)',
                         onUpdate: () => {
                             switchSpin = spinObj.val;
+                            if (window.setRoyalFood3DSpin) window.setRoyalFood3DSpin(switchSpin);
                             foodStage3d.style.filter = `blur(${spinObj.blur}px)`;
                             modelViewer.style.filter = `blur(${spinObj.blur}px)`;
                         },
                         onComplete: () => {
                             switchSpin = 0;
+                            if (window.setRoyalFood3DSpin) window.setRoyalFood3DSpin(0);
                             foodStage3d.style.filter = 'none';
                             modelViewer.style.filter = 'none';
                         }
@@ -1385,11 +1418,10 @@
             currentMouse.x += (mouse.x - currentMouse.x) * 0.05;
             currentMouse.y += (mouse.y - currentMouse.y) * 0.05;
 
-            // Real-time 3D cursor tilt for both <model-viewer> (when not dragging 360) and Food Showcase Stage
+            // Real-time 3D cursor tilt for <model-viewer> (when not dragging 360)
             if (!isDragging3DCan || isSwitching) {
                 modelViewer.cameraOrbit = `${(currentMouse.x * 40) + switchSpin}deg ${90 + (currentMouse.y * 20)}deg 380%`;
             }
-            foodStage3d.style.transform = `rotateY(${(currentMouse.x * 34) + switchSpin}deg) rotateX(${currentMouse.y * -24}deg)`;
 
             berriesFG.style.transform = `translate(${currentMouse.x * 60}px, ${currentMouse.y * 60}px)`;
             berriesBG.style.transform = `translate(${currentMouse.x * -30}px, ${currentMouse.y * -30}px)`;
@@ -1595,6 +1627,12 @@
         updateHeroText(activeItem);
         renderCart();
         animate();
+    </script>
+    <script src="/assets/js/food-3d-engine.js"></script>
+    <script>
+        if (window.setRoyalFood3DModel && typeof activeItem !== 'undefined' && !activeItem.use3DCan) {
+            window.setRoyalFood3DModel(activeItem);
+        }
     </script>
 </body>
 </html>
