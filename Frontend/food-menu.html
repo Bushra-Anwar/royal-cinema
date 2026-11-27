@@ -774,7 +774,7 @@
         </a>
 
         <nav class="nav glass" id="categoryNav">
-            <button class="nav-item active" data-cat="ALL">All (11)</button>
+            <button class="nav-item active" data-cat="ALL">All (15)</button>
             <button class="nav-item" data-cat="COMBOS">Combos</button>
             <button class="nav-item" data-cat="POPCORN">Popcorn</button>
             <button class="nav-item" data-cat="NACHOS">Nachos</button>
@@ -886,10 +886,14 @@
             <div class="cart-list" id="cartList"></div>
             <form id="seatOrderForm">
                 <div class="order-field">
-                    <label for="orderSeat">Audi &amp; Seat Number (e.g. Audi 1 - G12)</label>
-                    <input type="text" id="orderSeat" placeholder="Audi 1 - G12" required>
+                    <label for="orderSeat">Table / Seat Number (e.g. Table 04 or Audi 1 - G12)</label>
+                    <input type="text" id="orderSeat" placeholder="Table 04 / Audi 1 - G12" required>
                 </div>
-                <button type="submit" class="order-submit-btn" id="submitOrderBtn">Place Seat Order (₹0)</button>
+                <div class="order-field">
+                    <label for="orderGuest">Your Name (Optional)</label>
+                    <input type="text" id="orderGuest" placeholder="Guest Name">
+                </div>
+                <button type="submit" class="order-submit-btn" id="submitOrderBtn">Send to Kitchen (₹0)</button>
                 <div class="order-status" id="orderStatus"></div>
             </form>
         </div>
@@ -991,15 +995,71 @@
                 id: 'p7',
                 name: 'Fountain Coca-Cola',
                 titleLines: ['Fountain', 'Coca-Cola'],
-                subtitle: 'Chilled 500ml Dispenser',
+                subtitle: 'Chilled 500ml Classic Cola',
                 category: 'DRINKS',
                 price: 100,
                 statusNote: 'CO2 Pressure OK',
-                offerTag: 'ICE COLD REFRESHMENT',
+                offerTag: 'ICE COLD COCA-COLA',
                 image: 'https://images.unsplash.com/photo-1622483767028-3f66f32aef97?auto=format&fit=crop&w=600&q=80',
+                theme: { inner: '#8a0b1e', mid: '#4e0410', outer: '#140104' },
+                berryMode: 'cherry',
+                use3DCan: true
+            },
+            {
+                id: 'p12',
+                name: 'Thums Up Strong Cola',
+                titleLines: ['Thums Up', 'Toofani'],
+                subtitle: '500ml Strong Fizzy Cola (India #1)',
+                category: 'DRINKS',
+                price: 110,
+                statusNote: 'Chilled in Cooler',
+                offerTag: 'TASTE THE THUNDER',
+                image: 'https://images.unsplash.com/photo-1554866585-cd94860890b7?auto=format&fit=crop&w=600&q=80',
+                theme: { inner: '#0f2d5e', mid: '#071836', outer: '#010610' },
+                berryMode: 'blueberry',
+                use3DCan: true
+            },
+            {
+                id: 'p13',
+                name: 'Sprite Lemon-Lime',
+                titleLines: ['Sprite', 'Clear Lime'],
+                subtitle: '500ml Crisp Lemon-Lime Refreshment',
+                category: 'DRINKS',
+                price: 100,
+                statusNote: 'Chilled Dispenser',
+                offerTag: 'CLEAR LIME CHILL',
+                image: 'https://images.unsplash.com/photo-1625772299848-391b6a87d7b3?auto=format&fit=crop&w=600&q=80',
                 theme: { inner: '#0b8a78', mid: '#044e3b', outer: '#011411' },
                 berryMode: 'cherry',
                 use3DCan: true
+            },
+            {
+                id: 'p14',
+                name: 'Fanta Orange Fizz',
+                titleLines: ['Fanta', 'Orange'],
+                subtitle: '500ml Tangy Orange Sparkle',
+                category: 'DRINKS',
+                price: 100,
+                statusNote: 'Chilled Dispenser',
+                offerTag: 'TANGY ORANGE POP',
+                image: 'https://images.unsplash.com/photo-1624517452488-04869289c4ca?auto=format&fit=crop&w=600&q=80',
+                theme: { inner: '#c2410c', mid: '#641e04', outer: '#1a0701' },
+                berryMode: 'cherry',
+                use3DCan: true
+            },
+            {
+                id: 'p15',
+                name: 'Cinema Iced Cold Coffee',
+                titleLines: ['Iced Cold', 'Coffee'],
+                subtitle: 'Rich Espresso + Chilled Milk & Ice',
+                category: 'DRINKS',
+                price: 160,
+                statusNote: 'Fresh Barista Brew',
+                offerTag: 'CINEMA CAFE SIGNATURE',
+                image: 'https://images.unsplash.com/photo-1461023058943-07fcbe16d735?auto=format&fit=crop&w=600&q=80',
+                theme: { inner: '#5c3317', mid: '#2f1809', outer: '#0e0702' },
+                berryMode: 'blueberry',
+                use3DCan: false
             },
             {
                 id: 'p8',
@@ -1414,42 +1474,59 @@
             if (e.target === orderModal) orderModal.classList.remove('open');
         });
 
-        document.getElementById('seatOrderForm').addEventListener('submit', (e) => {
+        document.getElementById('seatOrderForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             if (cart.length === 0) {
                 document.getElementById('orderStatus').textContent = 'Please add at least 1 food item first!';
                 return;
             }
-            const seat = document.getElementById('orderSeat').value.trim();
-            const totalAmt = cart.reduce((sum, c) => sum + (c.price * c.qty), 0);
-            document.getElementById('orderStatus').textContent = `✓ Seat Order (₹${totalAmt}) sent to Concessions Counter for ${seat}!`;
-            cart = [];
-            renderCart();
+            const tableOrSeat = document.getElementById('orderSeat').value.trim();
+            const customerName = (document.getElementById('orderGuest')?.value || '').trim() || 'QR Guest';
+            const statusEl = document.getElementById('orderStatus');
+            const submitBtn = document.getElementById('submitOrderBtn');
+            submitBtn.disabled = true;
+            statusEl.textContent = 'Sending order to Kitchen...';
+            try {
+                const res = await fetch('/api/food-orders', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ tableOrSeat, customerName, items: cart })
+                });
+                const data = await res.json();
+                if (data && data.ok) {
+                    statusEl.textContent = `✓ ${data.order.kotId} sent to Kitchen for ${tableOrSeat} (₹${data.order.totalAmt})!`;
+                    cart = [];
+                    renderCart();
+                } else {
+                    statusEl.textContent = (data && data.error) || 'Could not send order. Please try again.';
+                }
+            } catch (err) {
+                statusEl.textContent = 'Network error sending order to Kitchen.';
+            } finally {
+                submitBtn.disabled = false;
+            }
         });
 
         function getFloatSpritesForItem(item) {
-            if (item.use3DCan) return [];
             const id = item.id;
-            if (id === 'p1') return ['/assets/food-floats/popcorn.png'];
+            if (id === 'p1') return ['/assets/food-floats/popcorn.png', '/assets/food-floats/ice-cube.png'];
             if (id === 'p2') return ['/assets/food-floats/samosa.png'];
             if (id === 'p3' || id === 'p5') return ['/assets/food-floats/popcorn.png'];
             if (id === 'p4') return ['/assets/food-floats/nacho.png'];
             if (id === 'p6' || id === 'p8') return ['/assets/food-floats/samosa.png'];
+            if (id === 'p7' || id === 'p12' || id === 'p13' || id === 'p14') return ['/assets/food-floats/ice-cube.png'];
             if (id === 'p9') return ['/assets/food-floats/brownie.png'];
-            if (id === 'p10') return ['/assets/food-floats/popcorn.png', '/assets/food-floats/nacho.png'];
+            if (id === 'p10') return ['/assets/food-floats/popcorn.png', '/assets/food-floats/nacho.png', '/assets/food-floats/ice-cube.png'];
             if (id === 'p11') return ['/assets/food-floats/nacho.png', '/assets/food-floats/brownie.png'];
+            if (id === 'p15') return ['/assets/food-floats/coffee-bean.png', '/assets/food-floats/ice-cube.png'];
             return ['/assets/food-floats/popcorn.png'];
         }
 
         function applyFloatVisual(berry, item, idx, spritePool, targetGlb) {
             const img = berry.querySelector('.float-sprite');
-            const glb = berry.querySelector('.float-glb');
-            if (item.use3DCan || spritePool.length === 0) {
-                berry.classList.add('is-glb');
-                if (glb && glb.src !== targetGlb) glb.src = targetGlb;
-            } else {
-                berry.classList.remove('is-glb');
-                if (img) img.src = spritePool[idx % spritePool.length];
+            berry.classList.remove('is-glb');
+            if (img && spritePool.length > 0) {
+                img.src = spritePool[idx % spritePool.length];
             }
         }
 

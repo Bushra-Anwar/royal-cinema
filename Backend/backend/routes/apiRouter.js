@@ -847,6 +847,90 @@ async function handleApiRequest(req, res) {
     return true;
   }
 
+  // ═══════════════════════════════════════════════════════════
+  // QR FOOD MENU -> LIVE KITCHEN KDS ORDERS
+  // ═══════════════════════════════════════════════════════════
+  if (pathname === '/api/food-orders' && method === 'GET') {
+    const fs = require('node:fs');
+    const path = require('node:path');
+    const pathsCfg = require('../config/paths');
+    const ordersFile = path.join(pathsCfg.getDataDir(), 'qr_food_orders.json');
+    let orders = [];
+    try {
+      if (fs.existsSync(ordersFile)) {
+        orders = JSON.parse(fs.readFileSync(ordersFile, 'utf8')) || [];
+      }
+    } catch { orders = []; }
+    sendJson(res, 200, { ok: true, orders });
+    return true;
+  }
+
+  if (pathname === '/api/food-orders' && method === 'POST') {
+    const fs = require('node:fs');
+    const path = require('node:path');
+    const pathsCfg = require('../config/paths');
+    const body = await readBody(req);
+    const items = Array.isArray(body.items) ? body.items : [];
+    const tableOrSeat = String(body.tableOrSeat || body.seat || 'Table 01').trim();
+    if (items.length === 0) {
+      sendJson(res, 400, { ok: false, error: 'Order must include at least one item.' });
+      return true;
+    }
+    const ordersFile = path.join(pathsCfg.getDataDir(), 'qr_food_orders.json');
+    let orders = [];
+    try {
+      if (fs.existsSync(ordersFile)) {
+        orders = JSON.parse(fs.readFileSync(ordersFile, 'utf8')) || [];
+      }
+    } catch { orders = []; }
+
+    const kotNum = 1051 + orders.length;
+    const totalAmt = items.reduce((s, it) => s + (Number(it.price || 0) * Number(it.qty || 1)), 0);
+    const newOrder = {
+      id: 'qr-' + Date.now(),
+      kotId: `KOT #${kotNum}`,
+      tableOrSeat,
+      customerName: String(body.customerName || 'QR Guest').trim(),
+      items: items.map(it => ({
+        id: it.id,
+        name: it.name,
+        qty: Number(it.qty || 1),
+        price: Number(it.price || 0),
+        label: `${Number(it.qty || 1)}x ${it.name}`
+      })),
+      totalAmt,
+      status: 'NEW',
+      createdAt: new Date().toISOString()
+    };
+    orders.unshift(newOrder);
+    if (orders.length > 50) orders = orders.slice(0, 50);
+    try {
+      fs.mkdirSync(path.dirname(ordersFile), { recursive: true });
+      fs.writeFileSync(ordersFile, JSON.stringify(orders, null, 2));
+    } catch (e) {
+      console.error('[FOOD-ORDERS] Save error:', e.message);
+    }
+    sendJson(res, 200, { ok: true, order: newOrder });
+    return true;
+  }
+
+  if (pathname === '/api/food-orders/complete' && method === 'POST') {
+    const fs = require('node:fs');
+    const path = require('node:path');
+    const pathsCfg = require('../config/paths');
+    const body = await readBody(req);
+    const ordersFile = path.join(pathsCfg.getDataDir(), 'qr_food_orders.json');
+    try {
+      if (fs.existsSync(ordersFile)) {
+        let orders = JSON.parse(fs.readFileSync(ordersFile, 'utf8')) || [];
+        orders = orders.filter(o => o.id !== body.id && o.kotId !== body.kotId);
+        fs.writeFileSync(ordersFile, JSON.stringify(orders, null, 2));
+      }
+    } catch {}
+    sendJson(res, 200, { ok: true });
+    return true;
+  }
+
   // Route not found
   sendJson(res, 404, { error: 'API route not found' });
   return true;
