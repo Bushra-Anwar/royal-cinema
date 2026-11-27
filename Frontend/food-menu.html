@@ -942,15 +942,15 @@
             </div>
 
             <div class="hero-center">
-                <!-- 3D 360° Model Viewer for ALL 15 Food & Drink Products -->
-                <model-viewer id="product-model" src="/assets/food-3d/p1-combo.glb" alt="Royal Cinema 3D Product" camera-controls
-                    disable-zoom shadow-intensity="0" environment-image="neutral" exposure="1.35"
-                    interaction-prompt="none" camera-orbit="0deg 78deg 380%" field-of-view="30deg"
-                    class="main-product-3d active-3d">
+                <!-- 3D 360° Model Viewer for Drink Cans (Real GLB) -->
+                <model-viewer id="product-model" src="https://api.getlayers.ai/storage/v1/object/public/public/assets/soda-14ff8a788d/deit_soda2.glb" alt="Royal Cinema 3D Product" camera-controls
+                    disable-zoom shadow-intensity="0" environment-image="neutral" exposure="1.45"
+                    interaction-prompt="none" camera-orbit="0deg 90deg 380%" field-of-view="30deg"
+                    class="main-product-3d">
                 </model-viewer>
 
-                <!-- Photorealistic 3D Layered Stage (fallback only) -->
-                <div class="food-stage-3d hidden-3d" id="foodStage3d">
+                <!-- Photorealistic 3D Layered Stage for Food & Multi-Item Combos -->
+                <div class="food-stage-3d" id="foodStage3d">
                     <div class="food-halo"></div>
                     <div class="photo-layer-wrap" id="photoLayerWrap">
                         <img id="foodMainImg" class="photo-main-card" src="https://images.unsplash.com/photo-1585647347483-22b66260dfff?auto=format&fit=crop&w=600&q=80" alt="Blockbuster Combo 1">
@@ -961,7 +961,7 @@
                     </div>
                 </div>
             </div>
-            <div class="drag-360-hint">↻ Drag Any Product to Rotate 360° in 3D</div>
+            <div class="drag-360-hint" id="dragHintPill">↻ Drag to Tilt / Rotate in 3D</div>
 
             <div class="berries-container">
                 <div class="berry b1"><img class="float-sprite" src="/assets/food-floats/popcorn.png" alt=""><model-viewer class="float-glb" src="https://api.getlayers.ai/storage/v1/object/public/public/assets/soda-14ff8a788d/cherry.glb" environment-image="neutral" exposure="1.2" interaction-prompt="none" camera-orbit="45deg 120deg 105%"></model-viewer></div>
@@ -1362,15 +1362,18 @@
                 },
                 onComplete: () => {
                     updateHeroText(item);
-                    foodStage3d.classList.add('hidden-3d');
-                    modelViewer.classList.add('active-3d');
-                    const drinkGlb = 'https://api.getlayers.ai/storage/v1/object/public/public/assets/soda-14ff8a788d/deit_soda2.glb';
-                    const nextSrc = item.use3DCan ? drinkGlb : item.glbSrc;
-                    if (nextSrc && modelViewer.getAttribute('src') !== nextSrc) {
-                        modelViewer.src = nextSrc;
-                    }
                     if (item.use3DCan) {
+                        foodStage3d.classList.add('hidden-3d');
+                        modelViewer.classList.add('active-3d');
+                        const drinkGlb = 'https://api.getlayers.ai/storage/v1/object/public/public/assets/soda-14ff8a788d/deit_soda2.glb';
+                        if (modelViewer.getAttribute('src') !== drinkGlb) modelViewer.src = drinkGlb;
                         applyCanTexture(item);
+                        document.getElementById('dragHintPill').textContent = '↻ Drag 3D Can to Rotate 360°';
+                    } else {
+                        modelViewer.classList.remove('active-3d');
+                        foodStage3d.classList.remove('hidden-3d');
+                        renderPhotoStage(item);
+                        document.getElementById('dragHintPill').textContent = '↻ Move Cursor or Drag to Tilt in 3D';
                     }
                     // Show water bubbles ONLY on Drinks
                     if (bubblesContainer) {
