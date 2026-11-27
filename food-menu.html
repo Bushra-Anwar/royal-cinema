@@ -363,6 +363,7 @@
 
         .main-product-3d.active-3d {
             display: block;
+            pointer-events: auto;
         }
 
         /* 3D Interactive Food Showcase Plate for all Popcorn / Nachos / Combos / Puffs */
@@ -1011,10 +1012,10 @@
                 statusNote: 'CO2 Pressure OK',
                 offerTag: 'ICE COLD COCA-COLA',
                 image: '/assets/food-cans/coca-cola-can.png',
+                uvTexture: '/assets/food-cans/coca-cola-uv.jpg',
                 theme: { inner: '#8a0b1e', mid: '#4e0410', outer: '#140104' },
                 berryMode: 'cherry',
-                use3DCan: false,
-                isCanShowcase: true
+                use3DCan: true
             },
             {
                 id: 'p12',
@@ -1026,10 +1027,10 @@
                 statusNote: 'Chilled in Cooler',
                 offerTag: 'TASTE THE THUNDER',
                 image: '/assets/food-cans/thums-up-can.png',
+                uvTexture: '/assets/food-cans/thums-up-uv.jpg',
                 theme: { inner: '#0f2d5e', mid: '#071836', outer: '#010610' },
                 berryMode: 'blueberry',
-                use3DCan: false,
-                isCanShowcase: true
+                use3DCan: true
             },
             {
                 id: 'p13',
@@ -1041,10 +1042,10 @@
                 statusNote: 'Chilled Dispenser',
                 offerTag: 'CLEAR LIME CHILL',
                 image: '/assets/food-cans/sprite-can.png',
+                uvTexture: '/assets/food-cans/sprite-uv.jpg',
                 theme: { inner: '#0b8a78', mid: '#044e3b', outer: '#011411' },
                 berryMode: 'cherry',
-                use3DCan: false,
-                isCanShowcase: true
+                use3DCan: true
             },
             {
                 id: 'p14',
@@ -1056,10 +1057,10 @@
                 statusNote: 'Chilled Dispenser',
                 offerTag: 'TANGY ORANGE POP',
                 image: '/assets/food-cans/fanta-can.png',
+                uvTexture: '/assets/food-cans/fanta-uv.jpg',
                 theme: { inner: '#c2410c', mid: '#641e04', outer: '#1a0701' },
                 berryMode: 'cherry',
-                use3DCan: false,
-                isCanShowcase: true
+                use3DCan: true
             },
             {
                 id: 'p15',
@@ -1148,6 +1149,37 @@
         let isSwitching = false;
         let switchSpin = 0;
         let cart = [];
+        const canTextures = {};
+        let isDragging3DCan = false;
+
+        modelViewer.addEventListener('pointerdown', () => { isDragging3DCan = true; });
+        window.addEventListener('pointerup', () => { isDragging3DCan = false; });
+
+        async function applyCanTexture(item) {
+            if (!item || !item.uvTexture || !modelViewer.model) return;
+            try {
+                if (!canTextures[item.id]) {
+                    canTextures[item.id] = await modelViewer.createTexture(item.uvTexture);
+                }
+                const tex = canTextures[item.id];
+                modelViewer.model.materials.forEach(material => {
+                    if (material.pbrMetallicRoughness && material.pbrMetallicRoughness.baseColorTexture) {
+                        material.pbrMetallicRoughness.baseColorTexture.setTexture(tex);
+                    }
+                });
+            } catch (e) { console.error('3D texture swap failed:', e); }
+        }
+
+        modelViewer.addEventListener('load', async () => {
+            for (const it of FOOD_CATALOG) {
+                if (it.uvTexture && !canTextures[it.id]) {
+                    try { canTextures[it.id] = await modelViewer.createTexture(it.uvTexture); } catch (_) {}
+                }
+            }
+            if (activeItem && activeItem.use3DCan) {
+                await applyCanTexture(activeItem);
+            }
+        });
 
         function renderCarousel() {
             carouselCardsEl.innerHTML = '';
@@ -1219,6 +1251,7 @@
                     if (item.use3DCan) {
                         foodStage3d.classList.add('hidden-3d');
                         modelViewer.classList.add('active-3d');
+                        applyCanTexture(item);
                     } else {
                         modelViewer.classList.remove('active-3d');
                         foodStage3d.classList.remove('hidden-3d');
@@ -1352,8 +1385,10 @@
             currentMouse.x += (mouse.x - currentMouse.x) * 0.05;
             currentMouse.y += (mouse.y - currentMouse.y) * 0.05;
 
-            // Real-time 3D cursor tilt for both <model-viewer> and Food Showcase Stage
-            modelViewer.cameraOrbit = `${(currentMouse.x * 40) + switchSpin}deg ${90 + (currentMouse.y * 20)}deg 380%`;
+            // Real-time 3D cursor tilt for both <model-viewer> (when not dragging 360) and Food Showcase Stage
+            if (!isDragging3DCan || isSwitching) {
+                modelViewer.cameraOrbit = `${(currentMouse.x * 40) + switchSpin}deg ${90 + (currentMouse.y * 20)}deg 380%`;
+            }
             foodStage3d.style.transform = `rotateY(${(currentMouse.x * 34) + switchSpin}deg) rotateX(${currentMouse.y * -24}deg)`;
 
             berriesFG.style.transform = `translate(${currentMouse.x * 60}px, ${currentMouse.y * 60}px)`;
