@@ -437,9 +437,33 @@
             height: 120px;
             outline: none;
             --progress-bar-color: transparent;
-            filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.35));
+            filter: drop-shadow(0 12px 24px rgba(0, 0, 0, 0.42));
             transition: transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
+
+        .berry .float-sprite {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            pointer-events: none;
+            user-select: none;
+        }
+
+        .berry .float-glb {
+            width: 100%;
+            height: 100%;
+            outline: none;
+            --progress-bar-color: transparent;
+            --poster-color: transparent;
+            display: none;
+            pointer-events: none;
+        }
+
+        .berry.is-glb .float-sprite { display: none; }
+        .berry.is-glb .float-glb { display: block; }
 
         .b1 { top: 22%; left: 30%; width: 190px; height: 190px; }
         .b2 { top: 62%; left: 40%; width: 95px; height: 95px; }
@@ -804,9 +828,9 @@
             </div>
 
             <div class="berries-container-bg">
-                <model-viewer class="berry b7" src="https://api.getlayers.ai/storage/v1/object/public/public/assets/soda-14ff8a788d/cherry.glb" environment-image="neutral" exposure="1.0" interaction-prompt="none" camera-orbit="-20deg 110deg 105%"></model-viewer>
-                <model-viewer class="berry b8" src="https://api.getlayers.ai/storage/v1/object/public/public/assets/soda-14ff8a788d/cherry.glb" environment-image="neutral" exposure="1.0" interaction-prompt="none" camera-orbit="160deg 45deg 105%"></model-viewer>
-                <model-viewer class="berry b9" src="https://api.getlayers.ai/storage/v1/object/public/public/assets/soda-14ff8a788d/cherry.glb" environment-image="neutral" exposure="1.0" interaction-prompt="none" camera-orbit="45deg 20deg 105%"></model-viewer>
+                <div class="berry b7"><img class="float-sprite" src="/assets/food-floats/popcorn.png" alt=""><model-viewer class="float-glb" src="https://api.getlayers.ai/storage/v1/object/public/public/assets/soda-14ff8a788d/cherry.glb" environment-image="neutral" exposure="1.0" interaction-prompt="none" camera-orbit="-20deg 110deg 105%"></model-viewer></div>
+                <div class="berry b8"><img class="float-sprite" src="/assets/food-floats/popcorn.png" alt=""><model-viewer class="float-glb" src="https://api.getlayers.ai/storage/v1/object/public/public/assets/soda-14ff8a788d/cherry.glb" environment-image="neutral" exposure="1.0" interaction-prompt="none" camera-orbit="160deg 45deg 105%"></model-viewer></div>
+                <div class="berry b9"><img class="float-sprite" src="/assets/food-floats/popcorn.png" alt=""><model-viewer class="float-glb" src="https://api.getlayers.ai/storage/v1/object/public/public/assets/soda-14ff8a788d/cherry.glb" environment-image="neutral" exposure="1.0" interaction-prompt="none" camera-orbit="45deg 20deg 105%"></model-viewer></div>
             </div>
 
             <div class="hero-center">
@@ -826,12 +850,12 @@
             </div>
 
             <div class="berries-container">
-                <model-viewer class="berry b1" src="https://api.getlayers.ai/storage/v1/object/public/public/assets/soda-14ff8a788d/cherry.glb" environment-image="neutral" exposure="1.2" interaction-prompt="none" camera-orbit="45deg 120deg 105%"></model-viewer>
-                <model-viewer class="berry b2" src="https://api.getlayers.ai/storage/v1/object/public/public/assets/soda-14ff8a788d/cherry.glb" environment-image="neutral" exposure="1.2" interaction-prompt="none" camera-orbit="-120deg 45deg 105%"></model-viewer>
-                <model-viewer class="berry b3" src="https://api.getlayers.ai/storage/v1/object/public/public/assets/soda-14ff8a788d/cherry.glb" environment-image="neutral" exposure="1.2" interaction-prompt="none" camera-orbit="200deg 90deg 105%"></model-viewer>
-                <model-viewer class="berry b4" src="https://api.getlayers.ai/storage/v1/object/public/public/assets/soda-14ff8a788d/cherry.glb" environment-image="neutral" exposure="1.2" interaction-prompt="none" camera-orbit="10deg 20deg 105%"></model-viewer>
-                <model-viewer class="berry b5" src="https://api.getlayers.ai/storage/v1/object/public/public/assets/soda-14ff8a788d/cherry.glb" environment-image="neutral" exposure="1.2" interaction-prompt="none" camera-orbit="-45deg 160deg 105%"></model-viewer>
-                <model-viewer class="berry b6" src="https://api.getlayers.ai/storage/v1/object/public/public/assets/soda-14ff8a788d/cherry.glb" environment-image="neutral" exposure="1.2" interaction-prompt="none" camera-orbit="80deg 75deg 105%"></model-viewer>
+                <div class="berry b1"><img class="float-sprite" src="/assets/food-floats/popcorn.png" alt=""><model-viewer class="float-glb" src="https://api.getlayers.ai/storage/v1/object/public/public/assets/soda-14ff8a788d/cherry.glb" environment-image="neutral" exposure="1.2" interaction-prompt="none" camera-orbit="45deg 120deg 105%"></model-viewer></div>
+                <div class="berry b2"><img class="float-sprite" src="/assets/food-floats/popcorn.png" alt=""><model-viewer class="float-glb" src="https://api.getlayers.ai/storage/v1/object/public/public/assets/soda-14ff8a788d/cherry.glb" environment-image="neutral" exposure="1.2" interaction-prompt="none" camera-orbit="-120deg 45deg 105%"></model-viewer></div>
+                <div class="berry b3"><img class="float-sprite" src="/assets/food-floats/popcorn.png" alt=""><model-viewer class="float-glb" src="https://api.getlayers.ai/storage/v1/object/public/public/assets/soda-14ff8a788d/cherry.glb" environment-image="neutral" exposure="1.2" interaction-prompt="none" camera-orbit="200deg 90deg 105%"></model-viewer></div>
+                <div class="berry b4"><img class="float-sprite" src="/assets/food-floats/popcorn.png" alt=""><model-viewer class="float-glb" src="https://api.getlayers.ai/storage/v1/object/public/public/assets/soda-14ff8a788d/cherry.glb" environment-image="neutral" exposure="1.2" interaction-prompt="none" camera-orbit="10deg 20deg 105%"></model-viewer></div>
+                <div class="berry b5"><img class="float-sprite" src="/assets/food-floats/popcorn.png" alt=""><model-viewer class="float-glb" src="https://api.getlayers.ai/storage/v1/object/public/public/assets/soda-14ff8a788d/cherry.glb" environment-image="neutral" exposure="1.2" interaction-prompt="none" camera-orbit="-45deg 160deg 105%"></model-viewer></div>
+                <div class="berry b6"><img class="float-sprite" src="/assets/food-floats/popcorn.png" alt=""><model-viewer class="float-glb" src="https://api.getlayers.ai/storage/v1/object/public/public/assets/soda-14ff8a788d/cherry.glb" environment-image="neutral" exposure="1.2" interaction-prompt="none" camera-orbit="80deg 75deg 105%"></model-viewer></div>
             </div>
 
             <div class="hero-right">
@@ -1147,13 +1171,14 @@
                 }
             });
 
-            // 3. Berries Implode -> Swap -> Explode
+            // 3. Floating Food Sprites / Berries Implode -> Swap -> Explode
             let completedBerries = 0;
             const targetGlb = item.berryMode === 'blueberry'
                 ? 'https://api.getlayers.ai/storage/v1/object/public/public/assets/soda-14ff8a788d/blueberry.glb'
                 : 'https://api.getlayers.ai/storage/v1/object/public/public/assets/soda-14ff8a788d/cherry.glb';
+            const spritePool = getFloatSpritesForItem(item);
 
-            allBerries.forEach((berry) => {
+            allBerries.forEach((berry, idx) => {
                 const bW = berry.offsetWidth / 2;
                 const bH = berry.offsetHeight / 2;
                 const centerX = (window.innerWidth / 2 - berry.offsetLeft - bW);
@@ -1177,7 +1202,7 @@
                         duration: 0.48,
                         ease: 'power2.in',
                         onComplete: () => {
-                            berry.src = targetGlb;
+                            applyFloatVisual(berry, item, idx, spritePool, targetGlb);
                         }
                     })
                     .to(berry, { duration: 0.25 })
@@ -1402,7 +1427,35 @@
             renderCart();
         });
 
+        function getFloatSpritesForItem(item) {
+            if (item.use3DCan) return [];
+            const id = item.id;
+            if (id === 'p1') return ['/assets/food-floats/popcorn.png'];
+            if (id === 'p2') return ['/assets/food-floats/samosa.png'];
+            if (id === 'p3' || id === 'p5') return ['/assets/food-floats/popcorn.png'];
+            if (id === 'p4') return ['/assets/food-floats/nacho.png'];
+            if (id === 'p6' || id === 'p8') return ['/assets/food-floats/samosa.png'];
+            if (id === 'p9') return ['/assets/food-floats/brownie.png'];
+            if (id === 'p10') return ['/assets/food-floats/popcorn.png', '/assets/food-floats/nacho.png'];
+            if (id === 'p11') return ['/assets/food-floats/nacho.png', '/assets/food-floats/brownie.png'];
+            return ['/assets/food-floats/popcorn.png'];
+        }
+
+        function applyFloatVisual(berry, item, idx, spritePool, targetGlb) {
+            const img = berry.querySelector('.float-sprite');
+            const glb = berry.querySelector('.float-glb');
+            if (item.use3DCan || spritePool.length === 0) {
+                berry.classList.add('is-glb');
+                if (glb && glb.src !== targetGlb) glb.src = targetGlb;
+            } else {
+                berry.classList.remove('is-glb');
+                if (img) img.src = spritePool[idx % spritePool.length];
+            }
+        }
+
         // Boot
+        const initPool = getFloatSpritesForItem(activeItem);
+        allBerries.forEach((berry, idx) => applyFloatVisual(berry, activeItem, idx, initPool, 'https://api.getlayers.ai/storage/v1/object/public/public/assets/soda-14ff8a788d/cherry.glb'));
         renderCarousel();
         updateHeroText(activeItem);
         renderCart();
