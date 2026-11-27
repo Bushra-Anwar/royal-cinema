@@ -21,6 +21,8 @@
     { "source": "/erp", "destination": "/index.html" },
     { "source": "/manager", "destination": "/workspaces/city_lite_cinema_erp_command_center_role_login.html" },
     { "source": "/counter", "destination": "/workspaces/city_lite_cinema_erp_multi_counter_role_login.html" },
-    { "source": "/food", "destination": "/workspaces/city_lite_f_b_counter_pos_role_login.html" }
+    { "source": "/food", "destination": "/workspaces/city_lite_f_b_counter_pos_role_login.html" },
+    { "source": "/food-menu", "destination": "/food-menu.html" },
+    { "source": "/menu", "destination": "/food-menu.html" }
   ]
 }
