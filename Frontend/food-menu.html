@@ -1509,24 +1509,32 @@
 
         function getFloatSpritesForItem(item) {
             const id = item.id;
-            if (id === 'p1') return ['/assets/food-floats/popcorn.png', '/assets/food-floats/ice-cube.png'];
+            if (id === 'p1') return ['/assets/food-floats/popcorn.png', '/assets/food-floats/ice-cube.png', '/assets/food-floats/water-splash.png'];
             if (id === 'p2') return ['/assets/food-floats/samosa.png'];
             if (id === 'p3' || id === 'p5') return ['/assets/food-floats/popcorn.png'];
             if (id === 'p4') return ['/assets/food-floats/nacho.png'];
             if (id === 'p6' || id === 'p8') return ['/assets/food-floats/samosa.png'];
-            if (id === 'p7' || id === 'p12' || id === 'p13' || id === 'p14') return ['/assets/food-floats/ice-cube.png'];
+            if (id === 'p7') return ['__GLB__', '/assets/food-floats/water-splash.png', '/assets/food-floats/ice-cube.png'];
             if (id === 'p9') return ['/assets/food-floats/brownie.png'];
-            if (id === 'p10') return ['/assets/food-floats/popcorn.png', '/assets/food-floats/nacho.png', '/assets/food-floats/ice-cube.png'];
+            if (id === 'p10') return ['/assets/food-floats/popcorn.png', '/assets/food-floats/nacho.png', '/assets/food-floats/water-splash.png'];
             if (id === 'p11') return ['/assets/food-floats/nacho.png', '/assets/food-floats/brownie.png'];
-            if (id === 'p15') return ['/assets/food-floats/coffee-bean.png', '/assets/food-floats/ice-cube.png'];
+            if (id === 'p12') return ['/assets/food-floats/water-splash.png', '/assets/food-floats/ice-cube.png', '__GLB__'];
+            if (id === 'p13') return ['/assets/food-floats/lime-slice.png', '/assets/food-floats/water-splash.png', '/assets/food-floats/ice-cube.png'];
+            if (id === 'p14') return ['/assets/food-floats/orange-slice.png', '/assets/food-floats/water-splash.png', '/assets/food-floats/ice-cube.png'];
+            if (id === 'p15') return ['/assets/food-floats/coffee-bean.png', '/assets/food-floats/water-splash.png', '/assets/food-floats/ice-cube.png'];
             return ['/assets/food-floats/popcorn.png'];
         }
 
         function applyFloatVisual(berry, item, idx, spritePool, targetGlb) {
             const img = berry.querySelector('.float-sprite');
-            berry.classList.remove('is-glb');
-            if (img && spritePool.length > 0) {
-                img.src = spritePool[idx % spritePool.length];
+            const glb = berry.querySelector('.float-glb');
+            const choice = spritePool[idx % spritePool.length];
+            if (choice === '__GLB__') {
+                berry.classList.add('is-glb');
+                if (glb && glb.src !== targetGlb) glb.src = targetGlb;
+            } else {
+                berry.classList.remove('is-glb');
+                if (img && choice) img.src = choice;
             }
         }
 
