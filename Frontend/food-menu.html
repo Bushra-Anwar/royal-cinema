@@ -10,8 +10,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;900&family=Inter:wght@400;500;600;700&family=Manrope:wght@400;500;700&family=Galada&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
     <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
 
     <style>
@@ -368,28 +366,95 @@
             pointer-events: auto;
         }
 
-        /* 3D Interactive WebGL Stage for Popcorn, Nachos, Combos, Puffs, Brownie & Iced Coffee */
+        /* Photorealistic 3D Layered & Drag-Rotatable Food/Combo Stage */
         .food-stage-3d {
             position: relative;
-            width: clamp(320px, 38vw, 520px);
-            height: clamp(320px, 38vw, 520px);
+            width: clamp(290px, 34vw, 460px);
+            height: clamp(290px, 34vw, 460px);
             display: flex;
             align-items: center;
             justify-content: center;
+            transform-style: preserve-3d;
             pointer-events: auto;
             cursor: grab;
-            will-change: filter;
+            will-change: transform, filter;
         }
 
         .food-stage-3d:active {
             cursor: grabbing;
         }
 
-        #food3dCanvas {
+        .photo-layer-wrap {
+            position: relative;
             width: 100%;
             height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transform-style: preserve-3d;
+        }
+
+        .photo-main-card {
+            width: 78%;
+            height: 78%;
+            object-fit: cover;
+            border-radius: 36% 64% 58% 42% / 44% 38% 62% 56%;
+            border: 3px solid rgba(255, 255, 255, 0.28);
+            box-shadow: 0 35px 80px rgba(0, 0, 0, 0.68), 0 0 42px rgba(251, 207, 232, 0.2);
+            transform: translateZ(24px);
+            pointer-events: none;
+        }
+
+        .photo-combo-item {
+            position: absolute;
+            object-fit: contain;
+            pointer-events: none;
+            filter: drop-shadow(0 24px 36px rgba(0, 0, 0, 0.68));
+        }
+
+        .photo-combo-item.slot-right {
+            width: 46%;
+            height: 46%;
+            right: -6%;
+            bottom: 4%;
+            transform: translateZ(75px) rotate(8deg);
+        }
+
+        .photo-combo-item.slot-left {
+            width: 42%;
+            height: 42%;
+            left: -6%;
+            bottom: 6%;
+            transform: translateZ(70px) rotate(-10deg);
+        }
+
+        .photo-combo-item.slot-top {
+            width: 34%;
+            height: 34%;
+            right: 2%;
+            top: 2%;
+            transform: translateZ(85px) rotate(12deg);
+        }
+
+        .combo-contents-pill {
+            position: absolute;
+            bottom: -1.1rem;
+            left: 50%;
+            transform: translateX(-50%) translateZ(90px);
+            background: rgba(0, 0, 0, 0.7);
+            border: 1px solid rgba(251, 207, 232, 0.45);
+            color: #fbcfe8;
+            padding: 0.35rem 0.9rem;
+            border-radius: 999px;
+            font-size: 0.72rem;
+            font-weight: 700;
+            white-space: nowrap;
+            backdrop-filter: blur(10px);
+            display: none;
+        }
+
+        .combo-contents-pill.visible {
             display: block;
-            outline: none;
         }
 
         .drag-360-hint {
@@ -884,13 +949,19 @@
                     class="main-product-3d">
                 </model-viewer>
 
-                <!-- 3D Interactive 360° WebGL Stage for Popcorn, Nachos, Combos, Puffs & Offers -->
+                <!-- Photorealistic 3D Layered Stage for Popcorn, Nachos, Combos, Puffs & Offers -->
                 <div class="food-stage-3d" id="foodStage3d">
                     <div class="food-halo"></div>
-                    <canvas id="food3dCanvas"></canvas>
+                    <div class="photo-layer-wrap" id="photoLayerWrap">
+                        <img id="foodMainImg" class="photo-main-card" src="https://images.unsplash.com/photo-1585647347483-22b66260dfff?auto=format&fit=crop&w=600&q=80" alt="Blockbuster Combo 1">
+                        <img id="comboItemRight" class="photo-combo-item slot-right" src="" alt="" style="display:none;">
+                        <img id="comboItemLeft" class="photo-combo-item slot-left" src="" alt="" style="display:none;">
+                        <img id="comboItemTop" class="photo-combo-item slot-top" src="" alt="" style="display:none;">
+                        <div id="comboContentsPill" class="combo-contents-pill"></div>
+                    </div>
                 </div>
             </div>
-            <div class="drag-360-hint">↻ Drag Center Product to Rotate 360° in 3D</div>
+            <div class="drag-360-hint">↻ Drag Center Product to Rotate in 3D</div>
 
             <div class="berries-container">
                 <div class="berry b1"><img class="float-sprite" src="/assets/food-floats/popcorn.png" alt=""><model-viewer class="float-glb" src="https://api.getlayers.ai/storage/v1/object/public/public/assets/soda-14ff8a788d/cherry.glb" environment-image="neutral" exposure="1.2" interaction-prompt="none" camera-orbit="45deg 120deg 105%"></model-viewer></div>
@@ -1275,7 +1346,6 @@
                 ease: 'power2.in',
                 onUpdate: () => {
                     switchSpin = spinObj.val;
-                    if (window.setRoyalFood3DSpin) window.setRoyalFood3DSpin(switchSpin);
                     foodStage3d.style.filter = `blur(${spinObj.blur}px)`;
                     modelViewer.style.filter = `blur(${spinObj.blur}px)`;
                 },
@@ -1288,7 +1358,7 @@
                     } else {
                         modelViewer.classList.remove('active-3d');
                         foodStage3d.classList.remove('hidden-3d');
-                        if (window.setRoyalFood3DModel) window.setRoyalFood3DModel(item);
+                        renderPhotoStage(item);
                     }
 
                     gsap.to(spinObj, {
@@ -1298,13 +1368,11 @@
                         ease: 'back.out(0.7)',
                         onUpdate: () => {
                             switchSpin = spinObj.val;
-                            if (window.setRoyalFood3DSpin) window.setRoyalFood3DSpin(switchSpin);
                             foodStage3d.style.filter = `blur(${spinObj.blur}px)`;
                             modelViewer.style.filter = `blur(${spinObj.blur}px)`;
                         },
                         onComplete: () => {
                             switchSpin = 0;
-                            if (window.setRoyalFood3DSpin) window.setRoyalFood3DSpin(0);
                             foodStage3d.style.filter = 'none';
                             modelViewer.style.filter = 'none';
                         }
@@ -1413,6 +1481,68 @@
             mouse.py = e.clientY;
         });
 
+        let dragStageActive = false;
+        let dragStartX = 0, dragStartY = 0;
+        let stageRotY = 0, stageRotX = 0;
+
+        foodStage3d.addEventListener('pointerdown', (e) => {
+            dragStageActive = true;
+            dragStartX = e.clientX;
+            dragStartY = e.clientY;
+        });
+        window.addEventListener('pointermove', (e) => {
+            if (!dragStageActive) return;
+            const dx = e.clientX - dragStartX;
+            const dy = e.clientY - dragStartY;
+            dragStartX = e.clientX;
+            dragStartY = e.clientY;
+            stageRotY += dx * 0.45;
+            stageRotX = Math.max(-28, Math.min(28, stageRotX - dy * 0.35));
+        });
+        window.addEventListener('pointerup', () => { dragStageActive = false; });
+
+        function renderPhotoStage(item) {
+            const mainImg = document.getElementById('foodMainImg');
+            const rImg = document.getElementById('comboItemRight');
+            const lImg = document.getElementById('comboItemLeft');
+            const tImg = document.getElementById('comboItemTop');
+            const pill = document.getElementById('comboContentsPill');
+            if (!mainImg) return;
+
+            mainImg.src = item.image;
+            mainImg.alt = item.name;
+            rImg.style.display = 'none';
+            lImg.style.display = 'none';
+            tImg.style.display = 'none';
+            pill.classList.remove('visible');
+
+            if (item.id === 'p1') {
+                rImg.src = '/assets/food-cans/coca-cola-can.png'; rImg.style.display = 'block';
+                lImg.src = '/assets/food-floats/popcorn.png'; lImg.style.display = 'block';
+                pill.textContent = 'Includes: Jumbo Popcorn + Chilled Coca-Cola';
+                pill.classList.add('visible');
+            } else if (item.id === 'p2') {
+                rImg.src = '/assets/food-floats/samosa.png'; rImg.style.display = 'block';
+                lImg.src = '/assets/food-floats/samosa.png'; lImg.style.display = 'block';
+                pill.textContent = 'Includes: 2x Samosas + Puff / Masala Chai';
+                pill.classList.add('visible');
+            } else if (item.id === 'p10') {
+                rImg.src = '/assets/food-cans/coca-cola-can.png'; rImg.style.display = 'block';
+                lImg.src = '/assets/food-floats/nacho.png'; lImg.style.display = 'block';
+                tImg.src = '/assets/food-cans/coca-cola-can.png'; tImg.style.display = 'block';
+                pill.textContent = 'Includes: XL Caramel Popcorn + Nachos + 2x VIP Cokes';
+                pill.classList.add('visible');
+            } else if (item.id === 'p11') {
+                rImg.src = '/assets/food-floats/brownie.png'; rImg.style.display = 'block';
+                lImg.src = '/assets/food-floats/nacho.png'; lImg.style.display = 'block';
+                tImg.src = '/assets/food-floats/nacho.png'; tImg.style.display = 'block';
+                pill.textContent = 'Includes: 2x Double Cheese Nachos + Choco Brownie';
+                pill.classList.add('visible');
+            }
+            stageRotY = 0;
+            stageRotX = 0;
+        }
+
         function animate() {
             const time = Date.now() * 0.001;
             currentMouse.x += (mouse.x - currentMouse.x) * 0.05;
@@ -1422,6 +1552,11 @@
             if (!isDragging3DCan || isSwitching) {
                 modelViewer.cameraOrbit = `${(currentMouse.x * 40) + switchSpin}deg ${90 + (currentMouse.y * 20)}deg 380%`;
             }
+            if (!dragStageActive && !isSwitching) {
+                stageRotY += (0 - stageRotY) * 0.03;
+                stageRotX += (0 - stageRotX) * 0.03;
+            }
+            foodStage3d.style.transform = `rotateY(${stageRotY + (currentMouse.x * 28) + switchSpin}deg) rotateX(${stageRotX + (currentMouse.y * -20)}deg)`;
 
             berriesFG.style.transform = `translate(${currentMouse.x * 60}px, ${currentMouse.y * 60}px)`;
             berriesBG.style.transform = `translate(${currentMouse.x * -30}px, ${currentMouse.y * -30}px)`;
@@ -1625,14 +1760,9 @@
         allBerries.forEach((berry, idx) => applyFloatVisual(berry, activeItem, idx, initPool, 'https://api.getlayers.ai/storage/v1/object/public/public/assets/soda-14ff8a788d/cherry.glb'));
         renderCarousel();
         updateHeroText(activeItem);
+        renderPhotoStage(activeItem);
         renderCart();
         animate();
-    </script>
-    <script src="/assets/js/food-3d-engine.js"></script>
-    <script>
-        if (window.setRoyalFood3DModel && typeof activeItem !== 'undefined' && !activeItem.use3DCan) {
-            window.setRoyalFood3DModel(activeItem);
-        }
     </script>
 </body>
 </html>
